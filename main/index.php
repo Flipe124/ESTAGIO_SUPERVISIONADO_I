@@ -2,8 +2,16 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-6"> teste </div>
-        <div class="col-md-6"> teste </div>
+        <div class="col-md-12 text-center">  
+            <label for="">Saldo:</label>
+        </div>
+        <div class="col-md-6 text-center">
+            <label for="">Ganhos:</label>
+        </div>
+        <div class="col-md-6 text-center">
+            <label for="">Despesas:</label>
+        </div>
+        
     </div>
 </div>
 
