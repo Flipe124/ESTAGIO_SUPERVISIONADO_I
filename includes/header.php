@@ -14,3 +14,9 @@
 </head>
 
 <body>
+
+  <?php
+  require("../config/connection.php");
+
+  $connection = new Database();
+  ?>
