@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-md-12 text-center">  
             <label for="">Saldo:</label>
-            <a href="http://"><?php print_r($balance)?></a>
+            <a href="http://"><?php print_r($balance)?> <?php echo $balance["balance"]?></a>
         </div>
         <div class="col-md-6 text-center">
             <label for="">Ganhos:</label>
