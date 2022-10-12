@@ -9,7 +9,7 @@ $balances = $connection->connection()->query($sql_balance)->fetchAll(PDO::FETCH_
 
 <div class="container">
     <div class="row">
-        <div class="col-md-12 text-center bg-primary" id="balance">
+        <div class="col-md-12 text-center bg-primary mt-2" id="balance">
             <b>
                 <label for="">Saldo:</label>
                 <?php foreach ($balances as $balance) {  ?>
@@ -18,10 +18,10 @@ $balances = $connection->connection()->query($sql_balance)->fetchAll(PDO::FETCH_
             </b>
 
         </div>
-        <div class="col-md-6 text-center">
+        <div class="col-md-5 text-center bg-success gain-and-expense mt-2">
             <label for="">Ganhos:</label>
         </div>
-        <div class="col-md-6 text-center">
+        <div class="col-md-5 text-center bg-danger gain-and-expense mt-2">
             <label for="">Despesas:</label>
         </div>
 
