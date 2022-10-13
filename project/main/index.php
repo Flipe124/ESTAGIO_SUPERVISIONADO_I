@@ -5,27 +5,36 @@ $sql_balance = ("SELECT * FROM `balance` ORDER BY id DESC LIMIT 1");
 
 $balances = $connection->connection()->query($sql_balance)->fetchAll(PDO::FETCH_ASSOC);
 
+
+
 ?>
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-12 text-center bg-primary mt-2" id="balance">
-            <b>
-                <label for="">Saldo:</label>
+    <div class="row justify-content-center">
+        <div class="btn btn-primary col-md-10 text-center mt-2" id="balance">
+            <h2>
+                <label for=""><i class="bi bi-bank"></i> Saldo:</label>
                 <?php foreach ($balances as $balance) {  ?>
                     <a href="http://">R$ <?php echo $balance["balance"] ?></a>
                 <?php  } ?>
-            </b>
-
+            </h2>
         </div>
-        <div class="col-md-5 text-center bg-success gain-and-expense mt-2">
-            <label for="">Ganhos:</label>
+        <div class="btn btn-success col-md-5 text-start gain-and-expense mt-2">
+            <h3>
+                <label for=""><i class="bi bi-arrow-up-circle-fill"></i> Ganhos:</label>
+            </h3>
         </div>
-        <div class="col-md-5 text-center bg-danger gain-and-expense mt-2">
-            <label for="">Despesas:</label>
+        <div class="btn btn-danger col-md-5 text-start gain-and-expense mt-2">
+            <h3>
+                <label for=""><i class="bi bi-arrow-down-circle-fill"></i> Despesas:</label>
+            </h3>
         </div>
-
+        <div class="col-md-12 text-center mt-3">
+            <h3>Transações</h3>
+        </div>
     </div>
+
+
 </div>
 
 
