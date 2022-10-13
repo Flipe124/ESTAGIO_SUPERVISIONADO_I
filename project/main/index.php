@@ -29,7 +29,8 @@ $balances = $connection->connection()->query($sql_balance)->fetchAll(PDO::FETCH_
                 <label for=""><i class="bi bi-arrow-down-circle-fill"></i> Despesas:</label>
             </h3>
         </div>
-        <div class="col-md-12 text-center mt-3">
+        <hr class="mt-3">
+        <div class="col-md-12 text-center mt-1">
             <h3>Transações</h3>
         </div>
     </div>

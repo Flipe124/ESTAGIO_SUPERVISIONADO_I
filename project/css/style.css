@@ -9,6 +9,8 @@ a{
 
 .container{
     background-color: white;
+    border-radius: 12px;
+    margin-top: 2%;
 }
 
 #balance{
