@@ -1,21 +1,27 @@
 body{
-    background-color: antiquewhite;
+    background-color: rgb(0, 255, 191) !important;
 }
 
 a{
+    color: white !important;
     text-decoration: none !important;
+}
+
+.container{
+    background-color: white;
 }
 
 #balance{
     /* background-color: rgb(176,224,230); */
     border-radius: 8px;
-    color: white;
+    color: white !important;
     padding: 10px;
+
 }
 
 .gain-and-expense{
     border-radius: 8px;
     color: white;
-    margin-top: 100px;
-    padding: 10px;
+
+
 }
