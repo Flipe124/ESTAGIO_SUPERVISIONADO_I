@@ -5,7 +5,9 @@ $sql_balance = ("SELECT * FROM `balance` ORDER BY id DESC LIMIT 1");
 
 $balances = $connection->connection()->query($sql_balance)->fetchAll(PDO::FETCH_ASSOC);
 
+$sql_expense = ("SELECT * FROM `expense` ORDER BY id DESC LIMIT 1");
 
+$expenses = $connection->connection()->query($sql_expense)->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
