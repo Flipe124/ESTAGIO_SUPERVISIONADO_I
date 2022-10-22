@@ -14,11 +14,11 @@
         <div class="nav-menu">
             <ul>
                 <li class="active"><a href="#" class="d-flex align-items-center"><span class="wrap-icon mr-3"><i class="fa-sharp fa-solid fa-house"></i></span><span class="menu-text">Dashboard</span></a></li>
-                <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-videocam mr-3"></span><span class="menu-text"> Videos</span></a></li>
-                <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-book mr-3"></span><span class="menu-text"> Books</span></a></li>
-                <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-shopping-cart mr-3"></span><span class="menu-text">Store</span></a></li>
-                <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-pie-chart mr-3"></span><span class="menu-text">Analytics</span></a></li>
-                <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-cog mr-3"></span><span class="menu-text">Settings</span></a></li>
+                <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon mr-3"><i class="fa-solid fa-building-columns"></i></span><span class="menu-text"> Saldo</span></a></li>
+                <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon mr-3"><i class="fa-regular fa-circle-up"></i></span><span class="menu-text">Receitas</span></a></li>
+                <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon mr-3"><i class="fa-regular fa-circle-down"></i></span><span class="menu-text">Depesas</span></a></li>
+                <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon mr-3"><i class="fa-solid fa-retweet"></i></span><span class="menu-text">Transações</span></a></li>
+                <!-- <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-cog mr-3"></span><span class="menu-text">Settings</span></a></li> -->
             </ul>
         </div>
     </div>
