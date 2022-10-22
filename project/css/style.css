@@ -1,29 +1,30 @@
-body{
-    background: rgb(238,174,202);
-background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+body {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(175, 204, 239, 1) 50%,
+    rgba(255, 255, 255, 1) 100%
+  );
 }
 
-a{
-    /* color: rgb(0, 0, 0) !important; */
+a {
     text-decoration: none !important;
 }
 
-.container{
+.container {
     background-color: white;
     border-radius: 12px;
 }
 
-#balance{
-    /* background-color: rgb(176,224,230); */
-    border-radius: 8px;
-    color: white !important;
-    padding: 10px;
+#card {
+    /* background-color: aqua; */
+    border-radius: 15px;
 
-}
+    /* padding: 10px; */
+    width: 340px;
+    height: 180px;
 
-.gain-and-expense{
-    border-radius: 8px;
-    color: white;
-
-
-}
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
+    drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    }
