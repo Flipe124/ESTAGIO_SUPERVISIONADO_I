@@ -12,6 +12,28 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 
+
+  <!-- SIDEBAR -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+
+  <!-- <link rel="stylesheet" href="fonts/icomoon/style.css"> -->
+  <link rel="stylesheet" href="../framework/06/fonts/icomoon/style.css">
+
+  <!-- <link rel="stylesheet" href="css/owl.carousel.min.css"> -->
+  <link rel="stylesheet" href="../framework/06/css/owl.carousel.min.css">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="../framework/06/css/bootstrap.min.css">
+
+  <!-- Style -->
+  <link rel="stylesheet" href="../framework/06/css/style.css">
+
+
+
   <title>OpenFinance</title>
 </head>
 
