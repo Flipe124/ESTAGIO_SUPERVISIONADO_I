@@ -14,7 +14,10 @@ $expenses = $connection->connection()->query($sql_expense)->fetchAll(PDO::FETCH_
 ?>
 <div class="container">
     <div class="row">
-        <div class="col-md-4 mt-5">
+        <div class="col-md-12 mt-4">
+            <h1>Dashboard</h1>
+        </div>
+        <div class="col-md-4 mt-3">
             <button class="btn btn-primary text-start" id="card">
                 <h4>
                     <label for=""><i class="bi bi-bank"></i> Saldo:</label>
@@ -25,14 +28,14 @@ $expenses = $connection->connection()->query($sql_expense)->fetchAll(PDO::FETCH_
                 </h4>         
             </button>
         </div>
-        <div class="col-md-4 mt-5">
+        <div class="col-md-4 mt-3">
             <button class="btn btn-success text-start" id="card">
                 <h4>
                     <label for=""><i class="bi bi-arrow-up-circle-fill"></i> Ganhos:</label>
                 </h4>
             </button>
         </div>
-        <div class="col-md-4 mt-5">
+        <div class="col-md-4 mt-3">
             <button class="btn btn-danger text-start" id="card">
                 <h4>
                     <label for=""><i class="bi bi-arrow-down-circle-fill"></i> Despesas:</label>
