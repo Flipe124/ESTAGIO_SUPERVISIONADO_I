@@ -6,6 +6,7 @@ body {
     rgba(175, 204, 239, 1) 50%,
     rgba(255, 255, 255, 1) 100%
   );
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 a {
