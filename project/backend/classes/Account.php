@@ -8,11 +8,11 @@ class Account {
     function getTransfer() {
         // to implement.
     }
-    
+
     function setTransfer() {
         // to implement.
     }
-    
+
     function getBalance() {
         // to implement.
     }
