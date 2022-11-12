@@ -25,7 +25,7 @@ $expenses = $connection->connection()->query($sql_expense)->fetchAll(PDO::FETCH_
                     <?php foreach ($balances as $balance) {  ?>
                         <b href="http://">R$ <?php echo $balance["balance"] ?></b>
                     <?php  } ?>
-                </h4>         
+                </h4>
             </button>
         </div>
         <div class="col-md-4 mt-3">
@@ -45,6 +45,8 @@ $expenses = $connection->connection()->query($sql_expense)->fetchAll(PDO::FETCH_
         <hr class="mt-3">
         <div class="col-md-12 text-center mt-1">
             <h3>Transações</h3>
+        </div>
+        <div class="col-md-12 flow">
         </div>
     </div>
 </div>
