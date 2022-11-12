@@ -3,17 +3,17 @@
 <?php include_once("../includes/sidebar.php"); ?>
 
 <?php
-$sql_balance = ("SELECT * FROM `balance` ORDER BY id DESC LIMIT 1");
+// $sql_balance = ("SELECT * FROM `balance` ORDER BY id DESC LIMIT 1");
 
-$balances = $connection->connection()->query($sql_balance)->fetchAll(PDO::FETCH_ASSOC);
+// $balances = $connection->connection()->query($sql_balance)->fetchAll(PDO::FETCH_ASSOC);
 
-$sql_expense = ("SELECT * FROM `expense` ORDER BY id DESC LIMIT 1");
+// $sql_expense = ("SELECT * FROM `expense` ORDER BY id DESC LIMIT 1");
 
-$expenses = $connection->connection()->query($sql_expense)->fetchAll(PDO::FETCH_ASSOC);
+// $expenses = $connection->connection()->query($sql_expense)->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <div class="container">
-    <div class="row">
+    <div class="row ms-4">
         <div class="col-md-12 mt-4">
             <h1>Dashboard</h1>
         </div>
@@ -22,9 +22,9 @@ $expenses = $connection->connection()->query($sql_expense)->fetchAll(PDO::FETCH_
                 <h4>
                     <label for=""><i class="bi bi-bank"></i> Saldo:</label>
                     <br>
-                    <?php foreach ($balances as $balance) {  ?>
+                    <!-- <?php foreach ($balances as $balance) {  ?>
                         <b href="http://">R$ <?php echo $balance["balance"] ?></b>
-                    <?php  } ?>
+                    <?php  } ?> -->
                 </h4>
             </button>
         </div>

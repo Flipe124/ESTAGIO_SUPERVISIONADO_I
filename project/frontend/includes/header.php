@@ -21,16 +21,20 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
 
   <!-- <link rel="stylesheet" href="fonts/icomoon/style.css"> -->
-  <link rel="stylesheet" href="../framework/06/fonts/icomoon/style.css">
+  <!-- <link rel="stylesheet" href="../framework/06/fonts/icomoon/style.css"> -->
+  <link rel="stylesheet" href="../../framework/06/fonts/icomoon/style.css">
 
   <!-- <link rel="stylesheet" href="css/owl.carousel.min.css"> -->
-  <link rel="stylesheet" href="../framework/06/css/owl.carousel.min.css">
+  <!-- <link rel="stylesheet" href="../framework/06/css/owl.carousel.min.css"> -->
+  <link rel="stylesheet" href="../../framework/sidebar/css/owl.carousel.min.css">
 
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="../framework/06/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="../framework/06/css/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="../../framework/sidebar/css/bootstrap.min.css">
 
   <!-- Style -->
-  <link rel="stylesheet" href="../framework/06/css/style.css">
+  <!-- <link rel="stylesheet" href="../framework/06/css/style.css"> -->
+  <link rel="stylesheet" href="../../framework/sidebar/css/style.css">
 
 
 
@@ -40,7 +44,7 @@
 <body>
 
   <?php
-  require("../config/connection.php");
+  require("../../backend/config/connection.php");
 
   $connection = new Database();
   ?>
