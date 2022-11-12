@@ -30,3 +30,9 @@ h4 {
 .flow {
   height: 1000px !important;
 }
+
+.line-red{
+  background-color: red;
+  width: 100px;
+  height: 8px;
+}
