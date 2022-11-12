@@ -31,14 +31,14 @@
         <div class="col-md-4 mt-3">
             <button class="btn btn-success text-start" id="card">
                 <h4>
-                    <label for=""><i class="bi bi-arrow-up-circle-fill"></i> Ganhos:</label>
+                    <label for=""><i class="bi bi-arrow-up-circle-fill"></i> Receita:</label>
                 </h4>
             </button>
         </div>
         <div class="col-md-4 mt-3">
             <button class="btn btn-danger text-start" id="card">
                 <h4>
-                    <label for=""><i class="bi bi-arrow-down-circle-fill"></i> Despesas:</label>
+                    <label for=""><i class="bi bi-arrow-down-circle-fill"></i> Despesa:</label>
                 </h4>
             </button>
         </div>
