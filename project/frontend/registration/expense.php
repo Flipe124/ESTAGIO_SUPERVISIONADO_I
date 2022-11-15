@@ -8,16 +8,39 @@
     <div class="modal fade" id="modal-new-expense">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modal-expense-label">Nova despesa</h1>
-                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header bg-danger text-light">
+                    <h1 class="modal-title fs-5" id="modal-expense-label">NOVA DESPESA</h1>
+                    <button class="btn-close btn-close-modal-expense" type="button"></button>
                 </div>
                 <div class="modal-body">
-
+                    <form action="" method="post">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label">Valor:</label>
+                                <input class="form-control" type="text" id="value-expense" placeholder="0,00">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Data:</label>
+                                <input class="form-control" type="date" id="date-expense">
+                            </div>
+                            <div class="col-md-12 mt-1">
+                                <label class="form-label">Descrição:</label>
+                                <input class="form-control" type="text" placeholder="Descreva aqui...">
+                            </div>
+                            <div class="col-md-12 mt-1">
+                                <label class="form-label">Categoria:</label>
+                                <select class="form-select" id="">
+                                    <option value="1">Casa</option>
+                                    <option value="1">Serviço</option>
+                                    <option value="1">Supermercado</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Fechar</button>
-                    <button class="btn btn-success">Salvar</button>
+                    <button class="btn btn-danger btn-close-modal-expense" type="button">FECHAR</button>
+                    <button class="btn btn-success">SALVAR</button>
                 </div>
             </div>
         </div>
