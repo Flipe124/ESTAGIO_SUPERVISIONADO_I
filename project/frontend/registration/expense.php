@@ -29,11 +29,14 @@
                             </div>
                             <div class="col-md-12 mt-1">
                                 <label class="form-label">Categoria:</label>
-                                <select class="form-select" id="">
-                                    <option value="1">Casa</option>
-                                    <option value="1">Serviço</option>
-                                    <option value="1">Supermercado</option>
-                                </select>
+                                <div class="input-group">
+                                    <select class="form-select" id="">
+                                        <option value="1">Casa</option>
+                                        <option value="1">Serviço</option>
+                                        <option value="1">Supermercado</option>
+                                    </select>
+                                    <button class="btn btn-success" type="button"><i class="fa-solid fa-plus"></i></button>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -45,8 +48,6 @@
             </div>
         </div>
     </div>
-
-    
     <div class="row ms-4">
         <div class="col-md-6 mt-4">
             <h1>Despesas</h1>
@@ -56,6 +57,37 @@
         </div>
         <div class="col-md-12">
             <div class="line-red"></div>
+        </div>
+        <div class="col-md-12 mt-3">
+            <table class="table table-light table-striped">
+                <thead>
+                    <tr>
+                        <th>Valor</th>
+                        <th>Data</th>
+                        <th>Descrição</th>
+                        <th>Categoria</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th class="text-danger">R$ - 14,99</th>
+                        <th>15/11/2022</th>
+                        <th>Mercadinho</th>
+                        <th>Supermercado</th>
+                    </tr>
+                    <tr>
+                        <th class="text-danger">R$ - 55,49</th>
+                        <th>10/11/2022</th>
+                        <th>Casa</th>
+                        <th>Aluguel</th>
+                    </tr>
+                        <th class="text-danger">R$ - 33,60</th>
+                        <th>09/11/2022</th>
+                        <th>Casa</th>
+                        <th>Aluguel</th>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <div class="flow"></div>
     </div>
