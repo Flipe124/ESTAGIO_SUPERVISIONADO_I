@@ -65,8 +65,7 @@
             </div>    
         </div>
         <div class="col-md-12 mt-3"  >
-            <div id="table">
-
+            <div id="div-table">
                 <table class="table table-light table-striped">
                     <thead>
                         <tr>
