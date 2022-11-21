@@ -56,38 +56,47 @@
             <button class="mt-3 btn btn-success" id="btn-open-modal-expense" type="button">+ NOVA DESPESA</button>
         </div>
         <div class="col-md-12">
-            <div class="line-red"></div>
+            <!-- <div class="line-red"></div> -->
         </div>
-        <div class="col-md-12 mt-3">
-            <table class="table table-light table-striped">
-                <thead>
-                    <tr>
-                        <th>Valor</th>
-                        <th>Data</th>
-                        <th>Descrição</th>
-                        <th>Categoria</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th class="text-danger">R$ - 14,99</th>
-                        <th>15/11/2022</th>
-                        <th>Mercadinho</th>
-                        <th>Supermercado</th>
-                    </tr>
-                    <tr>
-                        <th class="text-danger">R$ - 55,49</th>
-                        <th>10/11/2022</th>
-                        <th>Casa</th>
-                        <th>Aluguel</th>
-                    </tr>
-                        <th class="text-danger">R$ - 33,60</th>
-                        <th>09/11/2022</th>
-                        <th>Casa</th>
-                        <th>Aluguel</th>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="col-md-12 mt-2">
+            <div class="p-3 text-dark" id="expense-total">
+                <h4>Total de despesas:</h4>
+                <h5 class="text-danger"><b>R$ - 1.788,98</b></h5>
+            </div>    
+        </div>
+        <div class="col-md-12 mt-3"  >
+            <div id="table">
+
+                <table class="table table-light table-striped">
+                    <thead>
+                        <tr>
+                            <th>Valor</th>
+                            <th>Data</th>
+                            <th>Descrição</th>
+                            <th>Categoria</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th class="text-danger">R$ - 14,99</th>
+                            <th>15/11/2022</th>
+                            <th>Mercadinho</th>
+                            <th>Supermercado</th>
+                        </tr>
+                        <tr>
+                            <th class="text-danger">R$ - 55,49</th>
+                            <th>10/11/2022</th>
+                            <th>Casa</th>
+                            <th>Aluguel</th>
+                        </tr>
+                            <th class="text-danger">R$ - 33,60</th>
+                            <th>09/11/2022</th>
+                            <th>Casa</th>
+                            <th>Aluguel</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="flow"></div>
     </div>
