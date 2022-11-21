@@ -53,10 +53,10 @@
             <h1>Despesas</h1>
         </div>
         <div class="col-md-6 mt-4 text-end">
-            <button class="mt-3 btn btn-success" id="btn-open-modal-expense" type="button">+ NOVA DESPESA</button>
+            <button class="mt-3 btn btn-danger" id="btn-open-modal-expense" type="button">+ NOVA DESPESA</button>
         </div>
         <div class="col-md-12">
-            <!-- <div class="line-red"></div> -->
+            <div class="line-red"></div>
         </div>
         <div class="col-md-12 mt-2">
             <div class="p-3 text-dark" id="expense-total">
@@ -64,7 +64,12 @@
                 <h5 class="text-danger"><b>R$ - 1.788,98</b></h5>
             </div>    
         </div>
-        <div class="col-md-12 mt-3"  >
+        <div class="col-md-12 mt-3 text-center">
+            <div class="btn btn-danger"><</div>
+            <div class="btn btn-danger"><b>Novembro</b> 2022</div>
+            <div class="btn btn-danger">></div>
+        </div>
+        <div class="col-md-12 mt-3">
             <div id="div-table">
                 <table class="table table-light table-striped">
                     <thead>
@@ -73,6 +78,7 @@
                             <th>Data</th>
                             <th>Descrição</th>
                             <th>Categoria</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -81,17 +87,29 @@
                             <th>15/11/2022</th>
                             <th>Mercadinho</th>
                             <th>Supermercado</th>
+                            <th>
+                                <button class="btn btn-danger" type="button"><i class="fa-solid fa-trash"></i></button>
+                                <button class="btn btn-primary" type="button"><i class="fa-solid fa-pen"></i></button>
+                            </th>
                         </tr>
                         <tr>
                             <th class="text-danger">R$ - 55,49</th>
                             <th>10/11/2022</th>
                             <th>Casa</th>
                             <th>Aluguel</th>
+                            <th>
+                                <button class="btn btn-danger" type="button"><i class="fa-solid fa-trash"></i></button>
+                                <button class="btn btn-primary" type="button"><i class="fa-solid fa-pen"></i></button>
+                            </th>
                         </tr>
                             <th class="text-danger">R$ - 33,60</th>
                             <th>09/11/2022</th>
                             <th>Casa</th>
                             <th>Aluguel</th>
+                            <th>
+                                <button class="btn btn-danger" type="button"><i class="fa-solid fa-trash"></i></button>
+                                <button class="btn btn-primary" type="button"><i class="fa-solid fa-pen"></i></button>
+                            </th>
                         </tr>
                     </tbody>
                 </table>
