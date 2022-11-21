@@ -7,8 +7,7 @@ a {
   text-decoration: none !important;
 }
 
-.container {
-}
+.container {}
 
 #card {
   /* background-color: aqua; */
@@ -31,8 +30,26 @@ h4 {
   height: 1000px !important;
 }
 
-.line-red{
+.line-red {
   background-color: red;
   width: 100px;
   height: 8px;
+}
+
+#expense-total {
+  background-color: rgb(255, 255, 255);
+  border-radius: 12px;
+  width: 100%;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+
+}
+
+#table {
+  /* border-radius: 30px !important; */
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 60px;
+  border-bottom-left-radius: 60px;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  overflow: hidden;
 }
