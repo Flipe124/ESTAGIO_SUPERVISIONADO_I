@@ -2,6 +2,13 @@
 
 <?php include_once("../includes/sidebar.php"); ?>
 
+<?php
+$sql = ("SELECT * FROM `finance` WHERE `type` = 'EXPENSE' ");
+
+$expenses = $connection->connection()->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+
+?>
+
 <div class="container">
     <!-- MODAL NOVA DESPESA -->
     <!-- MODAL NEW EXPENSE -->
@@ -78,39 +85,24 @@
                             <th>Data</th>
                             <th>Descrição</th>
                             <th>Categoria</th>
+                            <th>Conta</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach ($expenses as $expense) { ?>
                         <tr>
-                            <th class="text-danger">R$ - 14,99</th>
-                            <th>15/11/2022</th>
-                            <th>Mercadinho</th>
-                            <th>Supermercado</th>
+                            <th class="text-danger"><?php echo "R$ - " . $expense['value']?></th>
+                            <th><?php echo $expense['date']?></th>
+                            <th><?php echo $expense['description']?></th>
+                            <th><?php echo $expense['category_id']?></th>
+                            <th><?php echo $expense['account_id']?></th>
                             <th>
                                 <button class="btn btn-danger" type="button"><i class="fa-solid fa-trash"></i></button>
                                 <button class="btn btn-primary" type="button"><i class="fa-solid fa-pen"></i></button>
                             </th>
                         </tr>
-                        <tr>
-                            <th class="text-danger">R$ - 55,49</th>
-                            <th>10/11/2022</th>
-                            <th>Casa</th>
-                            <th>Aluguel</th>
-                            <th>
-                                <button class="btn btn-danger" type="button"><i class="fa-solid fa-trash"></i></button>
-                                <button class="btn btn-primary" type="button"><i class="fa-solid fa-pen"></i></button>
-                            </th>
-                        </tr>
-                            <th class="text-danger">R$ - 33,60</th>
-                            <th>09/11/2022</th>
-                            <th>Casa</th>
-                            <th>Aluguel</th>
-                            <th>
-                                <button class="btn btn-danger" type="button"><i class="fa-solid fa-trash"></i></button>
-                                <button class="btn btn-primary" type="button"><i class="fa-solid fa-pen"></i></button>
-                            </th>
-                        </tr>
+                        <?php } ?>
                     </tbody>
                 </table>
             </div>
