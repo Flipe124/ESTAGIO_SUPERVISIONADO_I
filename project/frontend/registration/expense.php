@@ -8,6 +8,7 @@ $sql = ("SELECT * FROM `finance` WHERE `type` = 'EXPENSE' ");
 $expenses = $connection->connection()->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
+
 <?php
 function getCategory($id)
 {
@@ -34,6 +35,22 @@ function getAccount($id)
 
     foreach ($Accounts as $Account) {
         echo $Account['name'];
+    }
+}
+?>
+
+<?php
+function getExpense()
+{
+    $connection = new Database();
+
+    $sqlExpense = ("SELECT SUM(value) FROM `finance` WHERE type = 'EXPENSE'");
+
+    $expense = $connection->connection()->query($sqlExpense)->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($expense as $expenseValue) {
+        // FORMATAÇÂO COM "." e ","
+        echo number_format($expenseValue['SUM(value)'],2,",",".");
     }
 }
 ?>
@@ -97,7 +114,7 @@ function getAccount($id)
         <div class="col-md-12 mt-2">
             <div class="p-3 text-dark" id="expense-total">
                 <h4>Total de despesas:</h4>
-                <h5 class="text-danger"><b>R$ - 1.788,98</b></h5>
+                <h5 class="text-danger"><b>R$ - <?php getExpense()?></b></h5>
             </div>
         </div>
         <div class="col-md-12 mt-3 text-center">
