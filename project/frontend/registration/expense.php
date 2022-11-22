@@ -102,12 +102,12 @@ function getAccount($id)
         </div>
         <div class="col-md-12 mt-3 text-center">
             <div class="btn btn-danger">
-                <div class="btn btn-danger"><</div>
-                <div class="btn btn-danger"><b>Novembro</b> 2022</div>
-                <div class="btn btn-danger">></div>
+                <button class="btn btn-danger"><</button>
+                <button class="btn btn-danger"><b>Novembro</b> 2022</button>
+                <button class="btn btn-danger">></button>
             </div>
         </div>
-            <div class="col-md-12 mt-3">
+            <div class="col-md-12 mt-3 text-center">
                 <div id="div-table">
                     <table class="table table-light table-striped">
                         <thead>
