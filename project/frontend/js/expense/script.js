@@ -16,3 +16,8 @@ function closeModal(modalName) {
 function openModal(modalName) {
     $("#modal-" + modalName).modal("show")
 }
+
+// Select2
+$(document).ready(function() {
+    $('#select-category').select2();
+});
