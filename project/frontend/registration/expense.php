@@ -3,13 +3,21 @@
 <?php include_once("../includes/sidebar.php"); ?>
 
 <?php
+// Consulta das finanças de despesas
 $sql = ("SELECT * FROM `finance` WHERE `type` = 'EXPENSE' ");
 
 $expenses = $connection->connection()->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
+
+// Consulta das categorias
+$sqlCategorys = ("SELECT * FROM `category` WHERE `type` = 'EXPENSE' ");
+
+$categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <?php
+// Pegando o ID da categoria e apresentando o NOME
 function getCategory($id)
 {
     $connection = new Database();
@@ -25,6 +33,7 @@ function getCategory($id)
 ?>
 
 <?php
+// Pegando o ID da conta e apresentando o NOME
 function getAccount($id)
 {
     $connection = new Database();
@@ -40,6 +49,7 @@ function getAccount($id)
 ?>
 
 <?php
+// Somando as dispesas 
 function getExpense()
 {
     $connection = new Database();
@@ -83,10 +93,10 @@ function getExpense()
                             <div class="col-md-12 mt-1">
                                 <label class="form-label">Categoria:</label>
                                 <div class="input-group">
-                                    <select class="form-select" id="">
-                                        <option value="1">Casa</option>
-                                        <option value="1">Serviço</option>
-                                        <option value="1">Supermercado</option>
+                                    <select class="form-select" id="select-category" name="category" style="width: 90%; height: 80px !important">
+                                    <?php foreach ($categorys as $category) { ?>
+                                        <option value="<?php echo $category["id"]?>"><?php echo $category["name"]?></option>
+                                    <?php } ?>    
                                     </select>
                                     <button class="btn btn-success" type="button"><i class="fa-solid fa-plus"></i></button>
                                 </div>
