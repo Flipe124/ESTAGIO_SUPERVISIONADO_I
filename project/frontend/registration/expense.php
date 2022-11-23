@@ -4,7 +4,7 @@
 
 <?php
 // Consulta das finanças de despesas
-$sql = ("SELECT * FROM `finance` WHERE `type` = 'EXPENSE' ");
+$sql = ("SELECT * FROM `finance` WHERE `type` = 'EXPENSE' ORDER BY `date` DESC ");
 
 $expenses = $connection->connection()->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
@@ -111,6 +111,24 @@ function getExpense()
             </div>
         </div>
     </div>
+    <!-- MODAL DE EXCLUSÂO -->
+    <div class="modal fade" id="modal-delete-expense">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header bg-danger text-light">
+                <h5 class="modal-title">EXCLUIR DESPESA</h5>
+                <button type="button" class="btn-close btn-close-modal-delete-expense"></button>
+            </div>
+            <div class="modal-body">
+                <h5>< Casa > - < R$ - 1.000,02 ></h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-close-modal-delete-expense" data-bs-dismiss="modal">FECHAR</button>
+                <button type="button" class="btn btn-success">CONFIRMAR</button>
+            </div>
+            </div>
+        </div>
+    </div>
     <div class="row ms-4">
         <div class="col-md-6 mt-4">
             <h1>Despesas</h1>
@@ -156,8 +174,8 @@ function getExpense()
                                     <th><?php echo getCategory($expense['category_id']) ?></th>
                                     <th><?php echo getAccount($expense['account_id']) ?></th>
                                     <th>
-                                        <button class="btn btn-danger" type="button"><i class="fa-solid fa-trash"></i></button>
-                                        <button class="btn btn-primary" type="button"><i class="fa-solid fa-pen"></i></button>
+                                        <button class="btn btn-danger btn-delete-expense" type="button"><i class="fa-solid fa-trash"></i></button>
+                                        <button class="btn btn-primary btn-edit-expense" type="button"><i class="fa-solid fa-pen"></i></button>
                                     </th>
                                 </tr>
                             <?php } ?>
