@@ -146,7 +146,7 @@ function getExpense()
             </div>
         </div>
         <div class="col-md-12 mt-3 text-center">
-            <div class="btn btn-danger">
+            <div class="">
                 <button class="btn btn-danger"><</button>
                 <button class="btn btn-danger"><b>Novembro</b> 2022</button>
                 <button class="btn btn-danger">></button>
@@ -168,7 +168,7 @@ function getExpense()
                         <tbody>
                             <?php foreach ($expenses as $expense) { ?>
                                 <tr>
-                                    <th class="text-danger"><?php echo "R$ - " . $expense['value'] ?></th>
+                                    <th class="text-danger"><?php echo "R$ - ". number_format($expense['value'],2,",","."); ?></th>
                                     <th><?php echo date('d/m/Y', strtotime($expense['date'])); ?></th>
                                     <th><?php echo $expense['description'] ?></th>
                                     <th><?php echo getCategory($expense['category_id']) ?></th>
