@@ -16,55 +16,6 @@ $categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETC
 
 ?>
 
-<?php
-// Pegando o ID da categoria e apresentando o NOME
-function getCategory($id)
-{
-    $connection = new Database();
-
-    $sqlCategory = ("SELECT * FROM `category` WHERE `id` = '$id' ");
-
-    $categorys = $connection->connection()->query($sqlCategory)->fetchAll(PDO::FETCH_ASSOC);
-
-    foreach ($categorys as $category) {
-        echo $category['name'];
-    }
-}
-?>
-
-<?php
-// Pegando o ID da conta e apresentando o NOME
-function getAccount($id)
-{
-    $connection = new Database();
-
-    $sqlAccount = ("SELECT * FROM `account` WHERE `id` = '$id' ");
-
-    $Accounts = $connection->connection()->query($sqlAccount)->fetchAll(PDO::FETCH_ASSOC);
-
-    foreach ($Accounts as $Account) {
-        echo $Account['name'];
-    }
-}
-?>
-
-<?php
-// Somando as dispesas 
-function getExpense()
-{
-    $connection = new Database();
-
-    $sqlExpense = ("SELECT SUM(value) FROM `finance` WHERE type = 'EXPENSE'");
-
-    $expense = $connection->connection()->query($sqlExpense)->fetchAll(PDO::FETCH_ASSOC);
-
-    foreach ($expense as $expenseValue) {
-        // FORMATAÇÂO COM "." e ","
-        echo number_format($expenseValue['SUM(value)'],2,",",".");
-    }
-}
-?>
-
 <div class="container">
     <!-- MODAL NOVA DESPESA -->
     <!-- MODAL NEW EXPENSE -->
@@ -142,7 +93,7 @@ function getExpense()
         <div class="col-md-12 mt-2">
             <div class="p-3 text-dark" id="expense-total">
                 <h4>Total de despesas:</h4>
-                <h5 class="text-danger"><b>R$ - <?php getExpense()?></b></h5>
+                <h5 class="text-danger"><b>R$ - <?php getSumExpense()?></b></h5>
             </div>
         </div>
         <div class="col-md-12 mt-3 text-center">
