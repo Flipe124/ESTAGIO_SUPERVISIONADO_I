@@ -45,4 +45,6 @@
   require("../../backend/config/connection.php");
 
   $connection = new Database();
+
+  include_once("../includes/function.php");
   ?>
