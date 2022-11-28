@@ -9,9 +9,14 @@ $finances = $connection->connection()->query($sql_finance)->fetchAll(PDO::FETCH_
 ?>
 
 <div class="container">
-    <div class="row ms-4">
+    <div class="row ms-2">
         <div class="col-md-12 mt-4">
             <h1>Transações</h1>
+        </div>
+        <div class="col-md-12 text-center">
+            <button class="btn btn-warning"><i class="fa-solid fa-arrow-left"></i></button>
+            <button class="btn btn-warning"><b>Novembro</b> 2022</button>
+            <button class="btn btn-warning"><i class="fa-solid fa-arrow-right"></i></button>
         </div>
         <div class="col-md-12 mt-3">
             <div class="text-center" id="div-table">
@@ -56,4 +61,5 @@ $finances = $connection->connection()->query($sql_finance)->fetchAll(PDO::FETCH_
         </div>
     </div>
 </div>
+
 <?php include_once("../includes/footer.php"); ?>
