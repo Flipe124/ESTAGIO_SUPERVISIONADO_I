@@ -93,7 +93,7 @@ $categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETC
         <div class="col-md-12 mt-2">
             <div class="p-3 text-dark" id="expense-total">
                 <h4>Total de despesas:</h4>
-                <h5 class="text-danger"><b>R$ - <?php getSumExpense()?></b></h5>
+                <h5 class="text-danger"><b>R$ - <?php echo getSumExpense()?></b></h5>
             </div>
         </div>
         <div class="col-md-12 mt-3 text-center">
