@@ -2,30 +2,39 @@ package database
 
 import (
 	"database/sql"
-	"golang/commons"
 	"golang/settings"
+	"log"
 	"strconv"
 
+	// username:password@(address)/dbname
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func openConnection(setting settings.Setting) *sql.DB {
+func openConnection(setting settings.DatabaseSetting) (*sql.DB, error) {
 
-	// username:password@(address)/dbname
-	driver := setting.Database.Driver
-	user := setting.Database.User
-	password := setting.Database.Password
-	host := setting.Database.Host
-	port := strconv.Itoa(setting.Database.Port)
-	name := setting.Database.Name
+	driver := setting.Driver
+	user := setting.User
+	password := setting.Password
+	host := setting.Host
+	port := strconv.Itoa(setting.Port)
+	name := setting.Name
 
-	connection :=  user + ":" + password + "@(" + host + ":" + port + ")/" + name
+	connection := user + ":" + password + "@(" + host + ":" + port + ")/" + name
+
 	database, err := sql.Open(driver, connection)
-	commons.ErrorTester("successfully connection!", "open connection failed: ", err)
+	if err != nil {
+		log.Println("open connection failed:", err)
+		return nil, err
+	}
+	log.Println("successfully connection!")
 
 	err = database.Ping()
-	commons.ErrorTester("successfully ping!", "ping connection failed: ", err)
+	if err != nil {
+		log.Println("ping connection failed:", err)
+		return nil, err
+	}
+	log.Println("successfully ping!")
 
-	return database
+	return database, nil
 
 }

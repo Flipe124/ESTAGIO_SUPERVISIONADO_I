@@ -1,30 +1,23 @@
 package database
 
 import (
-	"golang/commons"
 	"golang/settings"
 	"log"
 )
 
-func Save(tableName string, args ...string) int {
+func Save(tableName string, args ...string) (int, error) {
 
-	setting := settings.Setting{
-		Database: settings.DatabaseSetting{
-			Driver:   "mysql",
-			User:     "root",
-			Password: "root",
-			Host:     "127.17.0.2",
-			Port:     3306,
-			Name:     "db",
-		},
+	database, err := openConnection(settings.GetDatabaseSetting())
+	if err != nil {
+		log.Println("estabilish connection failed:", err)
+		return -1, err
 	}
-
-	database := openConnection(setting)
 	defer database.Close()
+	log.Println("successfully estabilish connection!")
 
 	query := tableName + " "
 	if len(args) < 1 {
-		log.Fatal("save: more arguments necessary to this function!")
+		log.Fatal("save:more arguments necessary to this function!")
 	} else if len(args) > 1 {
 		query = "UPDATE " + query
 	} else {
@@ -35,8 +28,13 @@ func Save(tableName string, args ...string) int {
 	}
 
 	result, err := database.Exec(query)
-	commons.ErrorTester("successfully query exec!", "query exec error: ", err)
+	if err != nil {
+		log.Println("query exec failed:", err)
+		return -1, err
+	}
+	log.Println("successfully query exec!")
+
 	rowsAffected, _ := result.RowsAffected()
-	return int(rowsAffected)
+	return int(rowsAffected), nil
 
 }

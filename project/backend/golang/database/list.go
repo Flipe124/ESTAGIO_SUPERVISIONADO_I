@@ -1,42 +1,42 @@
 package database
 
 import (
-	"golang/commons"
 	"golang/settings"
 	"log"
 )
 
-func List(tableName string, args ...string) []map[string]string {
+func List(tableName string, args ...string) ([]map[string]string, error) {
 
-	setting := settings.Setting{
-		Database: settings.DatabaseSetting{
-			Driver:   "mysql",
-			User:     "root",
-			Password: "root",
-			Host:     "127.17.0.2",
-			Port:     3306,
-			Name:     "db",
-		},
+	databaseSetting := settings.GetDatabaseSetting()
+
+	database, err := openConnection(databaseSetting)
+	if err != nil {
+		log.Println("estabilish connection failed:", err)
+		return nil, err
 	}
-
-	database := openConnection(setting)
 	defer database.Close()
+	log.Println("successfully estabilish connection!")
 
-	query := "SELECT * FROM " + tableName
-	if len(args) > 0 {
-		for index := range args {
-			query += " " + args[index]
-		}
+	query := "SELECT * FROM " + databaseSetting.Name + "." + tableName
+	for index := range args {
+		query += " " + args[index]
 	}
-
+	
 	table, err := database.Query(query)
-	commons.ErrorTester("successfully query select!", "query select error: ", err)
+	if err != nil {
+		log.Println("query select error:", err)
+		return nil, err
+	}
 	defer table.Close()
+	log.Println("successfully query select!")
 
 	var rowSliceMap []map[string]string
 
 	columnsNames, err := table.Columns()
-	commons.ErrorTester("successfully get columns names!", "get column names error: ", err)
+	if err != nil {
+		log.Println("get column names error:", err)
+	}
+	log.Println("successfully get columns names!")
 
 	rowsInterface := make([]interface{}, len(columnsNames))
 	for index := range rowsInterface {
@@ -47,7 +47,7 @@ func List(tableName string, args ...string) []map[string]string {
 	for table.Next() {
 		err := table.Scan(rowsInterface...)
 		if err != nil {
-			log.Println("error on read row: ", err.Error())
+			log.Println("error on read row:", err.Error())
 		}
 		tableMap := make(map[string]string)
 		for index, columnName := range columnsNames {
@@ -63,6 +63,6 @@ func List(tableName string, args ...string) []map[string]string {
 		rowSliceMap = append(rowSliceMap, tableMap)
 	}
 
-	return rowSliceMap
+	return rowSliceMap, nil
 
 }
