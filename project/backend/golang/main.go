@@ -2,12 +2,15 @@ package main
 
 import (
 	"golang/api"
+	"golang/settings"
 	"log"
+	"strconv"
 )
 
 func main() {
 
-	log.Println("api is on 8008!")
+	apiPort := strconv.Itoa(settings.GetApiSetting().Port)
+	log.Println("api is on \"localhost:" + apiPort + "/\"!")
 	api.Init()
 
 	// table := database.List("table", "WHERE cl = 139")
