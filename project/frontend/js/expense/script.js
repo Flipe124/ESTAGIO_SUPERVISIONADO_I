@@ -42,4 +42,5 @@ function openModal(modalName) {
 // Select2
 $(document).ready(function() {
     $('#select-category').select2();
+    $('#select-category-update').select2();
 });
