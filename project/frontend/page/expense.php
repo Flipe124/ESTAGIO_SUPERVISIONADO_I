@@ -146,7 +146,7 @@ $categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETC
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-danger text-light">
-                <h1 class="modal-title fs-5" id="modal-expense-label">NOVA DESPESA</h1>
+                <h1 class="modal-title fs-5" id="modal-expense-label">EDITAR DESPESA</h1>
                 <button class="btn-close btn-close-modal-expense" type="button"></button>
             </div>
             <div class="modal-body">
@@ -167,7 +167,7 @@ $categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETC
                         <div class="col-md-12 mt-1">
                             <label class="form-label">Categoria:</label>
                             <div class="input-group">
-                                <select class="form-select" id="select-category" name="category" style="width: 30%; height: 40px !important">
+                                <select class="form-select" id="select-category-update" name="category" style="width: 90%; height: 40px !important">
                                     <?php foreach ($categorys as $category) { ?>
                                         <option value="<?php echo $category["id"] ?>"><?php echo $category["name"] ?></option>
                                     <?php } ?>
