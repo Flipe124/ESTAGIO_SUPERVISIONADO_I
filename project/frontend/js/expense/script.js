@@ -9,6 +9,11 @@ $(".btn-delete-expense").on("click", function () {
     openModal("delete-expense")
 })
 
+// Botão "Lápis", abre o modal de edição de despesa.
+$(".btn-update-expense").on("click", function () {
+    openModal("update-expense")
+})
+
 //------------------ BTN FECHAR ------------------
 //Botão "fechar", fecha o modal nova despesa.
 $(".btn-close-modal-expense").on("click", function () {
