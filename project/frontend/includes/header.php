@@ -42,7 +42,7 @@
 <body>
 
   <?php
-  require("../../backend/config/connection.php");
+  require("../../backend/php/config/connection.php");
 
   $connection = new Database();
 
