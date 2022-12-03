@@ -25,6 +25,11 @@ $(".btn-close-modal-delete-expense").on("click", function () {
     closeModal("delete-expense")
 })
 
+//Botão "fechar", fecha o modal excluir despesa.
+$(".btn-close-modal-update-expense").on("click", function () {
+    closeModal("update-expense")
+})
+
 // Funções
 function closeModal(modalName) {
     $("#modal-" + modalName).modal("hide")
