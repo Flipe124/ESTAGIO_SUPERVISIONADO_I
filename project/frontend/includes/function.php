@@ -4,7 +4,7 @@ function getSumExpense()
 {
     $connection = new Database();
 
-    $sqlExpense = ("SELECT SUM(value) FROM `finance` WHERE type = 'EXPENSE'");
+    $sqlExpense = ("SELECT SUM(value) FROM `finance` WHERE `type` = 'EXPENSE' AND `status` = 'PAID'");
 
     $expense = $connection->connection()->query($sqlExpense)->fetchAll(PDO::FETCH_ASSOC);
 
