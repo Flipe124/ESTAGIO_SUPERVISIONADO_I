@@ -93,10 +93,16 @@ $categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETC
         <div class="col-md-12">
             <div class="line-red"></div>
         </div>
-        <div class="col-md-12 mt-2">
+        <div class="col-md-6 mt-2">
             <div class="p-3 text-dark" id="expense-total">
-                <h4>Total de despesas:</h4>
-                <h5 class="text-danger"><b>R$ - <?php echo getSumExpensePaid() ?></b></h5>
+                <h4>Despesas pagas:</h4>
+                <h5 class="text-danger"><b>R$ - <?php echo getSumExpense('PAID') ?></b></h5>
+            </div>
+        </div>
+        <div class="col-md-6 mt-2">
+            <div class="p-3 text-dark" id="expense-total-peding">
+                <h4>Despesas pendente:</h4>
+                <h5 class="text-danger"><b>R$ - <?php echo getSumExpense('NOT_PAID') ?></b></h5>
             </div>
         </div>
         <div class="col-md-12 mt-3 text-center">
