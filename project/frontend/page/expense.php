@@ -111,6 +111,7 @@ $categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETC
                 <table class="table table-light table-striped">
                     <thead>
                         <tr>
+                            <th>Situação</th>
                             <th>Valor</th>
                             <th>Data</th>
                             <th>Descrição</th>
@@ -122,6 +123,11 @@ $categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETC
                     <tbody>
                         <?php foreach ($expenses as $expense) { ?>
                             <tr>
+                                <?php if ($expense["status"] == "PAID") { ?>
+                                    <th><i class="text-success fa-solid fa-circle-check"></i></th>
+                                <?php } else { ?>
+                                    <th><i class="text-danger fa-solid fa-circle-xmark"></i></th>
+                                <?php } ?>
                                 <th class="text-danger"><?php echo "R$ - " . number_format($expense['value'], 2, ",", "."); ?></th>
                                 <th><?php echo date('d/m/Y', strtotime($expense['date'])); ?></th>
                                 <th><?php echo $expense['description'] ?></th>
