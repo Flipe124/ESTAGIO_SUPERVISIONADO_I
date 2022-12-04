@@ -1,6 +1,6 @@
 <?php
 // Somando as dispesas 
-function getSumExpense()
+function getSumExpensePaid()
 {
     $connection = new Database();
 
