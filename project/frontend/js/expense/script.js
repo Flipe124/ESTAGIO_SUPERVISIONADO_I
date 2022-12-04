@@ -1,39 +1,39 @@
 //------------------ MODAL ------------------
 //Botão "nova despesa", abre o modal nova despesa.
 $("#btn-open-modal-expense").on("click", function () {
-    modalFunction("new-expense", "show")
+    modalAction("new-expense", "show")
 })
 
 // Botão "lixeira", abre o modal de exclusão de despesa.
 $(".btn-delete-expense").on("click", function () {
-    modalFunction("delete-expense", "show")
+    modalAction("delete-expense", "show")
 })
 
 // Botão "Lápis", abre o modal de edição de despesa.
 $(".btn-update-expense").on("click", function () {
-    modalFunction("update-expense", "show")
+    modalAction("update-expense", "show")
 })
 
 //------------------ BTN FECHAR ------------------
 //Botão "fechar", fecha o modal nova despesa.
 $(".btn-close-modal-expense").on("click", function () {
-    modalFunction("new-expense", "hide")
+    modalAction("new-expense", "hide")
 })
 
 //Botão "fechar", fecha o modal excluir despesa.
 $(".btn-close-modal-delete-expense").on("click", function () {
-    modalFunction("delete-expense", "hide")
+    modalAction("delete-expense", "hide")
 })
 
 //Botão "fechar", fecha o modal excluir despesa.
 $(".btn-close-modal-update-expense").on("click", function () {
-    modalFunction("update-expense", "hide")
+    modalAction("update-expense", "hide")
 })
 
 //------------------ Funções ------------------
 
 // Apresentar/esconder modal
-function modalFunction(modalName, action) {
+function modalAction(modalName, action) {
     $("#modal-" + modalName).modal(action)
 }
 
