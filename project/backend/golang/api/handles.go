@@ -43,5 +43,7 @@ func listApi(writer http.ResponseWriter, request *http.Request) {
 	}
 
 	fmt.Println(*response)
+	table, _ := database.List("finance")
+	response.Encode(table)
 
 }
