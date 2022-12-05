@@ -13,7 +13,7 @@ func listApi(writer http.ResponseWriter, request *http.Request) {
 	if request.Method != "GET" {
 		httpErrorMessage := http.StatusText(http.StatusMethodNotAllowed)
 		http.Error(writer, httpErrorMessage, http.StatusMethodNotAllowed)
-		log.Println("endpoint \"/list\" error:", httpErrorMessage + "!")
+		log.Println("endpoint \"/list\" error:", httpErrorMessage+"!")
 		return
 	}
 
@@ -29,7 +29,7 @@ func listApi(writer http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		httpErrorMessage := http.StatusText(http.StatusBadRequest)
 		http.Error(writer, httpErrorMessage, http.StatusBadRequest)
-		log.Println("endpoint \"/list\" error:", httpErrorMessage + "!")
+		log.Println("endpoint \"/list\" error:", httpErrorMessage+"!")
 		return
 	}
 
@@ -38,7 +38,7 @@ func listApi(writer http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		httpErrorMessage := http.StatusText(http.StatusInternalServerError)
 		http.Error(writer, httpErrorMessage, http.StatusInternalServerError)
-		log.Println("endpoint \"/list\" error:", httpErrorMessage + "!")
+		log.Println("endpoint \"/list\" error:", httpErrorMessage+"!")
 		return
 	}
 

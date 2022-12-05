@@ -21,7 +21,7 @@ func List(tableName string, args ...string) ([]map[string]string, error) {
 	for index := range args {
 		query += " " + args[index]
 	}
-	
+
 	table, err := database.Query(query)
 	if err != nil {
 		log.Println("query select error:", err)
