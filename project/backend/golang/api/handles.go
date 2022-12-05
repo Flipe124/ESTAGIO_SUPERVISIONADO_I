@@ -22,7 +22,7 @@ func listApi(writer http.ResponseWriter, request *http.Request) {
 
 	table := request.URL.Query().Get("table")
 	column := request.URL.Query().Get("column")
-	ids := request.URL.Query().Get("ids")
+	args := request.URL.Query().Get("args")
 
 	var where string
 
@@ -38,9 +38,9 @@ func listApi(writer http.ResponseWriter, request *http.Request) {
 			return
 		}
 
-		if ids != "" {
+		if args != "" {
 
-			for _, id := range strings.Split(ids, ",") {
+			for _, id := range strings.Split(args, ",") {
 				if _, err := strconv.Atoi(id); err != nil {
 					commons.Api.ReturnError(commons.Api{}, &writer, http.StatusUnprocessableEntity)
 					return
@@ -49,7 +49,7 @@ func listApi(writer http.ResponseWriter, request *http.Request) {
 
 		}
 
-		where = "WHERE " + column + " IN (" + ids + ")"
+		where = "WHERE " + column + " IN (" + args + ")"
 
 	}
 
