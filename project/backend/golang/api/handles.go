@@ -39,14 +39,15 @@ func listApi(writer http.ResponseWriter, request *http.Request) {
 		}
 
 		if args != "" {
-
-			for _, id := range strings.Split(args, ",") {
-				if _, err := strconv.Atoi(id); err != nil {
+			for _, arg := range strings.Split(args, ",") {
+				if _, err := strconv.Atoi(arg); err != nil {
 					commons.Api.ReturnError(commons.Api{}, &writer, http.StatusUnprocessableEntity)
 					return
 				}
 			}
-
+		} else {
+			commons.Api.ReturnError(commons.Api{}, &writer, http.StatusBadRequest)
+			return
 		}
 
 		where = "WHERE " + column + " IN (" + args + ")"
