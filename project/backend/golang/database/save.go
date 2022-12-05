@@ -17,7 +17,7 @@ func Save(tableName string, args ...string) (int, error) {
 
 	query := tableName + " "
 	if len(args) < 1 {
-		log.Fatal("save:more arguments necessary to this function!")
+		log.Fatal("save: more arguments necessary to this function!")
 	} else if len(args) > 1 {
 		query = "UPDATE " + query
 	} else {

@@ -2,48 +2,63 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
-	"io"
+	"golang/commons"
+	"golang/database"
 	"log"
 	"net/http"
+	"reflect"
+	"strconv"
+	"strings"
 )
 
 func listApi(writer http.ResponseWriter, request *http.Request) {
 
 	if request.Method != "GET" {
-		httpErrorMessage := http.StatusText(http.StatusMethodNotAllowed)
-		http.Error(writer, httpErrorMessage, http.StatusMethodNotAllowed)
-		log.Println("endpoint \"/list\" error:", httpErrorMessage+"!")
+		commons.Api.ReturnError(commons.Api{}, &writer, http.StatusMethodNotAllowed)
 		return
 	}
 
 	log.Println("endpoint \"/list\" contact!")
 
-	writer.Header().Set("Content=Type", "application/json")
-	// response := json.NewEncoder(writer)
+	table := request.URL.Query().Get("table")
+	column := request.URL.Query().Get("column")
+	ids := request.URL.Query().Get("ids")
 
-	// table, _ := database.List("table")
-	// response.Encode("table")
+	var where string
 
-	requestBody, err := io.ReadAll(request.Body)
-	if err != nil {
-		httpErrorMessage := http.StatusText(http.StatusBadRequest)
-		http.Error(writer, httpErrorMessage, http.StatusBadRequest)
-		log.Println("endpoint \"/list\" error:", httpErrorMessage+"!")
+	if table == "" || reflect.TypeOf(table).Name() != "string" {
+		commons.Api.ReturnError(commons.Api{}, &writer, http.StatusBadRequest)
 		return
 	}
 
-	var response *any
-	err = json.Unmarshal(requestBody, &response)
+	if column != "" {
+
+		if reflect.TypeOf(column).Name() != "string" {
+			commons.Api.ReturnError(commons.Api{}, &writer, http.StatusBadRequest)
+			return
+		}
+
+		if ids != "" {
+
+			for _, id := range strings.Split(ids, ",") {
+				if _, err := strconv.Atoi(id); err != nil {
+					commons.Api.ReturnError(commons.Api{}, &writer, http.StatusUnprocessableEntity)
+					return
+				}
+			}
+
+		}
+
+		where = "WHERE " + column + " IN (" + ids + ")"
+
+	}
+
+	response, err := database.List(table, where)
 	if err != nil {
-		httpErrorMessage := http.StatusText(http.StatusInternalServerError)
-		http.Error(writer, httpErrorMessage, http.StatusInternalServerError)
-		log.Println("endpoint \"/list\" error:", httpErrorMessage+"!")
+		commons.Api.ReturnError(commons.Api{}, &writer, http.StatusInternalServerError)
 		return
 	}
 
-	fmt.Println(*response)
-	table, _ := database.List("finance")
-	response.Encode(table)
+	json.NewEncoder(writer).Encode(response)
 
 }
