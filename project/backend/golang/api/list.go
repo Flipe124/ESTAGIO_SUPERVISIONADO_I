@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-func listApi(writer http.ResponseWriter, request *http.Request) {
+func list(writer http.ResponseWriter, request *http.Request) {
 
 	if request.Method != "GET" {
 		commons.Api.ReturnError(commons.Api{}, &writer, http.StatusMethodNotAllowed)
