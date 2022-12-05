@@ -174,7 +174,7 @@ $categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETC
                         </div>
                         <div class="col-md-12 mt-1">
                             <label class="form-label">Descrição:</label>
-                            <input class="form-control" type="text" placeholder="Descreva aqui...">
+                            <input class="form-control" type="text" id="description-expense" placeholder="Descreva aqui...">
                         </div>
                         <div class="col-md-12 mt-1">
                             <label class="form-label">Categoria:</label>
