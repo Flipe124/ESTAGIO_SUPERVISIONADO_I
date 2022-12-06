@@ -24,7 +24,7 @@ func List(tableName string, args ...string) ([]map[string]string, error) {
 
 	table, err := database.Query(query)
 	if err != nil {
-		log.Println("query select error:", err)
+		log.Println("query select error:", err, "query:", query)
 		return nil, err
 	}
 	defer table.Close()
@@ -47,7 +47,7 @@ func List(tableName string, args ...string) ([]map[string]string, error) {
 	for table.Next() {
 		err := table.Scan(rowsInterface...)
 		if err != nil {
-			log.Println("error on read row:", err.Error())
+			log.Println("error on read row:", err)
 		}
 		tableMap := make(map[string]string)
 		for index, columnName := range columnsNames {

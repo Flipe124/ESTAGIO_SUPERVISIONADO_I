@@ -14,7 +14,7 @@ import (
 func list(writer http.ResponseWriter, request *http.Request) {
 
 	apiReturn := func(httpStatusCode int) {
-		commons.Api.Return(commons.Api{}, "list", &writer, httpStatusCode)
+		commons.Api.StatusCodeReturn(commons.Api{}, "list", &writer, httpStatusCode)
 	}
 
 	if request.Method != "GET" {
@@ -60,6 +60,7 @@ func list(writer http.ResponseWriter, request *http.Request) {
 
 	response, err := database.List(table, where)
 	if err != nil {
+		log.Println("error on database list:", err)
 		apiReturn(http.StatusInternalServerError)
 		return
 	}
