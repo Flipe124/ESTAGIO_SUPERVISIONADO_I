@@ -10,28 +10,43 @@ import (
 func save(writer http.ResponseWriter, request *http.Request) {
 
 	apiReturn := func(httpStatusCode int) {
-		commons.Api.Return(commons.Api{}, &writer, httpStatusCode)
+		commons.Api.Return(commons.Api{}, "save", &writer, httpStatusCode)
 	}
 
-	if request.Method != "POST" {
+	if request.Method != "POST" && request.Method != "PATCH" {
 		apiReturn(http.StatusMethodNotAllowed)
 		return
+	} else {
+		isUpdate := request.Method == "PATCH"
 	}
 
 	log.Println("endpoint \"/save\" contact!")
 
-	var data struct {
-		Table string `json:"table"`
-		// Args []any `json:"args"`
+	type args struct {
+		Column string `json:"column"`
+		Row    string `json:"row"`
 	}
 
-	err := json.NewDecoder(request.Body).Decode(&data)
+	var table struct {
+		Name string `json:"name"`
+		Args []args `json:"args"`
+	}
+
+	err := json.NewDecoder(request.Body).Decode(&table)
 	if err != nil {
 		apiReturn(http.StatusUnprocessableEntity)
 		return
 	}
 
-	log.Println(data)
+	// table
+	// table.Name
+	// table.Args
+	// table.Args[0]
+	// table.Args[0].Column
+	// table.Args[0].Row
+
+	
+	
 	apiReturn(http.StatusOK)
 
 	// table := request.URL.Query().Get("table")

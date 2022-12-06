@@ -14,7 +14,7 @@ import (
 func list(writer http.ResponseWriter, request *http.Request) {
 
 	apiReturn := func(httpStatusCode int) {
-		commons.Api.Return(commons.Api{}, &writer, httpStatusCode)
+		commons.Api.Return(commons.Api{}, "list", &writer, httpStatusCode)
 	}
 
 	if request.Method != "GET" {
