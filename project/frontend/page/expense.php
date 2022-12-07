@@ -16,6 +16,11 @@ $sqlCategorys = ("SELECT * FROM `category` WHERE `type` = 'EXPENSE' ");
 
 $categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETCH_ASSOC);
 
+
+$sqlAccount = ("SELECT * FROM `account`");
+
+$accounts = $connection->connection()->query($sqlAccount)->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!-- MODAL NOVA DESPESA -->
@@ -30,35 +35,44 @@ $categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETC
             <div class="modal-body">
                 <form action="" method="post">
                     <div class="row">
+                        <input type="hidden" name="type" value="EXPENSE">
                         <div class="col-md-6">
                             <label class="form-label">Valor:</label>
-                            <input class="form-control" type="text" id="value-expense" placeholder="0,00">
+                            <input class="form-control" name="value" type="text" id="value-expense" placeholder="0,00">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Data:</label>
-                            <input class="form-control" type="date" id="date-expense">
+                            <input class="form-control" name="date" type="date" id="date-expense">
                         </div>
                         <div class="col-md-12 mt-1">
                             <label class="form-label">Descrição:</label>
-                            <input class="form-control" type="text" placeholder="Descreva aqui...">
+                            <input class="form-control" name="description" type="text" placeholder="Descreva aqui...">
+                        </div>
+                        <div class="col-md-12 mt-1">
+                            <label class="form-label">Conta:</label>
+                            <select class="form-select" id="select-sccount" name="account_id">
+                                <?php foreach ($accounts as $account) { ?>
+                                    <option value="<?php echo $account["id"] ?>"><?php echo $account["name"] ?></option>
+                                <?php } ?>
+                            </select>
                         </div>
                         <div class="col-md-12 mt-1">
                             <label class="form-label">Categoria:</label>
                             <div class="input-group">
-                                <select class="form-select" id="select-category" name="category" style="width: 90%; height: 80px !important">
+                                <select class="form-select" id="select-category" name="category_id" style="width: 100%; height: 80px !important">
                                     <?php foreach ($categorys as $category) { ?>
                                         <option value="<?php echo $category["id"] ?>"><?php echo $category["name"] ?></option>
                                     <?php } ?>
                                 </select>
-                                <button class="btn btn-success" type="button"><i class="fa-solid fa-plus"></i></button>
+                                <!-- <button class="btn btn-success" type="button"><i class="fa-solid fa-plus"></i></button> -->
                             </div>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger btn-close-modal-expense" type="button">FECHAR</button>
+                        <button class="btn btn-success" id="btn-save-new-expense" type="submit">SALVAR</button>
+                    </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-danger btn-close-modal-expense" type="button">FECHAR</button>
-                <button class="btn btn-success">SALVAR</button>
             </div>
         </div>
     </div>
@@ -87,9 +101,9 @@ $categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETC
 <div class="container">
     <div class="row ms-4">
         <?php
-        foreach ($expensess as $expense) {
-            echo  $expense['value'] . "<br>";
-        }
+        // foreach ($expensess as $expense) {
+        //     echo  $expense['value'] . "<br>";
+        // }
         ?>
         <div class="col-md-6 mt-4">
             <h1>Despesas</h1>
