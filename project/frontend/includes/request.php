@@ -16,51 +16,81 @@
 // curl_close($ch);
 
 // REQUEST SAVE
+$url = "http://localhost:8008/create";
+$curl = curl_init($url);
 
-$account_id = isset($_POST['account_id']) && $_POST['account_id'] != ''  ? $_POST['account_id'] : null;
+$account_id  = isset($_POST['account_id'])  && $_POST['account_id']  != '' ? $_POST['account_id']  : null;
 $category_id = isset($_POST['category_id']) && $_POST['category_id'] != '' ? $_POST['category_id'] : null;
-$value = isset($_POST['value']) && $_POST['value'] != '' ? $_POST['value'] : null;
-$type = isset($_POST['type']) && $_POST['type'] != '' ? $_POST['type'] : null;
-$description = isset($_POST['description']) && $_POST['description'] != '' ? $_POST['description'] : null;
-$date = isset($_POST['date']) && $_POST['date'] != '' ? $_POST['date'] : null;
+$value       = isset($_POST['value'])       && $_POST['value']       != '' ? $_POST['value']       : null;
+$type        = isset($_POST['type'])        && $_POST['type']        != '' ? "'" . $_POST['type'] . "'"  : null;
+$status      = isset($_POST['status'])      && $_POST['status']      != '' ? "'" . $_POST['status'] . "'"      : null;
+$description = isset($_POST['description']) && $_POST['description'] != '' ? "'" . $_POST['description'] . "'": null;
+$date        = isset($_POST['date'])        && $_POST['date']        != '' ? "'" . $_POST['date'] . "'"      : null;
 
-$saveExpense = [
-    // 'account_id' => $account_id,
-    // 'category_id' => $category_id,
-    // 'value' => $value,
-    // 'type' => $type,
-    // 'description' => $description,
-    // 'date' => $date
+// $description = 'strval($description)';
 
-    'account_id' => 1,
-    'category_id' => 1,
-    'value' => 1100,
-    'type' => "EXPENSE",
-    'description' => "TESTEEE",
-    'date' => "08-10-2002"
-];
+$gambiarra = "";
+
+// $gambiarra = $gambiarra . $description;
+
+// var_dump($description);
+
+$data = array(
+    "name" => "finance",
+    "columns" => array(
+        "account_id",
+        "category_id",
+        "value",
+        "type",
+        "status",
+        "description",
+        "date",
+    ),
+    "rows" => array(
+        array(
+            "row" => array(
+                $account_id,
+                $category_id,
+                $value,
+                $type,
+                $status,
+                $description,
+                $date,
+            ),
+        ),
+    ),
+);
+
+$payload = json_encode($data);
+
+curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
+curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+$result = curl_exec($curl);
+
+curl_close($curl);
 
 
-$JsonSaveExpense = json_encode($saveExpense);
 
-// print_r($saveExpense);
+// echo json_encode($arraySaveExpense);
 
-$urlRequestSave = curl_init('http://localhost:8008/create?table=finance');
+// $JsonSaveNewExpense = json_encode($data);
 
-curl_setopt_array($urlRequestSave, [
+// $urlRequestSave = curl_init('http://localhost:8008/create?table=finance');
 
-    CURLOPT_CUSTOMREQUEST => 'POST',
 
-    // Permite obter o resultado
-    CURLOPT_RETURNTRANSFER => 1,
+// curl_setopt_array($urlRequestSave, [
 
-    CURLOPT_POSTFIELDS => $JsonSaveExpense
+//     CURLOPT_CUSTOMREQUEST => 'POST',
 
-]);
+//     // Permite obter o resultado
+//     CURLOPT_RETURNTRANSFER => 1,
 
-echo $JsonSaveExpense;
+//     CURLOPT_POSTFIELDS => $JsonSaveNewExpense
 
-$expenseSave = json_decode(curl_exec($urlRequestSave), true);
+// ]);
 
-curl_close($urlRequestSave);
+// $expenseSave = json_decode(curl_exec($urlRequestSave), true);
 
+// curl_close($urlRequestSave);
