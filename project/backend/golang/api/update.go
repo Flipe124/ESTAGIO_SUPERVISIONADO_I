@@ -44,7 +44,7 @@ func update(writer http.ResponseWriter, request *http.Request) {
 
 	_, err = database.Save(table, query, where)
 	if err != nil {
-		log.Println("error on database save:", err)
+		log.Println("error on database update!")
 		apiReturn(http.StatusInternalServerError)
 		return
 	}

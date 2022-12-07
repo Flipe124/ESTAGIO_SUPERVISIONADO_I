@@ -40,7 +40,7 @@ func create(writer http.ResponseWriter, request *http.Request) {
 
 	_, err = database.Save(table, query)
 	if err != nil {
-		log.Println("error on database save:", err)
+		log.Println("error on database create!")
 		apiReturn(http.StatusInternalServerError)
 		return
 	}
