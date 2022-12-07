@@ -37,6 +37,15 @@ $accounts = $connection->connection()->query($sqlAccount)->fetchAll(PDO::FETCH_A
                     <div class="row">
                         <input type="hidden" name="type" value="EXPENSE">
                         <div class="col-md-6">
+                            <label class="form-label">Situação:</label>
+                            <div class="input-group">
+                                <select class="form-select" id="" name="status" style="">
+                                        <option value="PAID">Paga</option>
+                                        <option value="NOT_PAID">Pendente</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
                             <label class="form-label">Valor:</label>
                             <input class="form-control" name="value" type="text" id="value-expense" placeholder="0,00">
                         </div>
@@ -44,11 +53,11 @@ $accounts = $connection->connection()->query($sqlAccount)->fetchAll(PDO::FETCH_A
                             <label class="form-label">Data:</label>
                             <input class="form-control" name="date" type="date" id="date-expense">
                         </div>
-                        <div class="col-md-12 mt-1">
+                        <div class="col-md-6 mt-1">
                             <label class="form-label">Descrição:</label>
                             <input class="form-control" name="description" type="text" placeholder="Descreva aqui...">
                         </div>
-                        <div class="col-md-12 mt-1">
+                        <div class="col-md-6 mt-1">
                             <label class="form-label">Conta:</label>
                             <select class="form-select" id="select-sccount" name="account_id">
                                 <?php foreach ($accounts as $account) { ?>
@@ -56,10 +65,10 @@ $accounts = $connection->connection()->query($sqlAccount)->fetchAll(PDO::FETCH_A
                                 <?php } ?>
                             </select>
                         </div>
-                        <div class="col-md-12 mt-1">
+                        <div class="col-md-6 mt-1">
                             <label class="form-label">Categoria:</label>
                             <div class="input-group">
-                                <select class="form-select" id="select-category" name="category_id" style="width: 100%; height: 80px !important">
+                                <select class="form-select" id="" name="category_id" style="">
                                     <?php foreach ($categorys as $category) { ?>
                                         <option value="<?php echo $category["id"] ?>"><?php echo $category["name"] ?></option>
                                     <?php } ?>
@@ -133,34 +142,34 @@ $accounts = $connection->connection()->query($sqlAccount)->fetchAll(PDO::FETCH_A
                 <button class="btn btn-danger"><i class="fa-solid fa-arrow-right"></i></button>
             </div>
         </div>
-        <div class="col-md-12 mt-3 text-center">
+        <div class="col-md-12 mt-3">
             <div id="div-table">
                 <table class="table table-light table-striped">
                     <thead>
-                        <tr>
-                            <th>Situação</th>
-                            <th>Valor</th>
-                            <th>Data</th>
+                        <tr class="">
+                            <th class="text-center">Situação</th>
+                            <th class="text-center">Valor</th>
+                            <th class="text-center">Data</th>
                             <th>Descrição</th>
                             <th>Categoria</th>
                             <th>Conta</th>
-                            <th>Ações</th>
+                            <th class="text-center">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($expenses as $expense) { ?>
                             <tr>
                                 <?php if ($expense["status"] == "PAID") { ?>
-                                    <th><i class="text-success fa-solid fa-circle-check"></i></th>
+                                    <th class="text-center"><i class="text-success fa-solid fa-circle-check"></i></th>
                                 <?php } else { ?>
-                                    <th><i class="text-danger fa-solid fa-circle-xmark"></i></th>
+                                    <th class="text-center"><i class="text-danger fa-solid fa-circle-xmark"></i></th>
                                 <?php } ?>
-                                <th class="text-danger"><?php echo "R$ - " . number_format($expense['value'], 2, ",", "."); ?></th>
-                                <th><?php echo date('d/m/Y', strtotime($expense['date'])); ?></th>
+                                <th class="text-danger text-end"><?php echo "R$ - " . number_format($expense['value'], 2, ",", "."); ?></th>
+                                <th class="text-center"><?php echo date('d/m/Y', strtotime($expense['date'])); ?></th>
                                 <th><?php echo $expense['description'] ?></th>
                                 <th><?php echo getCategory($expense['category_id']) ?></th>
                                 <th><?php echo getAccount($expense['account_id']) ?></th>
-                                <th>
+                                <th class="text-center">
                                     <button class="btn btn-danger btn-delete-expense" type="button" data-id="<?php echo $expense['id'] ?>" data-value="<?php echo $expense['value'] ?>" data-description="<?php echo $expense['description'] ?>"><i class="fa-solid fa-trash"></i></button>
                                     <button class="btn btn-primary btn-update-expense" type="button" data-id="<?php echo $expense['id'] ?>" data-status="<?php echo $expense['status'] ?>" data-value="<?php echo $expense['id'] ?>" data-date="<?php echo $expense['date'] ?>" data-description="<?php echo $expense['description'] ?>" data-category="<?php echo getCategory($expense['category_id']) ?>" data-account="<?php echo getAccount($expense['account_id']) ?>"><i class="fa-solid fa-pen"></i></button>
                                 </th>
@@ -185,35 +194,52 @@ $accounts = $connection->connection()->query($sqlAccount)->fetchAll(PDO::FETCH_A
             <div class="modal-body">
                 <form action="" method="post">
                     <div class="row">
+                        <input type="hidden" name="type" value="EXPENSE">
+                        <div class="col-md-6">
+                            <label class="form-label">Situação:</label>
+                            <div class="input-group">
+                                <select class="form-select" id="status" name="status">
+                                        <option value="PAID">Paga</option>
+                                        <option value="NOT_PAID">Pendente</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <label class="form-label">Valor:</label>
-                            <input class="form-control" type="text" id="value-expense" placeholder="0,00">
+                            <input class="form-control" name="value" type="text" id="value-expense" placeholder="0,00">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Data:</label>
-                            <input class="form-control" type="date" id="date-expense">
+                            <input class="form-control" name="date" type="date" id="date-expense">
                         </div>
-                        <div class="col-md-12 mt-1">
+                        <div class="col-md-6 mt-1">
                             <label class="form-label">Descrição:</label>
-                            <input class="form-control" type="text" id="description-expense" placeholder="Descreva aqui...">
+                            <input class="form-control" name="description" type="text" placeholder="Descreva aqui...">
                         </div>
-                        <div class="col-md-12 mt-1">
+                        <div class="col-md-6 mt-1">
+                            <label class="form-label">Conta:</label>
+                            <select class="form-select" id="select-sccount" name="account_id">
+                                <?php foreach ($accounts as $account) { ?>
+                                    <option value="<?php echo $account["id"] ?>"><?php echo $account["name"] ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mt-1">
                             <label class="form-label">Categoria:</label>
                             <div class="input-group">
-                                <select class="form-select" id="select-category-update" name="category" style="width: 90%; height: 40px !important">
+                                <select class="form-select" id="" name="category_id" style="">
                                     <?php foreach ($categorys as $category) { ?>
                                         <option value="<?php echo $category["id"] ?>"><?php echo $category["name"] ?></option>
                                     <?php } ?>
                                 </select>
-                                <button class="btn btn-success" type="button"><i class="fa-solid fa-plus"></i></button>
                             </div>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger btn-close-modal-update-expense" type="button">FECHAR</button>
+                        <button class="btn btn-success" id="btn-save-new-expense" type="submit">SALVAR</button>
+                    </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-danger btn-close-modal-expense" type="button">FECHAR</button>
-                <button class="btn btn-success">SALVAR</button>
             </div>
         </div>
     </div>
