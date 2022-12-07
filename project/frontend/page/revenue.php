@@ -14,6 +14,10 @@ $sqlCategorys = ("SELECT * FROM `category` WHERE `type` = 'REVENUE' ");
 
 $categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETCH_ASSOC);
 
+$sqlCategorys = ("SELECT * FROM `account` WHERE `type` = 'REVENUE' ");
+
+$categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!-- MODAL NOVA receita -->
@@ -26,7 +30,7 @@ $categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETC
                 <button class="btn-close btn-close-modal-revenue" type="button"></button>
             </div>
             <div class="modal-body">
-                <form action="" method="post">
+                <form action="../includes/request.php" method="post">
                     <div class="row">
                         <div class="col-md-6">
                             <label class="form-label">Valor:</label>
@@ -52,12 +56,12 @@ $categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETC
                             </div>
                         </div>
                     </div>
-                </form>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-danger btn-close-modal-revenue" type="button">FECHAR</button>
-                <button class="btn btn-success">SALVAR</button>
+                <button class="btn btn-success" type="submit">SALVAR</button>
             </div>
+            </form>
         </div>
     </div>
 </div>
@@ -83,6 +87,7 @@ $categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETC
 </div>
 
 <div class="container">
+    <?php echo $_GET['value'] ?>
     <div class="row ms-4">
         <div class="col-md-6 mt-4">
             <h1>Receitas</h1>
@@ -95,7 +100,7 @@ $categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETC
         </div>
         <div class="col-md-6 mt-2">
             <div class="p-3 text-dark value-total">
-                <h4>receitas pagas:</h4>
+                <h4>receitas recebidas:</h4>
                 <h5 class="text-success"><b>R$ <?php echo getSum('REVENUE', 'PAID') ?></b></h5>
             </div>
         </div>
@@ -140,7 +145,7 @@ $categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETC
                                 <th><?php echo getCategory($revenue['category_id']) ?></th>
                                 <th><?php echo getAccount($revenue['account_id']) ?></th>
                                 <th>
-                                    <button class="btn btn-danger btn-delete-revenue" type="button" data-id="<?php echo $revenue['id'] ?>" data-value="<?php echo $revenue['value']?>" data-description="<?php echo $revenue['description']?>"><i class="fa-solid fa-trash"></i></button>
+                                    <button class="btn btn-danger btn-delete-revenue" type="button" data-id="<?php echo $revenue['id'] ?>" data-value="<?php echo $revenue['value'] ?>" data-description="<?php echo $revenue['description'] ?>"><i class="fa-solid fa-trash"></i></button>
                                     <button class="btn btn-primary btn-update-revenue" type="button" data-id="<?php echo $revenue['id'] ?>" data-status="<?php echo $revenue['status'] ?>" data-value="<?php echo $revenue['id'] ?>" data-date="<?php echo $revenue['date'] ?>" data-description="<?php echo $revenue['description'] ?>" data-category="<?php echo getCategory($revenue['category_id']) ?>" data-account="<?php echo getAccount($revenue['account_id']) ?>"><i class="fa-solid fa-pen"></i></button>
                                 </th>
                             </tr>
@@ -187,12 +192,24 @@ $categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETC
                                 <button class="btn btn-success" type="button"><i class="fa-solid fa-plus"></i></button>
                             </div>
                         </div>
+                        <div class="col-md-12 mt-1">
+                            <label class="form-label">Conta:</label>
+                            <div class="input-group">
+                                <select class="form-select" id="select-category-update" name="category" style="width: 90%; height: 40px !important">
+                                    <?php foreach ($account as $category) { ?>
+                                        <option value="<?php echo $category["id"] ?>"><?php echo $category["name"] ?></option>
+                                    <?php } ?>
+                                </select>
+                                <button class="btn btn-success" type="button"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger btn-close-modal-revenue" type="button">FECHAR</button>
+                        <button class="btn btn-success">SALVAR</button>
                     </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-danger btn-close-modal-revenue" type="button">FECHAR</button>
-                <button class="btn btn-success">SALVAR</button>
+                <?php echo $value?>
             </div>
         </div>
     </div>
