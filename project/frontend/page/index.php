@@ -2,6 +2,8 @@
 
 <?php include_once("../includes/sidebar.php"); ?>
 
+<?php include_once("../includes/request.php"); ?>
+
 <?php
 //  $sql_balance = ("SELECT * FROM `balance` ORDER BY id DESC LIMIT 1");
 
@@ -42,6 +44,8 @@ $finances = $connection->connection()->query($sql_finance)->fetchAll(PDO::FETCH_
             <button class="btn btn-success text-start" id="card">
                 <h4>
                     <label for=""><i class="bi bi-arrow-up-circle-fill"></i> Receita:</label>
+                    <br>
+                    <b>R$ <?php  echo number_format($resultSumRevenue, 2, ",", ".") ?></b>
                 </h4>
             </button>
         </div>
