@@ -3,9 +3,9 @@
 <?php include_once("../includes/sidebar.php"); ?>
 
 <?php
-$sql_finance = ("SELECT * FROM `account` ORDER BY `date` DESC");
+$sql_account = ("SELECT * FROM `account` ORDER BY `name` DESC");
 
-$accounts = $connection->connection()->query($sql_finance)->fetchAll(PDO::FETCH_ASSOC);
+$accounts = $connection->connection()->query($sql_account)->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <div class="container">
@@ -20,12 +20,21 @@ $accounts = $connection->connection()->query($sql_finance)->fetchAll(PDO::FETCH_
                         <tr>
                             <th>Conta</th>
                             <th>Saldo</th>
-                            <th>Saldo previsto</th>
+                            <!-- <th>Saldo previsto</th> -->
                             <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
-                        
+                        <tr>
+                            <?php foreach ($accounts as $Account) { ?>
+                                <th><?php echo $Account['name'] ?></th>
+                                <th class="text-success">R$ <?php echo number_format($Account['balance'], 2, ",", ".") ?></th>
+                                <th>
+                                    <button class="btn btn-danger btn-delete-expense" type="button"><i class="fa-solid fa-trash"></i></button>
+                                    <button class="btn btn-primary btn-update-expense" id="BTN" type="button"><i class="fa-solid fa-pen"></i></button>
+                                </th>
+                        </tr>
+                    <?php } ?>
                     </tbody>
                 </table>
             </div>
