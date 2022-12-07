@@ -40,8 +40,8 @@ $accounts = $connection->connection()->query($sqlAccount)->fetchAll(PDO::FETCH_A
                             <label class="form-label">Situação:</label>
                             <div class="input-group">
                                 <select class="form-select" id="" name="status" style="">
-                                        <option value="PAID">Paga</option>
-                                        <option value="NOT_PAID">Pendente</option>
+                                    <option value="PAID">Paga</option>
+                                    <option value="NOT_PAID">Pendente</option>
                                 </select>
                             </div>
                         </div>
@@ -171,7 +171,7 @@ $accounts = $connection->connection()->query($sqlAccount)->fetchAll(PDO::FETCH_A
                                 <th><?php echo getAccount($expense['account_id']) ?></th>
                                 <th class="text-center">
                                     <button class="btn btn-danger btn-delete-expense" type="button" data-id="<?php echo $expense['id'] ?>" data-value="<?php echo $expense['value'] ?>" data-description="<?php echo $expense['description'] ?>"><i class="fa-solid fa-trash"></i></button>
-                                    <button class="btn btn-primary btn-update-expense" type="button" data-id="<?php echo $expense['id'] ?>" data-status="<?php echo $expense['status'] ?>" data-value="<?php echo $expense['id'] ?>" data-date="<?php echo $expense['date'] ?>" data-description="<?php echo $expense['description'] ?>" data-category="<?php echo getCategory($expense['category_id']) ?>" data-account="<?php echo getAccount($expense['account_id']) ?>"><i class="fa-solid fa-pen"></i></button>
+                                    <button class="btn btn-primary btn-update-expense" id="BTN" type="button" data-id="<?php echo $expense['id'] ?>" data-status="<?php echo $expense['status'] ?>" data-value="<?php echo $expense['id'] ?>" data-date="<?php echo $expense['date'] ?>" data-description="<?php echo $expense['description'] ?>" data-category="<?php echo getCategory($expense['category_id']) ?>" data-account="<?php echo getAccount($expense['account_id']) ?>"><i class="fa-solid fa-pen"></i></button>
                                 </th>
                             </tr>
                         <?php } ?>
@@ -199,8 +199,8 @@ $accounts = $connection->connection()->query($sqlAccount)->fetchAll(PDO::FETCH_A
                             <label class="form-label">Situação:</label>
                             <div class="input-group">
                                 <select class="form-select" id="status" name="status">
-                                        <option value="PAID">Paga</option>
-                                        <option value="NOT_PAID">Pendente</option>
+                                    <option value="PAID">Paga</option>
+                                    <option value="NOT_PAID">Pendente</option>
                                 </select>
                             </div>
                         </div>
