@@ -47,4 +47,6 @@
   $connection = new Database();
 
   include_once("../includes/function.php");
+
+  include_once("../includes/request.php");
   ?>
