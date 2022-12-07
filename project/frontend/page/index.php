@@ -18,9 +18,9 @@ $finances = $connection->connection()->query($sql_finance)->fetchAll(PDO::FETCH_
 ?>
 
 <?php
-$sql_balance = ("SELECT SUM(`balance`) FROM `account`");
+// $sql_balance = ("SELECT * SUM(`balance`) FROM `account`");
 
-$balances = $connection->connection()->query($sql_balance)->fetchAll(PDO::FETCH_ASSOC);
+// $balances = $connection->connection()->query($sql_balance)->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <div class="container">
@@ -33,11 +33,8 @@ $balances = $connection->connection()->query($sql_balance)->fetchAll(PDO::FETCH_
                 <h4>
                     <label for=""><i class="bi bi-bank"></i> Saldo:</label>
                     <br>
-                    <?php foreach ($balances as $balance) {
-                        print_r($balance)
-                    ?>
-                        <b>R$ <?php echo number_format($balance['SUM(balance)'], 2, ",", ".") ?></b>
-                    <?php  } ?>
+                    <b>R$ <?php echo getBalance() ?></b>
+                    
                 </h4>
             </button>
         </div>
