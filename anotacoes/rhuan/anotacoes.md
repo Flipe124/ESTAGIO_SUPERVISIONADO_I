@@ -9,3 +9,5 @@
 - <https://www.lucidchart.com/pages/pt/o-que-e-diagrama-de-atividades-uml>
 
 - <https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Methods>
+
+- <https://www.codexworld.com/post-receive-json-data-using-php-curl/>
