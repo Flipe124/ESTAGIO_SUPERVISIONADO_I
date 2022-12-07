@@ -30,7 +30,7 @@ table := Table{
 				"row_8",
 			},
 		},
-    },
+	},
 }
 ```
 
@@ -94,6 +94,7 @@ table := Table{
 			},
 		},
 	},
+	Optional: "99",
 }
 ```
 
