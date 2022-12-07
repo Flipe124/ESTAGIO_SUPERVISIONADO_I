@@ -36,28 +36,60 @@ func get(writer http.ResponseWriter, request *http.Request) {
 
 	table := "finance"
 
-	if optional := data.Optional; optional == "revenue" {
-		where = "WHERE type = 'REVENUE'"
-		and = "AND status = 'PAID'"
-	}
+	if optional := data.Optional; optional == "balance" {
 
-	// SELECT f.value FROM openfinance.finance f WHERE f.type = 'REVENUE' AND f.status = 'PAID'
-	response, err := database.List(table, where, and)
-	if err != nil {
-		log.Println("error on database list!")
-		apiReturn(http.StatusInternalServerError)
-		return
-	}
-
-	// float -> string: strconv.FormatFloat(float_variable, 'f', 2, 32)
-	for _, row := range response {
-		temporaryValue, err := strconv.ParseFloat(row["value"], 32)
+		response, err := database.List(table)
 		if err != nil {
-			log.Println("error on converting string to float!")
+			log.Println("error on database list!")
 			apiReturn(http.StatusInternalServerError)
 			return
 		}
-		total += float32(temporaryValue)
+
+		var temporaryRevenue, temporaryExpense float32
+		for _, row := range response {
+			temporaryValue, err := strconv.ParseFloat(row["value"], 32)
+			if err != nil {
+				log.Println("error on converting string to float!")
+				apiReturn(http.StatusInternalServerError)
+				return
+			}
+			if row["type"] == "REVENUE" && row["status"] == "PAID" {
+				temporaryRevenue += float32(temporaryValue)
+			} else if row["type"] == "EXPENSE" && row["status"] == "NOT_PAID" {
+				temporaryExpense += float32(temporaryValue)
+			}
+		}
+		total = temporaryRevenue - temporaryExpense
+
+	} else {
+
+		if optional == "revenue" {
+			where = "WHERE type = 'REVENUE'"
+			and = "AND status = 'PAID'"
+		}
+
+		if optional == "expense" {
+			where = "WHERE type = 'EXPENSE'"
+			and = "AND status = 'NOT_PAID'"
+		}
+
+		response, err := database.List(table, where, and)
+		if err != nil {
+			log.Println("error on database list!")
+			apiReturn(http.StatusInternalServerError)
+			return
+		}
+
+		for _, row := range response {
+			temporaryValue, err := strconv.ParseFloat(row["value"], 32)
+			if err != nil {
+				log.Println("error on converting string to float!")
+				apiReturn(http.StatusInternalServerError)
+				return
+			}
+			total += float32(temporaryValue)
+		}
+
 	}
 
 	json.NewEncoder(writer).Encode(total)
