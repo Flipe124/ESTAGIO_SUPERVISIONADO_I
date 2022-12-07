@@ -123,6 +123,6 @@ table := Table{
             ]
         }
     ],
-	"optional": "99"
+    "optional": "99"
 }
 ```
