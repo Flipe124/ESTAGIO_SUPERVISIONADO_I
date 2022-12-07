@@ -31,28 +31,30 @@ $finances = $connection->connection()->query($sql_finance)->fetchAll(PDO::FETCH_
             <h1>Dashboard</h1>
         </div>
         <div class="col-md-4 mt-3">
-            <button class="btn btn-primary text-start" id="card">
+            <a class="btn btn-primary" href="../page/account.php" id="card">
                 <h4>
                     <label for=""><i class="bi bi-bank"></i> Saldo:</label>
                     <br>
-                    <b>R$ <?php echo getBalance() ?></b>
+                    <b>R$ <?php  echo number_format($resultSumBalance, 2, ",", ".") ?></b>
                     
                 </h4>
-            </button>
+            </a>
         </div>
         <div class="col-md-4 mt-3">
-            <button class="btn btn-success text-start" id="card">
+            <a class="btn btn-success" href="../page/revenue.php"  id="card">
                 <h4>
                     <label for=""><i class="bi bi-arrow-up-circle-fill"></i> Receita:</label>
                     <br>
                     <b>R$ <?php  echo number_format($resultSumRevenue, 2, ",", ".") ?></b>
                 </h4>
-            </button>
+            </a>
         </div>
         <div class="col-md-4 mt-3">
-            <a class="btn btn-danger" href="../registration/expense.php" id="card">
+            <a class="btn btn-danger" href="../page/expense.php" id="card">
                 <h4>
                     <label for=""><i class="bi bi-arrow-down-circle-fill"></i> Despesa: <?php echo date('m/Y') ?></label>
+                    <br>
+                    <b>R$ <?php  echo number_format($resultSumExpense, 2, ",", ".") ?></b>
                 </h4>
             </a>
         </div>
