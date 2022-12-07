@@ -1,23 +1,3 @@
-// TESTE REQUISIÇÂO
-$(".btn-resultado").on("click", function () {
-    $.ajax({
-        url: "http://localhost:8008/list?table=finance",
-        processData: false,
-        dataTypeIn: "plain",
-        contentType: false,
-        method: "get",
-        dataType: "json",
-        success: function (result) {
-            $(".resultado").html(result);
-        },
-        error: function () {
-            $(".resultado").html("Deu ruim!");
-        }
-    })
-})
-
-
-
 //------------------ MODAL ------------------
 //Botão "nova despesa", abre o modal nova despesa.
 $("#btn-open-modal-expense").on("click", function () {
@@ -50,7 +30,21 @@ $(".btn-close-modal-update-expense").on("click", function () {
     modalAction("update-expense", "hide")
 })
 
+//----------------- BTN SALVAR ----------------
+
+$("#btn-save-new-expense").on("click", function () {
+    // window.location.reload();
+})
+
+
 //------------------ Funções ------------------
+
+$(".btn-update-expense").on("click", function (){
+    let el = document.querySelector(".btn-update-expense");
+    let dataId = el.getAttribute("data-id");
+
+    console.log(dataId)
+})
 
 // Apresentar/esconder modal
 function modalAction(modalName, action) {
