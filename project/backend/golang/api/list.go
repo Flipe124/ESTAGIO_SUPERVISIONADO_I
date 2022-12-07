@@ -13,8 +13,12 @@ import (
 
 func list(writer http.ResponseWriter, request *http.Request) {
 
+	apiReturn := func(httpStatusCode int) {
+		commons.Api.StatusCodeReturn(commons.Api{}, "list", &writer, httpStatusCode)
+	}
+
 	if request.Method != "GET" {
-		commons.Api.ReturnError(commons.Api{}, &writer, http.StatusMethodNotAllowed)
+		apiReturn(http.StatusMethodNotAllowed)
 		return
 	}
 
@@ -27,26 +31,26 @@ func list(writer http.ResponseWriter, request *http.Request) {
 	var where string
 
 	if table == "" || reflect.TypeOf(table).Name() != "string" {
-		commons.Api.ReturnError(commons.Api{}, &writer, http.StatusBadRequest)
+		apiReturn(http.StatusBadRequest)
 		return
 	}
 
 	if column != "" {
 
 		if reflect.TypeOf(column).Name() != "string" {
-			commons.Api.ReturnError(commons.Api{}, &writer, http.StatusBadRequest)
+			apiReturn(http.StatusBadRequest)
 			return
 		}
 
 		if args != "" {
 			for _, arg := range strings.Split(args, ",") {
 				if _, err := strconv.Atoi(arg); err != nil {
-					commons.Api.ReturnError(commons.Api{}, &writer, http.StatusUnprocessableEntity)
+					apiReturn(http.StatusUnprocessableEntity)
 					return
 				}
 			}
 		} else {
-			commons.Api.ReturnError(commons.Api{}, &writer, http.StatusBadRequest)
+			apiReturn(http.StatusBadRequest)
 			return
 		}
 
@@ -56,7 +60,8 @@ func list(writer http.ResponseWriter, request *http.Request) {
 
 	response, err := database.List(table, where)
 	if err != nil {
-		commons.Api.ReturnError(commons.Api{}, &writer, http.StatusInternalServerError)
+		log.Println("error on database list:", err)
+		apiReturn(http.StatusInternalServerError)
 		return
 	}
 
