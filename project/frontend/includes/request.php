@@ -1,6 +1,6 @@
 <?php
 
-// REQUEST LIST
+// REQUEST SOMA DE RECEITA
 
 $urlSumRevenue = "http://localhost:8008/get";
 $curlSumRevenue = curl_init($urlSumRevenue);
@@ -17,6 +17,43 @@ curl_setopt($curlSumRevenue, CURLOPT_RETURNTRANSFER, true);
 $resultSumRevenue = curl_exec($curlSumRevenue);
 
 curl_close($curlSumRevenue);
+
+
+// REQUEST SOMA DE DESPESAS
+
+$urlSumExpense = "http://localhost:8008/get";
+$curlSumExpense = curl_init($urlSumExpense);
+
+$getSumExpense = array("optional" => "expense");
+
+$payloadSumExpense = json_encode($getSumExpense);
+
+curl_setopt($curlSumExpense, CURLOPT_CUSTOMREQUEST, 'GET');
+curl_setopt($curlSumExpense, CURLOPT_POSTFIELDS, $payloadSumExpense);
+curl_setopt($curlSumExpense, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+curl_setopt($curlSumExpense, CURLOPT_RETURNTRANSFER, true);
+
+$resultSumExpense = curl_exec($curlSumExpense);
+
+curl_close($curlSumExpense);
+
+// REQUEST SOMA DE SALDO
+
+$urlSumBalance = "http://localhost:8008/get";
+$curlSumBalance = curl_init($urlSumBalance);
+
+$getSumBalance = array("optional" => "balance");
+
+$payloadSumBalance = json_encode($getSumBalance);
+
+curl_setopt($curlSumBalance, CURLOPT_CUSTOMREQUEST, 'GET');
+curl_setopt($curlSumBalance, CURLOPT_POSTFIELDS, $payloadSumBalance);
+curl_setopt($curlSumBalance, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+curl_setopt($curlSumBalance, CURLOPT_RETURNTRANSFER, true);
+
+$resultSumBalance = curl_exec($curlSumBalance);
+
+curl_close($curlSumBalance);
 
 
 // REQUEST LIST
