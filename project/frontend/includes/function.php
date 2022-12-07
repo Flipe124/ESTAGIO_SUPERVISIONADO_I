@@ -1,10 +1,10 @@
 <?php
-// Somando despesas pagas/pendente
-function getSumExpense($status)
+// Somando despesas/receitas pagas/pendente
+function getSum($type, $status)
 {
     $connection = new Database();
 
-    $sqlExpense = ("SELECT SUM(value) FROM `finance` WHERE `type` = 'EXPENSE' AND `status` = '$status'");
+    $sqlExpense = ("SELECT SUM(value) FROM `finance` WHERE `type` = '$type' AND `status` = '$status'");
 
     $expense = $connection->connection()->query($sqlExpense)->fetchAll(PDO::FETCH_ASSOC);
 
