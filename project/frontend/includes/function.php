@@ -1,4 +1,20 @@
 <?php
+// SOMANDO O SALDO DAS CONTAS
+function getBalance()
+{
+    $connection = new Database();
+
+    $sqlBalance = ("SELECT SUM(`balance`) FROM `account`");
+
+    $balances = $connection->connection()->query($sqlBalance)->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($balances as $balance) {
+        // FORMATAÇÂO COM "." e ","
+        return number_format($balance['SUM(balance)'],2,",",".");
+    }
+
+
+}
 // Somando despesas/receitas pagas/pendente
 function getSum($type, $status)
 {
