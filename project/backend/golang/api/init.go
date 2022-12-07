@@ -14,6 +14,7 @@ func Init() {
 	http.HandleFunc("/list", list)
 	http.HandleFunc("/create", create)
 	http.HandleFunc("/update", update)
+	http.HandleFunc("/get", get)
 	log.Fatal(http.ListenAndServe(apiPort, nil))
 
 }
