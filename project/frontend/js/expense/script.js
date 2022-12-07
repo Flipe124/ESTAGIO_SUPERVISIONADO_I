@@ -39,8 +39,9 @@ $("#btn-save-new-expense").on("click", function () {
 
 //------------------ Funções ------------------
 
-$(".btn-update-expense").on("click", function (){
+$("#btn-update-expense").on("click", function (){
     let el = document.querySelector(".btn-update-expense");
+    
     let dataId = el.getAttribute("data-id");
 
     console.log(dataId)
