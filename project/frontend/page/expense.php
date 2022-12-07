@@ -2,6 +2,8 @@
 
 <?php include_once("../includes/sidebar.php"); ?>
 
+<?php include_once("../includes/request.php"); ?>
+
 <?php
 // Consulta das finanças de despesas
 $sql = ("SELECT * FROM `finance` WHERE `type` = 'EXPENSE' ORDER BY `date` DESC ");
@@ -84,6 +86,11 @@ $categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETC
 
 <div class="container">
     <div class="row ms-4">
+        <?php
+        foreach ($expensess as $expense) {
+            echo  $expense['value'] . "<br>";
+        }
+        ?>
         <div class="col-md-6 mt-4">
             <h1>Despesas</h1>
         </div>
@@ -94,15 +101,15 @@ $categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETC
             <div class="line-red"></div>
         </div>
         <div class="col-md-6 mt-2">
-            <div class="p-3 text-dark" id="expense-total">
+            <div class="p-3 text-dark value-total">
                 <h4>Despesas pagas:</h4>
-                <h5 class="text-danger"><b>R$ - <?php echo getSumExpense('PAID') ?></b></h5>
+                <h5 class="text-danger"><b>R$ - <?php echo getSum('EXPENSE', 'PAID') ?></b></h5>
             </div>
         </div>
         <div class="col-md-6 mt-2">
-            <div class="p-3 text-dark" id="expense-total-peding">
+            <div class="p-3 text-dark value-total-peding">
                 <h4>Despesas pendente:</h4>
-                <h5 class="text-danger"><b>R$ - <?php echo getSumExpense('NOT_PAID') ?></b></h5>
+                <h5 class="text-danger"><b>R$ - <?php echo getSum('EXPENSE', 'NOT_PAID') ?></b></h5>
             </div>
         </div>
         <div class="col-md-12 mt-3 text-center">
@@ -140,8 +147,8 @@ $categorys = $connection->connection()->query($sqlCategorys)->fetchAll(PDO::FETC
                                 <th><?php echo getCategory($expense['category_id']) ?></th>
                                 <th><?php echo getAccount($expense['account_id']) ?></th>
                                 <th>
-                                    <button class="btn btn-danger btn-delete-expense" type="button" data-id="<?php echo $expense['id'] ?>"><i class="fa-solid fa-trash"></i></button>
-                                    <button class="btn btn-primary btn-update-expense" type="button"><i class="fa-solid fa-pen"></i></button>
+                                    <button class="btn btn-danger btn-delete-expense" type="button" data-id="<?php echo $expense['id'] ?>" data-value="<?php echo $expense['value'] ?>" data-description="<?php echo $expense['description'] ?>"><i class="fa-solid fa-trash"></i></button>
+                                    <button class="btn btn-primary btn-update-expense" type="button" data-id="<?php echo $expense['id'] ?>" data-status="<?php echo $expense['status'] ?>" data-value="<?php echo $expense['id'] ?>" data-date="<?php echo $expense['date'] ?>" data-description="<?php echo $expense['description'] ?>" data-category="<?php echo getCategory($expense['category_id']) ?>" data-account="<?php echo getAccount($expense['account_id']) ?>"><i class="fa-solid fa-pen"></i></button>
                                 </th>
                             </tr>
                         <?php } ?>
