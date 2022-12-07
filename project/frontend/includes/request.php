@@ -2,6 +2,25 @@
 
 // REQUEST LIST
 
+$urlSumRevenue = "http://localhost:8008/get";
+$curlSumRevenue = curl_init($urlSumRevenue);
+
+$getSumRevenue = array("optional" => "revenue");
+
+$payloadSumRevenue = json_encode($getSumRevenue);
+
+curl_setopt($curlSumRevenue, CURLOPT_CUSTOMREQUEST, 'GET');
+curl_setopt($curlSumRevenue, CURLOPT_POSTFIELDS, $payloadSumRevenue);
+curl_setopt($curlSumRevenue, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+curl_setopt($curlSumRevenue, CURLOPT_RETURNTRANSFER, true);
+
+$resultSumRevenue = curl_exec($curlSumRevenue);
+
+curl_close($curlSumRevenue);
+
+
+// REQUEST LIST
+
 // $ch = curl_init('http://localhost:8008/list?table=finance');
 
 // curl_setopt_array($ch, [
