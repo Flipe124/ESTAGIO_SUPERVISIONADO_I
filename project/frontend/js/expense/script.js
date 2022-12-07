@@ -1,3 +1,23 @@
+// TESTE REQUISIÇÂO
+$(".btn-resultado").on("click", function () {
+    $.ajax({
+        url: "http://localhost:8008/list?table=finance",
+        processData: false,
+        dataTypeIn: "plain",
+        contentType: false,
+        method: "get",
+        dataType: "json",
+        success: function (result) {
+            $(".resultado").html(result);
+        },
+        error: function () {
+            $(".resultado").html("Deu ruim!");
+        }
+    })
+})
+
+
+
 //------------------ MODAL ------------------
 //Botão "nova despesa", abre o modal nova despesa.
 $("#btn-open-modal-expense").on("click", function () {
@@ -38,7 +58,7 @@ function modalAction(modalName, action) {
 }
 
 // Select2
-$(document).ready(function() {
+$(document).ready(function () {
     $('#select-category').select2();
     $('#select-category-update').select2();
 });
