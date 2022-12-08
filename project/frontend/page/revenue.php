@@ -164,7 +164,7 @@ $accounts = $connection->connection()->query($sqlAccount)->fetchAll(PDO::FETCH_A
                                 <?php } else { ?>
                                     <th class="text-center"><i class="text-danger fa-solid fa-circle-xmark"></i></th>
                                 <?php } ?>
-                                <th class="text-danger text-end"><?php echo "R$ - " . number_format($revenue['value'], 2, ",", "."); ?></th>
+                                <th class="text-success text-end"><?php echo "R$ " . number_format($revenue['value'], 2, ",", "."); ?></th>
                                 <th class="text-center"><?php echo date('d/m/Y', strtotime($revenue['date'])); ?></th>
                                 <th><?php echo $revenue['description'] ?></th>
                                 <th><?php echo getCategory($revenue['category_id']) ?></th>
@@ -199,7 +199,7 @@ $accounts = $connection->connection()->query($sqlAccount)->fetchAll(PDO::FETCH_A
                             <label class="form-label">Situação:</label>
                             <div class="input-group">
                                 <select class="form-select" id="status" name="status">
-                                    <option value="PAID">Paga</option>
+                                    <option value="PAID">Recebido</option>
                                     <option value="NOT_PAID">Pendente</option>
                                 </select>
                             </div>
