@@ -1,4 +1,15 @@
 <?php
+
+//
+
+function verifyStatusBalance($balance){
+    if($balance < 0){
+        return "warning";
+    } else {
+        return "primary";
+    }
+}
+
 // SOMANDO O SALDO DAS CONTAS
 function getBalance()
 {
