@@ -19,7 +19,7 @@ $finances = $connection->connection()->query($sql_finance)->fetchAll(PDO::FETCH_
             <button class="btn btn-warning"><i class="fa-solid fa-arrow-right"></i></button>
         </div>
         <div class="col-md-12 mt-3">
-            <div class="text-center" id="div-table">
+            <div id="div-table">
                 <table class="table table-light table-striped">
                     <thead>
                         <tr>
