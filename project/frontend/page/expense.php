@@ -146,7 +146,7 @@ $accounts = $connection->connection()->query($sqlAccount)->fetchAll(PDO::FETCH_A
             <div id="div-table">
                 <table class="table table-light table-striped">
                     <thead>
-                        <tr class="">
+                        <tr>
                             <th class="text-center">Situação</th>
                             <th class="text-center">Valor</th>
                             <th class="text-center">Data</th>
