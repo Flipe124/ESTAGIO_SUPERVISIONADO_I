@@ -13,8 +13,15 @@ import (
 
 func list(writer http.ResponseWriter, request *http.Request) {
 
+	first := 0
+
 	apiReturn := func(httpStatusCode int) {
-		commons.Api.StatusCodeReturn(commons.Api{}, "list", &writer, httpStatusCode)
+		commons.Api.StatusCodeReturn(
+			commons.Api{},
+			"list",
+			&writer,
+			httpStatusCode,
+		)
 	}
 
 	if request.Method != "GET" {
@@ -24,8 +31,17 @@ func list(writer http.ResponseWriter, request *http.Request) {
 
 	log.Println("endpoint \"/list\" contact!")
 
-	table := request.URL.Query().Get("table")
-	column := request.URL.Query().Get("column")
+	data := commons.Api.NewTable(commons.Api{})
+	err := json.NewDecoder(request.Body).Decode(&data)
+	if err != nil {
+		log.Println("error on json decode:", err)
+		apiReturn(http.StatusUnprocessableEntity)
+		return
+	}
+
+	// AQUI
+	table := data.Name
+	column := data.Columns[first]
 	args := request.URL.Query().Get("args")
 
 	var where string

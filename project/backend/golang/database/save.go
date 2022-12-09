@@ -5,8 +5,14 @@ import (
 	"log"
 )
 
-func Save(tableName string, args ...string) (int, error) {
+/*
+Save insere ou atualizad um novo dado no banco retornando a quantidade de linhas modificadas caso seja um update ou a última linha inserida caso seja um create.
 
+Informe a query completa a ser executada para esta função.
+*/
+func Save(query, typing string) (int, error) {
+
+	// pega as configuraçẽos do pacote, tenta abrir conexão com o banco, caso falhe retorne o erro se não continue.
 	database, err := openConnection(settings.GetDatabaseSetting())
 	if err != nil {
 		log.Println("estabilish connection failed:", err)
@@ -15,18 +21,7 @@ func Save(tableName string, args ...string) (int, error) {
 	defer database.Close()
 	log.Println("successfully estabilish connection!")
 
-	query := settings.GetDatabaseSetting().Name + "." + tableName + " "
-	if len(args) < 1 {
-		log.Fatal("save: more arguments necessary to this function!")
-	} else if len(args) > 1 {
-		query = "UPDATE " + query
-	} else {
-		query = "INSERT INTO " + query
-	}
-	for _, arg := range args {
-		query += arg + " "
-	}
-
+	// executa a query, caso falhe retorne o erro se não continue.
 	result, err := database.Exec(query)
 	if err != nil {
 		log.Println("query exec failed:", err, "query:", query)
@@ -34,7 +29,14 @@ func Save(tableName string, args ...string) (int, error) {
 	}
 	log.Println("successfully query exec!")
 
-	rowsAffected, _ := result.RowsAffected()
-	return int(rowsAffected), nil
+	// pega a quantidade de linhas modificadas ou a última inserida para usar como retorno.
+	var rowsAffected, lastIdInserted int64
+	if typing != "CREATE" {
+		rowsAffected, _ = result.RowsAffected()
+	} else {
+		lastIdInserted, _ = result.RowsAffected()
+	}
+	
+	return int((rowsAffected | lastIdInserted)), nil
 
 }

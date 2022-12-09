@@ -12,7 +12,12 @@ import (
 func get(writer http.ResponseWriter, request *http.Request) {
 
 	apiReturn := func(httpStatusCode int) {
-		commons.Api.StatusCodeReturn(commons.Api{}, "get", &writer, httpStatusCode)
+		commons.Api.StatusCodeReturn(
+			commons.Api{},
+			"get",
+			&writer,
+			httpStatusCode,
+		)
 	}
 
 	if request.Method != "GET" {

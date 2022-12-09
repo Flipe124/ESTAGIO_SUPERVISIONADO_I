@@ -12,7 +12,12 @@ import (
 func update(writer http.ResponseWriter, request *http.Request) {
 
 	apiReturn := func(httpStatusCode int) {
-		commons.Api.StatusCodeReturn(commons.Api{}, "update", &writer, httpStatusCode)
+		commons.Api.StatusCodeReturn(
+			commons.Api{},
+			"update",
+			&writer,
+			httpStatusCode,
+		)
 	}
 
 	if request.Method != "PATCH" {
