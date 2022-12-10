@@ -16,7 +16,7 @@ func GetDatabaseSetting() DatabaseSetting {
 		Driver:   "mysql",
 		User:     "root",
 		Password: "root",
-		Host:     "localhost",
+		Host:     "172.17.0.2",
 		Port:     3306,
 		Name:     "openfinance",
 	}
