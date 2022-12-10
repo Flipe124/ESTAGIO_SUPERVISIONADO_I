@@ -10,7 +10,7 @@ List retorna a representação de uma tabela do banco sendo que cada índice da 
 
 Informe a query completa a ser executada para esta função.
 */
-func List(query string) ([]map[string]string, error) {
+func List(query string) ([]map[string]any, error) {
 
 	// pega as configuraçẽos do pacote, tenta abrir conexão com o banco, caso falhe retorne o erro se não continue.
 	databaseSetting := settings.GetDatabaseSetting()
@@ -32,42 +32,45 @@ func List(query string) ([]map[string]string, error) {
 	log.Println("successfully query select!")
 
 	// cria a variável que guardará a slice de rows/columns/values e que será retornada pelo função.
-	var rowSliceMap []map[string]string
+	var rowsMapSlice []map[string]any
 
 	// pega o nome das colunas da tabela, caso falhe retorne o erro se não continue.
 	columnsNames, err := table.Columns()
 	if err != nil {
 		log.Println("get column names error:", err)
+		return nil, err
 	}
-	log.Println("successfully get columns names!")
-
+	length := len(columnsNames)
+	
 	// cria a slice de interfaces que receberá os valores das linhas.
-	rowsInterface := make([]interface{}, len(columnsNames))
-	for index := range rowsInterface {
-		var rowInterface interface{}
-		rowsInterface[index] = &rowInterface
+	rowInterfaceSlice := make([]any, length)
+	for index := range rowInterfaceSlice {
+		var rowInterface any
+		rowInterfaceSlice[index] = &rowInterface
 	}
 
 	// a cada iteração popula a próxima informações com Next() para o Scan() e verifica se foi possível fazer a leitura dessa informação, cria o mapa que recebera o grupo de informações e apenda na slice principal.
 	for table.Next() {
-		err := table.Scan(rowsInterface...)
+
+		err := table.Scan(rowInterfaceSlice...)
 		if err != nil {
 			log.Println("error on read row:", err)
+			return nil, err
 		}
-		tableMap := make(map[string]string)
+		
+		columnMap := make(map[string]any, length)
 		for index, columnName := range columnsNames {
-			rowInterface := *(rowsInterface[index].(*interface{}))
-			var rowValue string
-			if rowByte, ok := rowInterface.([]byte); ok {
-				rowValue = string(rowByte)
+			if rowByte, ok := rowInterfaceSlice[index].([]byte); ok {
+				columnMap[columnName] = string(rowByte)
 			} else {
-				rowValue = "null"
+				columnMap[columnName] = "null"
 			}
-			tableMap[columnName] = rowValue
 		}
-		rowSliceMap = append(rowSliceMap, tableMap)
+		
+		rowsMapSlice = append(rowsMapSlice, columnMap)
+	
 	}
 
-	return rowSliceMap, nil
+	return rowsMapSlice, nil
 
 }
