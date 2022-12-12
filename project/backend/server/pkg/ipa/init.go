@@ -3,11 +3,12 @@ package ipa
 import (
 	"log"
 	"net/http"
-	"server/aarm"
 	"server/pkg/finance"
 	"server/pkg/finance/balance"
 	"server/pkg/finance/expense"
 	"server/pkg/finance/revenue"
+
+	"github.com/rhuan-pk/pkutils/golang/aarm"
 )
 
 // API é a representação da API para ser usada no projeto.

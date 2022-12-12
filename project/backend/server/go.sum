@@ -1,2 +1,8 @@
 github.com/go-sql-driver/mysql v1.7.0 h1:ueSltNNllEqE3qcWBTD0iQd3IpL/6U+mJxLkazJ7YPc=
 github.com/go-sql-driver/mysql v1.7.0/go.mod h1:OXbVy3sEdcQ2Doequ6Z5BW6fXNQTmx+9S1MCJN5yJMI=
+github.com/rhuan-pk/pkutils/golang/aarm v0.0.0-20221212170030-22d83725739f h1:P62S5EF3dBMCOTfCLCbVhZGei+su3Le3R8QX1bLyvWw=
+github.com/rhuan-pk/pkutils/golang/aarm v0.0.0-20221212170030-22d83725739f/go.mod h1:iOBb8BbtcobOgeF2zSnjNgtAfjIH/sm8lf1tOFL+mlI=
+github.com/rhuan-pk/pkutils/golang/adrm v0.0.0-20221212170030-22d83725739f h1:R6kWciLEI1t6BufO2H5cQEiqss8/b9bNt+NHgIB86v4=
+github.com/rhuan-pk/pkutils/golang/adrm v0.0.0-20221212170030-22d83725739f/go.mod h1:mi20J5xkf+a4+nozIPJpSfvSzGOsY0Yx9sGu5oUGBoM=
+github.com/rhuan-pk/pkutils/golang/rdts v0.0.0-20221212170030-22d83725739f h1:sf5QG6mApgXO+dwTbMnj0rc/m9OoKHcEMMYDDiFJz1M=
+github.com/rhuan-pk/pkutils/golang/rdts v0.0.0-20221212170030-22d83725739f/go.mod h1:j7LEFHOXUNUnMK1hkHjyG6tzQ6z62ZfR+7qGaoiGN+U=

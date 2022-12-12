@@ -4,10 +4,11 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"server/aarm"
 	"server/pkg/bd"
-	"server/rdts"
 	"strconv"
+
+	"github.com/rhuan-pk/pkutils/golang/aarm"
+	"github.com/rhuan-pk/pkutils/golang/rdts"
 )
 
 // EndpointExpenseGetAll guarda a o caminho do endpoint para está função.

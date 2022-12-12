@@ -4,9 +4,10 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"server/aarm"
 	"server/pkg/bd"
 	"strconv"
+
+	"github.com/rhuan-pk/pkutils/golang/aarm"
 )
 
 // EndpointBalanceGet guarda a o caminho do endpoint para está função.

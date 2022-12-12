@@ -1,6 +1,6 @@
 package bd
 
-import "server/adrm"
+import "github.com/rhuan-pk/pkutils/golang/adrm"
 
 // DB é a representação do banco para ser usada no projeto.
 var DB = adrm.NewDatabase(
