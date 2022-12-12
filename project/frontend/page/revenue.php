@@ -118,7 +118,7 @@ $accounts = $connection->connection()->query($sqlAccount)->fetchAll(PDO::FETCH_A
             <h1>Receitas</h1>
         </div>
         <div class="col-md-6 mt-4 text-end">
-            <button class="mt-3 btn btn-success" id="btn-open-modal-revenue" type="button">+ NOVA DESPESA</button>
+            <button class="mt-3 btn btn-success" id="btn-open-modal-revenue" type="button">+ NOVA RECEITA</button>
         </div>
         <div class="col-md-12">
             <div class="line-green"></div>
@@ -188,7 +188,7 @@ $accounts = $connection->connection()->query($sqlAccount)->fetchAll(PDO::FETCH_A
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-danger text-light">
-                <h1 class="modal-title fs-5" id="modal-revenue-label">EDITAR DESPESA</h1>
+                <h1 class="modal-title fs-5" id="modal-revenue-label">EDITAR RECEITA</h1>
                 <button class="btn-close btn-close-modal-revenue" type="button"></button>
             </div>
             <div class="modal-body">
