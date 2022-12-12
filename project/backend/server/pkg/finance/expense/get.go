@@ -1,4 +1,4 @@
-package revenue
+package expense
 
 import (
 	"encoding/json"
@@ -10,14 +10,14 @@ import (
 	"strconv"
 )
 
-var EndpointRevenueGetAll = "/finance/revenue/get-all"
-var EndpointRevenueGetStatus = "/finance/revenue/get-status"
+var EndpointExpenseGetAll = "/finance/expense/get-all"
+var EndpointExpenseGetStatus = "/finance/expense/get-status"
 
 func GetAll(writer http.ResponseWriter, request *http.Request) {
 
 	apiReturn := func(httpStatusCode int) {
 		aarm.StatusCodeReturn(
-			EndpointRevenueGetStatus,
+			EndpointExpenseGetAll,
 			&writer,
 			httpStatusCode,
 		)
@@ -27,11 +27,11 @@ func GetAll(writer http.ResponseWriter, request *http.Request) {
 		apiReturn(http.StatusMethodNotAllowed)
 		return
 	}
-	log.Println("endpoint \"" + EndpointRevenueGetStatus + "\" contact!")
+	log.Println("endpoint \"" + EndpointExpenseGetAll + "\" contact!")
 
 	query := "SELECT value, status "
 	query += "FROM " + bd.DB.Name + ".finance "
-	query += "WHERE type = 'REVENUE'"
+	query += "WHERE type = 'EXPENSE'"
 
 	response, err := bd.DB.List(query)
 	if err != nil {
@@ -40,7 +40,7 @@ func GetAll(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	// log.Println("endpoint \"" + EndpointRevenueGetStatus + "\" complet!")
+	// log.Println("endpoint \"" + EndpointExpenseGetAll + "\" complet!")
 	log.Println("------------------- complet! -------------------")
 	json.NewEncoder(writer).Encode(response)
 
@@ -50,7 +50,7 @@ func GetStatus(writer http.ResponseWriter, request *http.Request) {
 
 	apiReturn := func(httpStatusCode int) {
 		aarm.StatusCodeReturn(
-			EndpointRevenueGetStatus,
+			EndpointExpenseGetStatus,
 			&writer,
 			httpStatusCode,
 		)
@@ -60,7 +60,7 @@ func GetStatus(writer http.ResponseWriter, request *http.Request) {
 		apiReturn(http.StatusMethodNotAllowed)
 		return
 	}
-	log.Println("endpoint \"" + EndpointRevenueGetStatus + "\" contact!")
+	log.Println("endpoint \"" + EndpointExpenseGetStatus + "\" contact!")
 
 	payload := rdts.NewTable()
 	err := json.NewDecoder(request.Body).Decode(&payload)
@@ -79,7 +79,7 @@ func GetStatus(writer http.ResponseWriter, request *http.Request) {
 
 	query := "SELECT value "
 	query += "FROM " + bd.DB.Name + ".finance "
-	query += "WHERE type = 'REVENUE' "
+	query += "WHERE type = 'EXPENSE' "
 	query += "  AND status = '" + status + "'"
 
 	response, err := bd.DB.List(query)
@@ -100,7 +100,7 @@ func GetStatus(writer http.ResponseWriter, request *http.Request) {
 		total += float32(convertedValue)
 	}
 
-	// log.Println("endpoint \"" + EndpointRevenueGetStatus + "\" complet!")
+	// log.Println("endpoint \"" + EndpointExpenseGetStatus + "\" complet!")
 	log.Println("------------------- complet! -------------------")
 	json.NewEncoder(writer).Encode(total)
 

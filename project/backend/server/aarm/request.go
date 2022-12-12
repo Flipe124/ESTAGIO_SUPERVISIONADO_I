@@ -10,5 +10,5 @@ func StatusCodeReturn(endpoint string, writer *http.ResponseWriter, httpStatusCo
 	level := map[bool]string{true: "error", false: "hit"}[httpStatusCode != http.StatusOK]
 	httpErrorMessage := http.StatusText(httpStatusCode)
 	http.Error(*writer, httpErrorMessage, httpStatusCode)
-	log.Println("endpoint \"/"+endpoint+"\" "+level+":", httpErrorMessage+"!")
+	log.Println("endpoint \""+endpoint+"\" "+level+":", httpErrorMessage+"!")
 }
