@@ -1,6 +1,6 @@
 package adrm
 
-// database é a estrutra para manipulação de processos do banco de dados.
+// Database é a estrutra para manipulação de processos do banco de dados.
 type Database struct {
 	User     string
 	Password string

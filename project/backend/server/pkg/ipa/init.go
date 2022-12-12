@@ -10,7 +10,8 @@ import (
 	"server/pkg/finance/revenue"
 )
 
-var API = aarm.NewApi(8008)
+// API é a representação da API para ser usada no projeto.
+var API = aarm.NewAPI(8008)
 
 func init() {
 
@@ -31,11 +32,14 @@ func init() {
 
 	API.SetHandles(endpoints)
 
+	log.Println("---------------- *** server *** ----------------")
 	log.Println("api is on \"localhost:" + API.GetPortString() + "/\"!")
 	log.Println("available endpoints:")
 	for endpoint := range endpoints {
 		log.Println("  -", endpoint)
 	}
+	log.Println("------------------------------------------------")
+
 	log.Fatal(http.ListenAndServe(":"+API.GetPortString(), nil))
 
 }

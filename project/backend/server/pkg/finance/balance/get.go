@@ -9,8 +9,10 @@ import (
 	"strconv"
 )
 
+// EndpointBalanceGet guarda a o caminho do endpoint para está função.
 var EndpointBalanceGet = "/finance/balance/get"
 
+// Get retorna o saldo (créditos menos débitos) do usuário.
 func Get(writer http.ResponseWriter, request *http.Request) {
 
 	apiReturn := func(httpStatusCode int) {
@@ -21,7 +23,7 @@ func Get(writer http.ResponseWriter, request *http.Request) {
 		)
 	}
 
-	if request.Method != "GET" {
+	if request.Method != http.MethodGet {
 		apiReturn(http.StatusMethodNotAllowed)
 		return
 	}
@@ -39,21 +41,25 @@ func Get(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	// arrumar aqui a lógica
 	var total float32
-	for row := range response[:] {
+	for _, row := range response {
+
 		convertedValue, err := strconv.ParseFloat(row["value"], 32)
 		if err != nil {
 			log.Println("error on convert value type string to float!")
 			apiReturn(http.StatusInternalServerError)
 			return
 		}
-		if key != "REVENUE" {
+
+		if row["type"] != "REVENUE" {
 			total -= float32(convertedValue)
+		} else {
+			total += float32(convertedValue)
 		}
+
 	}
 
-	// log.Println("endpoint \"" + EndpointBalanceGet + "\" complet!")
+	log.Println("endpoint \"" + EndpointBalanceGet + "\" finish!")
 	log.Println("------------------- complet! -------------------")
 	json.NewEncoder(writer).Encode(total)
 

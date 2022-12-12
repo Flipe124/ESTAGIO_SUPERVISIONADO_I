@@ -2,6 +2,7 @@ package bd
 
 import "server/adrm"
 
+// DB é a representação do banco para ser usada no projeto.
 var DB = adrm.NewDatabase(
 	"root",
 	"root",

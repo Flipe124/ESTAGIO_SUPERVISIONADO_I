@@ -10,9 +10,13 @@ import (
 	"strconv"
 )
 
+// EndpointExpenseGetAll guarda a o caminho do endpoint para está função.
 var EndpointExpenseGetAll = "/finance/expense/get-all"
+
+// EndpointExpenseGetStatus guarda a o caminho do endpoint para está função.
 var EndpointExpenseGetStatus = "/finance/expense/get-status"
 
+// GetAll retorna todas as despesas do usuário.
 func GetAll(writer http.ResponseWriter, request *http.Request) {
 
 	apiReturn := func(httpStatusCode int) {
@@ -23,7 +27,7 @@ func GetAll(writer http.ResponseWriter, request *http.Request) {
 		)
 	}
 
-	if request.Method != "GET" {
+	if request.Method != http.MethodGet {
 		apiReturn(http.StatusMethodNotAllowed)
 		return
 	}
@@ -40,12 +44,13 @@ func GetAll(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	// log.Println("endpoint \"" + EndpointExpenseGetAll + "\" complet!")
+	log.Println("endpoint \"" + EndpointExpenseGetAll + "\" finish!")
 	log.Println("------------------- complet! -------------------")
 	json.NewEncoder(writer).Encode(response)
 
 }
 
+// GetStatus retorna todas as despesas pagas ou não pagas do usuário.
 func GetStatus(writer http.ResponseWriter, request *http.Request) {
 
 	apiReturn := func(httpStatusCode int) {
@@ -56,7 +61,7 @@ func GetStatus(writer http.ResponseWriter, request *http.Request) {
 		)
 	}
 
-	if request.Method != "GET" {
+	if request.Method != http.MethodGet {
 		apiReturn(http.StatusMethodNotAllowed)
 		return
 	}
@@ -100,7 +105,7 @@ func GetStatus(writer http.ResponseWriter, request *http.Request) {
 		total += float32(convertedValue)
 	}
 
-	// log.Println("endpoint \"" + EndpointExpenseGetStatus + "\" complet!")
+	log.Println("endpoint \"" + EndpointExpenseGetStatus + "\" finish!")
 	log.Println("------------------- complet! -------------------")
 	json.NewEncoder(writer).Encode(total)
 

@@ -8,8 +8,10 @@ import (
 	"server/pkg/bd"
 )
 
+// EndpointFinanceGetAll guarda a o caminho do endpoint para está função.
 var EndpointFinanceGetAll = "/finance/get-all"
 
+// GetAll retorna todas as informações da tabela finance.
 func GetAll(writer http.ResponseWriter, request *http.Request) {
 
 	apiReturn := func(httpStatusCode int) {
@@ -46,7 +48,8 @@ func GetAll(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	log.Println("endpoint \"" + EndpointFinanceGetAll + "\" complet!")
+	log.Println("endpoint \"" + EndpointFinanceGetAll + "\" finish!")
+	log.Println("------------------- complet! -------------------")
 	json.NewEncoder(writer).Encode(response)
 
 }

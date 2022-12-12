@@ -63,9 +63,8 @@ func (database *Database) List(query string) ([]map[string]string, error) {
 			rowMap[columnName] = func() string {
 				if rowByte, ok := (*rowInterfaceSlice[index].(*any)).([]byte); ok {
 					return string(rowByte)
-				} else {
-					return "null"
 				}
+				return "null"
 			}()
 		}
 
