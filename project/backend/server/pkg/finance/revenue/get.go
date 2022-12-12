@@ -6,16 +6,18 @@ import (
 	"net/http"
 	"server/aarm"
 	"server/pkg/bd"
+	"strconv"
 )
 
-var Endpoint = "finance/revenue/get-all"
+var EndpointGetAll = "/finance/revenue/get-all"
+var EndpointGetPaid = "/finance/revenue/get-paid"
+var EndpointGetNotPaid = "/finance/revenue/get-not-paid"
 
-// como implementar agora o paid e not_paid?
 func GetAll(writer http.ResponseWriter, request *http.Request) {
-	
+
 	apiReturn := func(httpStatusCode int) {
 		aarm.StatusCodeReturn(
-			Endpoint,
+			EndpointGetAll,
 			&writer,
 			httpStatusCode,
 		)
@@ -25,7 +27,7 @@ func GetAll(writer http.ResponseWriter, request *http.Request) {
 		apiReturn(http.StatusMethodNotAllowed)
 		return
 	}
-	log.Println("endpoint \"" + Endpoint + "\" contact!")
+	log.Println("endpoint \"" + EndpointGetAll + "\" contact!")
 
 	query := "SELECT "
 	query += "  id, "
@@ -46,8 +48,96 @@ func GetAll(writer http.ResponseWriter, request *http.Request) {
 		apiReturn(http.StatusInternalServerError)
 		return
 	}
-	log.Println("endpoint \"" + Endpoint + "\" complet!")
 
+	log.Println("endpoint \"" + EndpointGetAll + "\" complet!")
 	json.NewEncoder(writer).Encode(response)
+
+}
+
+func GetPaid(writer http.ResponseWriter, request *http.Request) {
+
+	apiReturn := func(httpStatusCode int) {
+		aarm.StatusCodeReturn(
+			EndpointGetPaid,
+			&writer,
+			httpStatusCode,
+		)
+	}
+
+	if request.Method != "GET" {
+		apiReturn(http.StatusMethodNotAllowed)
+		return
+	}
+	log.Println("endpoint \"" + EndpointGetPaid + "\" contact!")
+
+	query := "SELECT value "
+	query += "FROM " + bd.DB.Name + ".finance "
+	query += "WHERE type = 'REVENUE' "
+	query += "  AND status = 'PAID'"
+
+	response, err := bd.DB.List(query)
+	if err != nil {
+		log.Println("error on database list!")
+		apiReturn(http.StatusInternalServerError)
+		return
+	}
+
+	var total float32
+	for _, value := range response {
+		convertedValue, err := strconv.ParseFloat(value["value"], 32)
+		if err != nil {
+			log.Println("error on convert value type string to float!")
+			apiReturn(http.StatusInternalServerError)
+			return
+		}
+		total += float32(convertedValue)
+	}
+
+	log.Println("endpoint \"" + EndpointGetPaid + "\" complet!")
+	json.NewEncoder(writer).Encode(total)
+
+}
+
+func GetNotPaid(writer http.ResponseWriter, request *http.Request) {
+
+	apiReturn := func(httpStatusCode int) {
+		aarm.StatusCodeReturn(
+			EndpointGetNotPaid,
+			&writer,
+			httpStatusCode,
+		)
+	}
+
+	if request.Method != "GET" {
+		apiReturn(http.StatusMethodNotAllowed)
+		return
+	}
+	log.Println("endpoint \"" + EndpointGetNotPaid + "\" contact!")
+
+	query := "SELECT value "
+	query += "FROM " + bd.DB.Name + ".finance "
+	query += "WHERE type = 'REVENUE' "
+	query += "  AND status = 'NOT_PAID'"
+
+	response, err := bd.DB.List(query)
+	if err != nil {
+		log.Println("error on database list!")
+		apiReturn(http.StatusInternalServerError)
+		return
+	}
+
+	var total float32
+	for _, value := range response {
+		convertedValue, err := strconv.ParseFloat(value["value"], 32)
+		if err != nil {
+			log.Println("error on convert value type string to float!")
+			apiReturn(http.StatusInternalServerError)
+			return
+		}
+		total += float32(convertedValue)
+	}
+
+	log.Println("endpoint \"" + EndpointGetNotPaid + "\" complet!")
+	json.NewEncoder(writer).Encode(total)
 
 }
