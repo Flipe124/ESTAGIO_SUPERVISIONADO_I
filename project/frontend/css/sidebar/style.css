@@ -1,0 +1,94 @@
+:root {
+    --light-green: rgb(87, 226, 151);
+    --light-green-hover: rgb(86, 175, 128);
+    --blue: rgb(0, 168, 188);
+    --black-blue: rgb(6, 22, 30);
+}
+
+#logotype-sidebar {
+    height: 127px !important;
+    border-radius: 12px;
+}
+
+.option-selected {
+    background-color: rgb(255, 255, 255) !important;
+    color: rgb(0, 0, 0) !important;
+}
+
+.option-not-selected {
+    color: white !important;
+    background-color: var(--black-blue) !important;
+}
+
+.option-not-selected:hover {
+    background-color: rgb(255, 255, 255) !important;
+    color: rgb(0, 0, 0) !important;
+    transition: 0.2s;
+}
+
+.user-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: white;
+    padding: 0px;
+}
+
+.user-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.logo-navbar {
+    width: 70px;
+    height: 100%;
+}
+
+.button-menu div {
+    width: 32px;
+    height: 2px;
+    background: #000000;
+    margin: 8px;
+    transition: 0.5s;
+}
+
+.line {
+    color: white !important;
+    background-color: white !important;
+}
+
+.button-menu.active .line1 {
+    transform: rotate(-45deg) translate(-8px, 8px);
+}
+
+.button-menu.active .line2 {
+    opacity: 0;
+}
+
+.button-menu.active .line3 {
+    transform: rotate(45deg) translate(-5px, -7px);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 10px;
+    display: none;
+}
+
+.dropdown-menu.active {
+    display: block;
+}
+
+.generico {
+    list-style: none;
+}
+
+.generico button {
+    display: inline-block;
+}
+
+.generico a {
+    display: inline-block;
+}
