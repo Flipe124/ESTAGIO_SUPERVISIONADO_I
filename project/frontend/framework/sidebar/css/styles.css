@@ -4028,7 +4028,9 @@ textarea.form-control-lg {
 }
 
 .navbar {
-  position: relative;
+  position: fixed;  /* EU FIZ */
+  width: 100%; /* EU FIZ */
+  /* position: relative; */
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -11291,6 +11293,8 @@ textarea.form-control-lg {
 }
 
 #sidebar-wrapper {
+  position: fixed; /* EU FIZ */
+  top: 76px; /* EU FIZ */
   min-height: 100vh;
   margin-left: -15rem;
   transition: margin 0.25s ease-out;
