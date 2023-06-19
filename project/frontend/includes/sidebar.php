@@ -1,25 +1,51 @@
-<aside class="sidebar">
-    <div class="toggle">
-        <a href="#" class="burger js-menu-toggle" data-toggle="collapse" data-target="#main-navbar">
-            <span></span>
-        </a>
+<div class="d-flex" id="wrapper">
+    <div class="backgroud-black-blue" id="sidebar-wrapper">
+        <div class="sidebar-heading text-center">
+            <a href="../page/index.php">
+                <img id="logotype-sidebar" src="../img/openfinance.png" width="200px" alt="logotipo">
+            </a>
+        </div>
+        <ul id="ul-sidebar-link" class="list-group list-group-flush">
+            <li class="option-not-selected">
+                <a class="list-group-item p-3 option-not-selected" href="../page/index.php"><i class="fas fa-tools"></i> <b>DASHBOARD</b></a>
+            </li>
+            <li>
+                <a class="list-group-item p-3 option-not-selected" href="../page/client.php"><i class="fa-sharp fa-solid fa-user-tie"></i> <b>RECEITAS</b></a>
+            </li>
+            <li>
+                <a class="list-group-item p-3 option-not-selected" href="../page/user.php"><i class="fa-solid fa-user"></i> <b>DESPESAS</b></a>
+            </li>
+        </ul>
     </div>
-    <div class="side-inner">
-        <div class="logo-wrap">
-            <div class="logo bg-dark">
-                <span><i class="fa-solid fa-chart-simple"></i></span>
+    <div id="page-content-wrapper">
+        <nav class="navbar backgroud-black-blue">
+            <div class="container-fluid">
+                <span>
+                    <button class="fs-2 ms-1" id="sidebarToggle">
+                        <span class="button-menu">
+                            <div class="line line1"></div>
+                            <div class="line line2"></div>
+                            <div class="line line3"></div>
+                        </span>
+                    </button>
+                </span>
+                <span class="navbar-text">
+                    <ul class="list-group list-group-horizontal generico">
+                        <!-- <button id="button-notify" type="button" class="btn btn-light position-relative me-2">
+                            <i id="icon-notify" class="fa-sharp fa-solid fa-bell"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                0
+                                <span class="visually-hidden">unread messages</span>
+                            </span>
+                        </button> -->
+                        <li class="li-group">
+                            <button class="dropdown-button"><img class="user-avatar" src="../img/user.png"></button>
+                        </li>
+                    </ul>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item" id="user-email-SIDEBAR">TESTE</li>
+                        <li class="dropdown-item text-danger item-button-return-login"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sair</li>
+                    </ul>
+                </span>
             </div>
-            <span class="logo-text">OpenFinance</span>
-        </div>
-        <div class="nav-menu">
-            <ul>
-                <li class="<?php echo $_SERVER['PHP_SELF'] == "/estagio_supervisionado_i/project/frontend/page/index.php" ? "active" : "" ?>"><a href="../page/index.php" class="d-flex align-items-center"><span class="wrap-icon mr-3"><i class="fa-sharp fa-solid fa-house"></i></span><span class="menu-text">Dashboard</span></a></li>
-                <li class="<?php echo $_SERVER['PHP_SELF'] == "/estagio_supervisionado_i/project/frontend/page/account.php" ? "active" : "" ?>"><a href="../page/account.php" class="d-flex align-items-center"><span class="wrap-icon mr-3"><i class="fa-solid fa-building-columns"></i></span><span class="menu-text"> Saldo</span></a></li>
-                <li class="<?php echo $_SERVER['PHP_SELF'] == "/estagio_supervisionado_i/project/frontend/page/revenue.php" ? "active" : "" ?>"><a href="../page/revenue.php" class="d-flex align-items-center"><span class="wrap-icon mr-3"><i class="fa-regular fa-circle-up"></i></span><span class="menu-text">Receitas</span></a></li>
-                <li class="<?php echo $_SERVER['PHP_SELF'] == "/estagio_supervisionado_i/project/frontend/page/expense.php" ? "active" : "" ?>"><a href="../page/expense.php" class="d-flex align-items-center"><span class="wrap-icon mr-3"><i class="fa-regular fa-circle-down"></i></span><span class="menu-text">Depesas</span></a></li>
-                <li class="<?php echo $_SERVER['PHP_SELF'] == "/estagio_supervisionado_i/project/frontend/page/transaction.php" ? "active" : "" ?>"><a href="../page/transaction.php" class="d-flex align-items-center"><span class="wrap-icon mr-3"><i class="fa-solid fa-retweet"></i></span><span class="menu-text">Transações</span></a></li>
-                <!-- <li><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-cog mr-3"></span><span class="menu-text">Settings</span></a></li> -->
-            </ul>
-        </div>
-    </div>
-</aside>
+        </nav>
