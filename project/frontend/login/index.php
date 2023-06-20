@@ -11,27 +11,28 @@
     <link rel="stylesheet" href="./style.css">
     <!-- <link rel="icon" type="image/x-icon" href="../includes/img/bubbles.png" /> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="icon" type="image/x-icon" href="../img/dollar.png" />
 </head>
 
 <body>
     <main>
         <div class="row" id="login-box">
             <div class="col-md-12 text-center">
-                <img id="login-logo" src="./Openfinance.png" alt="Logotipo Openfinance">
+                <img id="login-logo" src="../img/openfinance_white.png" alt="Logotipo Openfinance">
             </div>
             <form method="post" id="form-login" name="form_login">
                 <div class="col-md-12 mt-4 alert alert-danger" id="alert-error">
                     <i class="fa-solid fa-triangle-exclamation"></i> <span class="error error-execute"></span>
                 </div>
                 <div class="col-md-12 mt-3">
-                    <label class="form-label text-light">E-mail ou apelido:</label>
+                    <label class="form-label">E-mail ou apelido:</label>
                     <input id="email" type="text" class="form-control" name="email" placeholder="E-mail ou apelido">
                 </div>
                 <div class="col-md-12">
                     <div class="text-danger" id="error-msg-email"></div>
                 </div>
                 <div class="col-md-12 mt-2">
-                    <label class="form-label text-light">Senha:</label>
+                    <label class="form-label">Senha:</label>
                     <div class="input-group">
                         <input id="password" class="form-control" id="password" name="password" type="password" placeholder="Senha">
                         <button class="btn button-eye" id="button-eye" type="button"><i id="icon-eye" class="fa-solid fa-eye"></i></button>
