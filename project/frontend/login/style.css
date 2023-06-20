@@ -3,7 +3,9 @@
 }
 
 body {
-    background-color: rgb(255, 255, 255) !important;
+    background-color: rgb(187, 38, 38);
+    /* background: rgb(72, 252, 172);
+    background: linear-gradient(90deg, rgba(72, 252, 172, 1) 0%, rgba(108, 215, 237, 1) 100%); */
 }
 
 i {
@@ -11,8 +13,7 @@ i {
 }
 
 #login-box {
-    
-    background-color: rgb(6, 22, 30);
+    background-color: rgb(255, 255, 255);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     bottom: 0;
@@ -70,8 +71,7 @@ i {
         background-color: rgb(255, 255, 255) !important;
     }
 
-    #login-background {
-    }
+    #login-background {}
 
     #login-box {
         border-radius: none;
