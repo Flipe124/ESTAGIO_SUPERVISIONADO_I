@@ -1,0 +1,19 @@
+.dashboard {
+    display: flex;
+    background-color: rgb(255, 255, 255);
+    margin-top: 10px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.dashboard .expense {
+    margin-top: 10px;
+}
+
+#grafico{
+    height: auto;
+    width: 50% !important;
+    border-color: rgb(217, 255, 0) !important;
+}
