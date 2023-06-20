@@ -6,7 +6,9 @@
 }
 
 #logotype-sidebar {
-    height: 127px !important;
+    height: 130px !important;
+    width: 200px !important;
+    /* padding: 0 !important; */
     border-radius: 12px;
 }
 
