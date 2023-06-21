@@ -1,6 +1,4 @@
 <link href="../css/dashboard/style.css" rel="stylesheet" />
-<!--<link href="../includes/css/address/style.css" rel="stylesheet" /> -->
-<!-- <link href="../includes/img/bubbles.png" rel="icon" type="image/x-icon" /> -->
 <link rel="icon" type="image/x-icon" href="../img/dollar.png" />
 <?php include_once("../includes/header.php") ?>
 </head>
