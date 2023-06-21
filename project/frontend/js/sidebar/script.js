@@ -64,7 +64,7 @@ function checkOptionSelected() {
     for (var i = 0; i < links.length; i++) {
         if (links[i].href == window.location.href) {
             links[i].classList.remove('option-not-selected');
-            links[i].classList.add('ativo');
+            links[i].classList.add('option-selected');
         }
     }
 }
