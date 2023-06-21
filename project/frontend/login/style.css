@@ -3,9 +3,8 @@
 }
 
 body {
-    background-color: rgb(187, 38, 38);
-    /* background: rgb(72, 252, 172);
-    background: linear-gradient(90deg, rgba(72, 252, 172, 1) 0%, rgba(108, 215, 237, 1) 100%); */
+    background-color: rgb(6, 22, 30) !important;
+    transition: 0.5s;
 }
 
 i {
@@ -67,11 +66,10 @@ i {
 
 @media(max-width: 500px) {
     body {
-        overflow: hidden;
         background-color: rgb(255, 255, 255) !important;
+        overflow: hidden;
+        transition: 0.5s;
     }
-
-    #login-background {}
 
     #login-box {
         border-radius: none;
