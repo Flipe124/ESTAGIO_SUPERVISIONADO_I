@@ -1,3 +1,12 @@
+.box-dashboard {
+    background-color: white;
+    border-radius: 10px;
+    display: inline-block;
+    vertical-align: top;
+    height: 80px;
+    width: 32.5%;
+}
+
 .dashboard {
     display: flex;
     background-color: rgb(255, 255, 255);
@@ -12,8 +21,13 @@
     margin-top: 10px;
 }
 
-#grafico{
+#grafico {
     height: auto;
     width: 50% !important;
     border-color: rgb(217, 255, 0) !important;
 }
+
+.background-success {
+    background-color: rgb(87, 226, 151);
+}
+
