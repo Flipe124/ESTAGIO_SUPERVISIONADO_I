@@ -6,6 +6,7 @@
     <?php include_once("../includes/sidebar.php") ?>
     <div class="container-fluid">
         <div class="row">
+            <div class="col-md-12 fs-2"><b>Receitas</b></div>
         </div>
     </div>
 
