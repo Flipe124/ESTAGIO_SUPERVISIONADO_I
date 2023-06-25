@@ -16,16 +16,13 @@ password = document.getElementById("password");
 document.getElementById("alert-error").style.display = "none"
 
 $('#button-eye').on('click', function () {
-    if ($("#password").attr("type") == "password") {
-        $("#password").attr("type", "text");
-        $("#button-eye i").removeClass("fa-eye");
-        $("#button-eye i").addClass("fa-eye-slash");
-    } else {
-        $("#password").attr("type", "password");
-        $("#button-eye i").removeClass("fa-eye-slash");
-        $("#button-eye i").addClass("fa-eye");
-    }
+    showHidePassword("#button-eye i", "#password");
 });
+
+$('#button-eye-repeat').on('click', function () {
+    showHidePassword("#button-eye-repeat i", "#password-repeat");
+});
+
 
 $('#button-login').on('click', function () {
     $('#error-msg-authentication').text('');
@@ -34,7 +31,22 @@ $('#button-login').on('click', function () {
         event.preventDefault();
         requestAuthentication();
     }
-})
+});
+
+// FUNCTION
+
+function showHidePassword(button, field) {
+    if ($(field).attr("type") == "password") {
+        $(field).attr("type", "text");
+        $(button).removeClass("fa-eye");
+        $(button).addClass("fa-eye-slash");
+
+    } else {
+        $(field).attr("type", "password");
+        $(button).removeClass("fa-eye-slash");
+        $(button).addClass("fa-eye");
+    }
+}
 
 function validationPassword(password) {
     field_error_password = document.getElementById("error-msg-password");
@@ -98,6 +110,8 @@ function validationUserName(email) {
 
     return true;
 }
+
+// REQUEST
 
 function requestAuthentication() {
     var xhr = new XMLHttpRequest();
