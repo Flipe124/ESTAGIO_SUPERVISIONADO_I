@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Login - Benlimp</title>
+    <title>Login - Openfinance</title>
 
     <link rel="icon" type="image/x-icon" href="../img/dollar.png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -25,7 +25,7 @@
                         <i class="fa-solid fa-triangle-exclamation"></i> <span class="error error-execute"></span>
                     </div>
                     <div class="col-md-12 mt-3">
-                        <label class="form-label">E-mail ou apelido:</label>
+                        <label class="form-label">E-mail:</label>
                         <input id="email" type="text" class="form-control" name="email" placeholder="E-mail ou apelido">
                     </div>
                     <div class="col-md-12">
@@ -49,7 +49,10 @@
                     </div>
                 </form>
                 <div class="col-md-12 mt-2">
+                    <a href="./register.php">Criar uma conta?</a>
                     <a href="">Esqueceu a senha?</a>
+                </div>
+                <div class="col-md-3 mt-2">
                 </div>
             </div>
         </div>
