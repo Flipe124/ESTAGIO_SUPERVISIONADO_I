@@ -58,7 +58,7 @@
                         <div class="text-danger" id="error-msg-authentication"></div>
                     </div>
                     <div class="col-md-12 mt-3 d-grid">
-                        <button class="btn button-green" id="button-login" type="button">REGISTRAR</button>
+                        <button class="btn btn-success" id="button-login" type="button"><b>REGISTRAR</b></button>
                     </div>
                 </form>
             </div>

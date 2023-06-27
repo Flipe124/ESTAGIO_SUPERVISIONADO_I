@@ -45,7 +45,7 @@
                         <div class="text-danger" id="error-msg-authentication"></div>
                     </div>
                     <div class="col-md-12 mt-3 d-grid">
-                        <button class="btn button-green" id="button-login" type="button">ENTRAR</button>
+                        <button class="btn btn-success" id="button-login" type="button"><b>ENTRAR</b></button>
                     </div>
                 </form>
                 <div class="col-md-12 mt-2">
