@@ -26,6 +26,87 @@ a:hover {
     color: inherit !important;
 }
 
+.pagination {
+    background-color: #ffffff;
+    padding: 5px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+/* BOX */
+.box-dashboard-unic {
+    border-radius: 10px;
+    display: inline-block;
+    height: 80px;
+    /* width: 98.5%; */
+    width: 100%;
+}
+
+/* TABLE */
+
+.result {
+    background-color: white;
+    border-radius: 12px;
+    margin-top: 10px;
+    padding: 8px;
+
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.icon-category {
+    align-self: center;
+    font-size: 25px;
+    margin-left: 5px;
+}
+
+.description {
+    align-self: flex-start;
+    padding-left: 15px;
+}
+
+.category {
+    color: rgb(0, 0, 0);
+    font-weight: 600;
+}
+
+.data {
+    font-weight: 100;
+    font-size: 14px;
+}
+
+.value {
+    align-items: end;
+    display: flex;
+    flex: 6;
+    justify-content: flex-end;
+    margin-right: 10px;
+    min-width: 100px;
+}
+
+.buttons {
+    align-items: end;
+    display: flex;
+    flex: 1;
+    margin-right: 5px;
+    justify-content: flex-end;
+}
+
+.div-button-new-revenue {
+    align-items: end;
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.buttons button {
+    margin-left: 5px;
+}
+
+/* .result */
+
 /* BACKGROUND */
 .background-white {
     background-color: #ffffff !important;
@@ -36,7 +117,7 @@ a:hover {
     color: white;
 }
 
-nav{
+nav {
     background-color: var(--black-blue) !important;
 }
 
@@ -105,79 +186,6 @@ button {
     transition: 0.5s;
 }
 
-/* .box-title-page {
-    background-color: var(--blue);
-    border-radius: 12px;
-    color: white;
-    padding: 16px;
-} */
-
-/* .div-service {
-    transition: all 0.5s;
-    cursor: pointer !important;
-    background-color: rgb(255, 255, 255);
-    border-radius: 12px;
-}
-
-.div-description {
-    margin-left: 0.1% !important;
-    margin-right: 0.1% !important;
-}
-
-.client img {
-    width: 35px;
-    height: 35px;
-    margin-top: 5px;
-    border-radius: 100%;
-} */
-
-/* .div-description .col-md-12 {
-    padding: 8px;
-    background-color: rgb(255, 255, 255);
-    border-radius: 12px;
-    margin-bottom: 10px;
-}
-
-.div-description .img {
-    border-radius: 12px;
-    max-width: 155px !important;
-    max-height: 155px;
-    margin-top: 5px;
-} */
-
-/* .div-title {
-    font-size: 25px;
-    font-weight: bold;
-    color: rgb(255, 255, 255);
-    background: #57e297;
-    border-radius: 6px;
-    text-align: center;
-    height: 35px;
-} */
-
-/* .backg-white {
-    background-color: rgb(255, 255, 255);
-}
-
-.background-blue {
-    background-color: var(--blue) !important;
-}
-
-.border-radius-12 {
-    border-radius: 12px;
-} */
-
-/* @media (max-width: 500px) {
-    .position-top-90 {
-        top: -90% !important;
-        position: relative;
-    }
-
-    .height-120 {
-        height: 120px !important;
-    }
-} */
-
 /* USER */
 .width-50 {
     width: 49.3% !important;
@@ -191,4 +199,3 @@ ul {
     text-align: left;
     margin-bottom: 0px;
 }
-
