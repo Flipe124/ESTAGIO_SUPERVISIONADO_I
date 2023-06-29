@@ -1,3 +1,6 @@
+## ToDo List
+
+Relatórios e movimentos:
 - [ ] Cadastro de usuário;
 - [ ] Cadastro de conta;
 - [ ] Cadastro de receita;
@@ -11,3 +14,6 @@
 - [ ] Relatório de receita por categoria;
 - [ ] Relatório de transferência;
 - [ ] Relatório de saldo de contas.
+
+Obs:
+- tentar fazer insterfaces para o cadastro contas, receitas e desperas?

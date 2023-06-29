@@ -1,7 +1,7 @@
 package process
 
 import (
-	// Imports of all packages project.
+	// Internal imports.
 	_ "backend/internal/core/address"
 	_ "backend/internal/core/auth"
 	_ "backend/internal/core/client"
@@ -11,5 +11,7 @@ import (
 	_ "backend/internal/infra/db"
 	_ "backend/internal/models"
 	_ "backend/internal/server"
+
+	// Public imports.
 	_ "backend/pkg/docs"
 )

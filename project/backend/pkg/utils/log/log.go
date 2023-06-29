@@ -7,11 +7,12 @@ import (
 
 type environment string
 
-// Development is the const for development environment.
-const Development environment = "dev"
-
-// Production is the const for production environment.
-const Production environment = "prod"
+const (
+	// Development is the const for development environment.
+	Development environment = "dev"
+	// Production is the const for production environment.
+	Production environment = "prod"
+)
 
 var (
 	debugLog = log.New(os.Stderr, "[DEBUG] ", log.Ldate|log.Ltime)

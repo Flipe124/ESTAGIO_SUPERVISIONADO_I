@@ -23,7 +23,7 @@ import (
 //	@contact.url	https://linktr.ee/rhuanpk
 //	@contact.email	support@rhuanpk.com
 //
-//	@host			localhost:8008
+//	@host			localhost:9999
 //	@BasePath		/api/v0
 func main() {
 	logger.Log.Fatal(api.Router.Run(fmt.Sprintf(":%d", consts.APIPORT)).Error())
