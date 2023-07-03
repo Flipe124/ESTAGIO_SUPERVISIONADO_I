@@ -36,7 +36,7 @@ function generateTableOperation() {
     iconCategory = setIconCategory(2)
 
     result.innerHTML +=
-        `<div class="result">
+        `<div class="result filter-preset-1">
             <span class="icon-category">
                 ${iconCategory}
             </span>
