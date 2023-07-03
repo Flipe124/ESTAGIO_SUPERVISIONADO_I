@@ -1,5 +1,5 @@
 <div class="revenue-table results">
-    <div class="result">
+    <div class="result filter-preset-1">
         <span class="icon-category">
             <i class="fab fa-sellcast text-success"></i>
         </span>
@@ -17,7 +17,7 @@
             <button class="btn btn-primary button-update-operation" type="button" type="button" data-id="1" data-category="um" data-value="12300.30"><i class="fa-solid fa-pen"></i></button>
         </span>
     </div>
-    <div class="result">
+    <div class="result filter-preset-1">
         <span class="icon-category">
             <i class="fas fa-coins text-warning"></i>
         </span>
