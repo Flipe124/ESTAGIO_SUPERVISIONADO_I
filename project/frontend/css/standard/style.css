@@ -7,7 +7,7 @@
 }
 
 body {
-    background-color: rgb(207, 207, 207) !important;
+    background-color: #ebebeb !important;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -26,6 +26,15 @@ a:hover {
     color: inherit !important;
 }
 
+.filter-preset-1 {
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    overflow: hidden;
+}
+
+.result-table-account:hover {
+    background-color: #c0c0c0;
+}
+
 .pagination {
     background-color: #ffffff;
     padding: 5px;
@@ -34,12 +43,28 @@ a:hover {
     justify-content: center;
 }
 
+#div-table {
+    background-color: rgb(255, 255, 255);
+    border-radius: 12px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    overflow: hidden;
+}
+
+.amount {
+    white-space: nowrap;
+}
+
+.date {
+    cursor: auto;
+}
+
+
 /* BOX */
+
 .box-dashboard-unic {
     border-radius: 10px;
     display: inline-block;
     height: 80px;
-    /* width: 98.5%; */
     width: 100%;
 }
 
@@ -105,8 +130,6 @@ a:hover {
     margin-left: 5px;
 }
 
-/* .result */
-
 /* BACKGROUND */
 .background-white {
     background-color: #ffffff !important;
@@ -162,8 +185,6 @@ button {
     border-width: none !important;
 }
 
-
-
 #success {
     display: none;
 }
@@ -198,4 +219,8 @@ button {
 ul {
     text-align: left;
     margin-bottom: 0px;
+}
+
+.text-value {
+    white-space: nowrap;
 }

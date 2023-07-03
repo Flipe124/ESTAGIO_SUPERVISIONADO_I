@@ -1,20 +1,30 @@
 .box-dashboard {
     background-color: white;
     border-radius: 10px;
+
     display: inline-block;
     vertical-align: top;
+
     height: 80px;
     width: 32.5%;
+
+    cursor: pointer;
 }
 
 .dashboard {
     display: flex;
+
     background-color: rgb(255, 255, 255);
-    margin-top: 10px;
-    max-width: 100%;
-    height: auto;
     border-radius: 6px;
+
     padding: 10px;
+    justify-content: space-between;
+}
+
+.dashboard-preset-1 {
+    height: 235px !important;
+    min-width: 300px !important;
+
 }
 
 .dashboard .expense {
@@ -22,12 +32,13 @@
 }
 
 #grafico {
-    height: auto;
-    width: 50% !important;
-    border-color: rgb(217, 255, 0) !important;
+    max-height: 215px;
+}
+
+#graph-bar {
+    max-height: 215px;
 }
 
 .background-success {
     background-color: rgb(87, 226, 151);
 }
-
