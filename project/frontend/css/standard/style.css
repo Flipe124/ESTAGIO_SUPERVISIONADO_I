@@ -58,6 +58,13 @@ a:hover {
     cursor: auto;
 }
 
+.order-by {
+    cursor: pointer;
+}
+
+.selected {
+    background-color: yellow;
+}
 
 /* BOX */
 
