@@ -4,10 +4,10 @@ import "github.com/go-hl/os/env"
 
 // Database environemnt variables.
 var (
-	DBUSER     = env.Get("DBUSER", "user")
-	DBPASSWORD = env.Get("DBPASSWORD", "root")
-	DBPROTOCOL = env.Get("DBPROTOCOL", "tcp")
-	DBHOST     = env.Get("DBHOST", "database")
-	DBPORT     = env.GetShouldInt("DBPORT", 3306)
-	DBNAME     = env.Get("DBNAME", "database")
+	DBUSER     = env.Get("DBUSER", "")
+	DBPASSWORD = env.Get("DBPASSWORD", "")
+	DBPROTOCOL = env.Get("DBPROTOCOL", "")
+	DBHOST     = env.Get("DBHOST", "")
+	DBPORT     = env.GetShouldInt("DBPORT", -1)
+	DBNAME     = env.Get("DBNAME", "")
 )

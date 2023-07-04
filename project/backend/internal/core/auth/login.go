@@ -12,7 +12,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-hl/jwt/v2"
-	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -47,7 +46,7 @@ func login(ctx *gin.Context) {
 		return
 	}
 
-	if err := db.Instance.Where("username", &request.Username).Or("email", &request.Email).First(&user).Error; err != nil {
+	if err := db.Tx.Where("username", &request.Username).Or("email", &request.Email).First(&user).Error; err != nil {
 
 		code := http.StatusInternalServerError
 		message := http.StatusText(http.StatusInternalServerError)
@@ -71,13 +70,9 @@ func login(ctx *gin.Context) {
 		return
 	}
 
-	token, err := jwt.NewMapToken(
+	token, err := jwt.NewStdToken(
 		*user.ID,
-		map[string]any{
-			"exp": time.Now().Add(time.Duration(consts.JWTTIME) * time.Minute).Unix(),
-			"rle": user.Role,
-			"jti": uuid.New().String(),
-		},
+		time.Now().Add(time.Duration(consts.JWTTIME)*time.Minute),
 		consts.JWTSECRETKEY,
 	)
 

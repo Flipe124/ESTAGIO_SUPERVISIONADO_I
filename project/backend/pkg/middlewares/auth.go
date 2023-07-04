@@ -20,7 +20,7 @@ func Auth(ctx *gin.Context) {
 		return
 	}
 
-	if isValid, err := jwt.MapIsValid(token, consts.JWTSECRETKEY); !isValid {
+	if isValid, err := jwt.StdIsValid(token, consts.JWTSECRETKEY); !isValid {
 		api.LogReturn(
 			ctx,
 			http.StatusUnauthorized,

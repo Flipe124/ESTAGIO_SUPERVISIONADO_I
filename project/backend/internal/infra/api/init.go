@@ -11,7 +11,7 @@ var Router = gin.Default()
 
 // V2 is the singleton instance of v2 route api group.
 var V2 = Router.Group(
-	"/api/v0",
+	"/api/v2",
 	middlewares.CORS,
 )
 
