@@ -2,8 +2,8 @@ package models
 
 // Auth is the struct to manipule authentication operations.
 type Auth struct {
-	Username string  `json:"username,omitempty" binding:"omitempty,username"`
-	Email    string  `json:"email,omitempty" binding:"omitempty,email"`
+	Username *string `json:"username,omitempty" binding:"omitempty,username"`
+	Email    *string `json:"email,omitempty" binding:"omitempty,email"`
 	Password *string `json:"password" binding:"required,min=8,max=32"`
 }
 

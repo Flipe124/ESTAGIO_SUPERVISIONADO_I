@@ -13,5 +13,6 @@ func init() {
 		validator.RegisterValidation("phnum", validators.Phnum)
 		validator.RegisterValidation("username", validators.Username)
 		validator.RegisterValidation("length", validators.Length)
+		validator.RegisterValidation("datetime", validators.DateTime)
 	}
 }

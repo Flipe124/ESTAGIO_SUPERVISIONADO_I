@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"backend/internal/consts"
-	"backend/internal/models"
 	"backend/pkg/utils/api"
 
 	"github.com/gin-gonic/gin"
@@ -14,8 +13,8 @@ import (
 
 // Swagger:
 //
-//	@Summary		ID
-//	@Description	Get user ID inside the token (JWT).
+//	@Summary		PROPERTIES
+//	@Description	Get the user id from your token.
 //	@Tags			auth
 //	@Param			TOKEN	header		string	true	"Bearer token."
 //	@Success		200		{string}	string	"OK"
@@ -26,18 +25,20 @@ func get(ctx *gin.Context) {
 
 	token := strings.TrimPrefix(ctx.GetHeader("Token"), "Bearer ")
 	if token == "" {
-		ctx.JSON(
+		api.Return(
+			ctx,
 			http.StatusBadRequest,
-			&models.HTTP{
-				Code:  http.StatusBadRequest,
-				Error: "request does not contain an access token",
-			},
+			"request does not contain an access token",
 		)
-		ctx.Abort()
 		return
 	}
 
-	ID, err := jwt.MapGetUserID(token, consts.JWTSECRETKEY)
+	id, err := jwt.StdGetUserID(token, consts.JWTSECRETKEY)
+	api.Return(
+		ctx,
+		http.StatusBadRequest,
+		"invalid field to search",
+	)
 	if err != nil {
 		api.LogReturn(
 			ctx,
@@ -48,6 +49,6 @@ func get(ctx *gin.Context) {
 		return
 	}
 
-	ctx.String(http.StatusOK, "%d", ID)
+	ctx.String(http.StatusOK, "%d", id)
 
 }

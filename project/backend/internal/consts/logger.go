@@ -7,4 +7,4 @@ import (
 )
 
 // LOGGERMODE is the logger mode environment.
-var LOGGERMODE = env.Get("LOGGERMODE", string(log.Development))
+var LOGGERMODE = env.Get("LOGGERMODE", string(log.Production))

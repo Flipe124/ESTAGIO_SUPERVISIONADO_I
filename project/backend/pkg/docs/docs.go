@@ -302,6 +302,13 @@ const docTemplate = `{
                         "required": true
                     },
                     {
+                        "type": "integer",
+                        "description": "Address ID.",
+                        "name": "address",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
                         "description": "Json request.",
                         "name": "JSON",
                         "in": "body",
@@ -309,13 +316,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.AddressUpdate"
                         }
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Address ID.",
-                        "name": "address",
-                        "in": "path",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -340,74 +340,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/address/{address}/client/{client}": {
-            "get": {
-                "description": "Get a single address for a single client from your ID's.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "address"
-                ],
-                "summary": "GET",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token.",
-                        "name": "TOKEN",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Address ID.",
-                        "name": "address",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Client ID.",
-                        "name": "client",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.AddressList"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.HTTP"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.HTTP"
-                        }
-                    }
-                }
-            }
-        },
         "/auth": {
             "get": {
-                "description": "Get user ID inside the token (JWT).",
+                "description": "Get property from token (JWT).",
                 "tags": [
                     "auth"
                 ],
-                "summary": "ID",
+                "summary": "PROPERTIES",
                 "parameters": [
                     {
                         "type": "string",
                         "description": "Bearer token.",
                         "name": "TOKEN",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Field\tto\tsearch\tinside\ttoken\t('id' or 'role' only).",
+                        "name": "field",
+                        "in": "query",
                         "required": true
                     }
                 ],
@@ -506,6 +458,30 @@ const docTemplate = `{
                         "name": "TOKEN",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Client name.",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Client document.",
+                        "name": "document",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Client phone.",
+                        "name": "phone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Client email.",
+                        "name": "email",
+                        "in": "query"
                     },
                     {
                         "type": "boolean",
@@ -653,6 +629,30 @@ const docTemplate = `{
                         "name": "TOKEN",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Client name.",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Client document.",
+                        "name": "document",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Client phone.",
+                        "name": "phone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Client email.",
+                        "name": "email",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -776,6 +776,19 @@ const docTemplate = `{
                         "required": true
                     },
                     {
+                        "type": "integer",
+                        "description": "Client ID.",
+                        "name": "client",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Reactivate an inactive client.",
+                        "name": "reactivate",
+                        "in": "query"
+                    },
+                    {
                         "description": "Json request.",
                         "name": "JSON",
                         "in": "body",
@@ -783,13 +796,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.ClientUpdate"
                         }
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Client ID.",
-                        "name": "client",
-                        "in": "path",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -899,10 +905,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.ClientList"
-                            }
+                            "$ref": "#/definitions/models.ClientList"
                         }
                     },
                     "404": {
@@ -922,7 +925,7 @@ const docTemplate = `{
         },
         "/order": {
             "get": {
-                "description": "List all Orders.",
+                "description": "List all orders.",
                 "produces": [
                     "application/json"
                 ],
@@ -949,6 +952,12 @@ const docTemplate = `{
                             }
                         }
                     },
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -958,7 +967,7 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "description": "Create a new order.",
+                "description": "Create a new order.\nSintax of date and time: \"yyyy-mm-dd hh:mm:ss\".",
                 "consumes": [
                     "application/json"
                 ],
@@ -1201,6 +1210,44 @@ const docTemplate = `{
                 }
             }
         },
+        "/permission": {
+            "get": {
+                "description": "List all available permission to use.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "permission"
+                ],
+                "summary": "LIST",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.PermissionList"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    }
+                }
+            }
+        },
         "/service": {
             "get": {
                 "description": "List all services.",
@@ -1215,9 +1262,15 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Bearer token.",
-                        "name": "Token",
+                        "name": "TOKEN",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Service name.",
+                        "name": "name",
+                        "in": "query"
                     },
                     {
                         "type": "boolean",
@@ -1311,7 +1364,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Bearer token.",
-                        "name": "Token",
+                        "name": "TOKEN",
                         "in": "header",
                         "required": true
                     },
@@ -1445,7 +1498,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Bearer token.",
-                        "name": "Token",
+                        "name": "TOKEN",
                         "in": "header",
                         "required": true
                     },
@@ -1455,6 +1508,12 @@ const docTemplate = `{
                         "name": "service",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Reactivate an inactive service.",
+                        "name": "reactivate",
+                        "in": "query"
                     },
                     {
                         "description": "Json request.",
@@ -1488,6 +1547,44 @@ const docTemplate = `{
                 }
             }
         },
+        "/status": {
+            "get": {
+                "description": "List all available status to use.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "status"
+                ],
+                "summary": "LIST",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.StatusList"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    }
+                }
+            }
+        },
         "/user": {
             "get": {
                 "description": "List all users.",
@@ -1502,9 +1599,33 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Bearer token.",
-                        "name": "Token",
+                        "name": "TOKEN",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User name.",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "User username.",
+                        "name": "username",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "User email.",
+                        "name": "email",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "User role.",
+                        "name": "role",
+                        "in": "query"
                     },
                     {
                         "type": "boolean",
@@ -1598,7 +1719,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Bearer token.",
-                        "name": "Token",
+                        "name": "TOKEN",
                         "in": "header",
                         "required": true
                     },
@@ -1732,7 +1853,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Bearer token.",
-                        "name": "Token",
+                        "name": "TOKEN",
                         "in": "header",
                         "required": true
                     },
@@ -1742,6 +1863,12 @@ const docTemplate = `{
                         "name": "user",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Reactivate an inactive user.",
+                        "name": "reactivate",
+                        "in": "query"
                     },
                     {
                         "description": "Json request.",
@@ -1957,6 +2084,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "client_id",
+                "date_time",
                 "service_id",
                 "user_id"
             ],
@@ -1964,10 +2092,14 @@ const docTemplate = `{
                 "client_id": {
                     "type": "integer"
                 },
+                "date_time": {},
                 "description": {
                     "type": "string"
                 },
                 "service_id": {
+                    "type": "integer"
+                },
+                "state": {
                     "type": "integer"
                 },
                 "user_id": {
@@ -1981,6 +2113,9 @@ const docTemplate = `{
                 "client": {
                     "$ref": "#/definitions/models.ClientList"
                 },
+                "date_time": {
+                    "type": "string"
+                },
                 "description": {
                     "type": "string"
                 },
@@ -1989,6 +2124,9 @@ const docTemplate = `{
                 },
                 "service": {
                     "$ref": "#/definitions/models.ServiceList"
+                },
+                "state": {
+                    "type": "integer"
                 },
                 "user": {
                     "$ref": "#/definitions/models.UserList"
@@ -2001,10 +2139,14 @@ const docTemplate = `{
                 "client_id": {
                     "type": "integer"
                 },
+                "date_time": {},
                 "description": {
                     "type": "string"
                 },
                 "service_id": {
+                    "type": "integer"
+                },
+                "state": {
                     "type": "integer"
                 },
                 "user_id": {
@@ -2012,13 +2154,27 @@ const docTemplate = `{
                 }
             }
         },
+        "models.PermissionList": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "models.ServiceCreate": {
             "type": "object",
             "required": [
-                "service"
+                "name"
             ],
             "properties": {
-                "service": {
+                "name": {
                     "type": "string"
                 }
             }
@@ -2029,15 +2185,32 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
-                "service": {
+                "name": {
                     "type": "string"
                 }
             }
         },
         "models.ServiceUpdate": {
             "type": "object",
+            "required": [
+                "name"
+            ],
             "properties": {
-                "service": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.StatusList": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
                     "type": "string"
                 }
             }
