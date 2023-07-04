@@ -76,7 +76,7 @@
                 </div>
             </div>
             <div class="col-md-12 mt-2">
-                <?php include_once("../table/account-table.php") ?>
+                <?php include_once("../table/account-balance-table.php") ?>
             </div>
         </div>
     </div>
@@ -89,6 +89,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../js/graph/script.js"></script>
     <script src="../js/dashboard/script.js"></script>
+    <script src="https://cdn.datatables.net/1.11.2/js/jquery.dataTables.min.js"></script>
 
 </body>
 
