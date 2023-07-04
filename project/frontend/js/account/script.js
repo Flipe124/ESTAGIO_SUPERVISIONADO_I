@@ -122,3 +122,41 @@ function validationFormAccount(form) {
     return isValid;
 
 }
+
+$(document).ready(function () {
+    var tabela = $('#table-account').DataTable();
+
+    $('#table-account_length').hide();
+    $('#table-account_filter').hide();
+    $('#table-account_info').hide();
+    $('#table-account_paginate').hide();
+
+    tabela.on('order.dt', function () {
+        atualizarOrdenacaoSelecionada(tabela);
+    });
+
+    $('.order-by').click(function () {
+        $('.order-by').removeClass('selected');
+        $(this).addClass('selected');
+    });
+
+    function atualizarOrdenacaoSelecionada(tabela) {
+        var colunaOrdenada = tabela.order()[0][0];
+        $('.order-by').removeClass('selected');
+        $('.order-by').eq(colunaOrdenada).addClass('selected');
+
+        $('.order-by i').removeClass('fa-sort-up fa-sort-down').addClass('fa-sort');
+        var colunaSelecionada = $('.order-by').eq(colunaOrdenada);
+        var icon = colunaSelecionada.find('i');
+        if (tabela.order()[0][1] === 'desc') {
+            icon.removeClass('fa-sort').addClass('fa-sort-up');
+        } else if (tabela.order()[0][1] === 'asc') {
+            icon.removeClass('fa-sort').addClass('fa-sort-down');
+        }
+    }
+});
+
+function ordenarTabela(coluna) {
+    var tabela = $('#table-account').DataTable();
+    tabela.order([coluna, tabela.order()[0][1]]).draw();
+}
