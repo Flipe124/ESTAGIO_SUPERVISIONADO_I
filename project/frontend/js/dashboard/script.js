@@ -43,4 +43,10 @@ $(document).ready(function () {
     }
 });
 
+function ordenarTabela(coluna) {
+    var tabela = $('#table-account-balance').DataTable();
+    tabela.order([coluna, tabela.order()[0][1]]).draw();
+}
+
+
 
