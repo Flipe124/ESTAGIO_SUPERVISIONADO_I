@@ -1,0 +1,18 @@
+.transaction {
+    display: flex;
+
+    justify-content: flex-start;
+}
+
+.box-dashboard {
+    background-color: white;
+    border-radius: 10px;
+
+    display: inline-block;
+    vertical-align: top;
+
+    height: 80px;
+    width: 49%;
+
+    cursor: pointer;
+}
