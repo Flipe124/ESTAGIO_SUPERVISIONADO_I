@@ -70,10 +70,11 @@ a:hover {
 
 .box-dashboard-unic {
     border-radius: 10px;
-    display: inline-block;
+    /* display: inline-block; */
     height: 80px;
     width: 100%;
 }
+
 
 /* TABLE */
 
@@ -86,6 +87,8 @@ a:hover {
     align-items: center;
     display: flex;
     flex-direction: row;
+
+    cursor: pointer;
 }
 
 .icon-category {
@@ -105,6 +108,11 @@ a:hover {
 }
 
 .data {
+    font-weight: 100;
+    font-size: 14px;
+}
+
+.font-size-14 {
     font-weight: 100;
     font-size: 14px;
 }
