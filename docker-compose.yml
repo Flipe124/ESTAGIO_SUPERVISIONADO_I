@@ -1,0 +1,102 @@
+version: '3.1'
+
+services:
+
+  database:
+    image: mysql:latest
+    container_name: openfinance-database
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - TZ=$TZ
+    volumes:
+      - openfinance-database:/var/lib/mysql:rw
+      - ./database/scripts:/docker-entrypoint-initdb.d:ro
+    ports:
+      - 3306
+    networks:
+      - backend
+    restart: always
+    healthcheck:
+      test: mysqladmin ping -h localhost -u root -p$MYSQL_ROOT_PASSWORD
+      interval: 5s
+      retries: 10
+
+  dbms:
+    image: adminer:latest
+    container_name: openfinance-dbms
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - 8888:8080
+    networks:
+      - backend
+    links:
+      - database
+    restart: always
+
+  webserver:
+    image: nginx:alpine
+    container_name: openfinance-webserver
+    depends_on:
+      phpfpm:
+        condition: service_healthy
+      database:
+        condition: service_healthy
+    volumes:
+      - ./settings/webserver/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./project/frontend:/var/www/html:ro
+    ports:
+      - 8080:80
+    restart: always
+    healthcheck:
+      test: curl --fail localhost/ping
+      interval: 10s
+      retries: 5
+
+  phpfpm:
+    build: ./settings/phpfpm/
+    container_name: openfinance-phpfpm
+    volumes:
+      - ./settings/phpfpm/www.conf:/usr/local/etc/php-fpm.d/www.conf:ro
+      - ./project/frontend:/var/www/html:ro
+    restart: always
+    healthcheck:
+      test: php-fpm -t
+      interval: 5s
+      retries: 10
+
+  api:
+    build:
+      context: ./project/backend/
+      args:
+        - ENVIRONMENT=$ENVIRONMENT
+    container_name: openfinance-api
+    environment:
+      - APIPORT=$APIPORT
+      - DBUSER=$DBUSER
+      - DBPASSWORD=$DBPASSWORD
+      - DBPROTOCOL=$DBPROTOCOL
+      - DBHOST=$DBHOST
+      - DBPORT=$DBPORT
+      - DBNAME=$DBNAME
+      - JWTSECRETKEY=$JWTSECRETKEY
+      - JWTTIME=$JWTTIME
+      - GIN_MODE=$GIN_MODE
+      - LOGGERMODE=$LOGGERMODE
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - 8008:8008
+    networks:
+      - backend
+    restart: always
+
+volumes:
+  openfinance-database:
+
+networks:
+  backend:
+    driver: bridge
