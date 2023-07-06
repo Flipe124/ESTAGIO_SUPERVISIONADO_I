@@ -15,18 +15,18 @@ import (
 // Swagger:
 //
 //	@Summary		LIST
-//	@Description	List all users.
-//	@Tags			user
+//	@Description	List all finances.
+//	@Tags			finance
 //	@Produce		json
 //	@Param			TOKEN		header		string	true	"Bearer token."
-//	@Param			name		query		string	false	"User name."
-//	@Param			username	query		string	false	"User username."
-//	@Param			email		query		string	false	"User email."
-//	@Param			role		query		byte	false	"User role."
+//	@Param			name		query		string	false	"Finance name."
+//	@Param			financename	query		string	false	"Finance financename."
+//	@Param			email		query		string	false	"Finance email."
+//	@Param			role		query		byte	false	"Finance role."
 //	@Param			inactives	query		bool	false	"Bring the inactive ones."
-//	@Success		200			{array}		models.UserList
+//	@Success		200			{array}		models.FinanceList
 //	@Failure		500			{object}	models.HTTP
-//	@Router			/user [get]
+//	@Router			/finance [get]
 func list(ctx *gin.Context) {
 
 	var (

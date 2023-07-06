@@ -16,15 +16,15 @@ import (
 // Swagger:
 //
 //	@Summary		GET
-//	@Description	Get a single user from ID.
-//	@Tags			user
+//	@Description	Get a single finance from ID.
+//	@Tags			finance
 //	@Produce		json
 //	@Param			TOKEN	header		string	true	"Bearer token."
-//	@Param			user	path		int		true	"User ID."
-//	@Success		200		{object}	models.UserList
+//	@Param			finance	path		int		true	"Finance ID."
+//	@Success		200		{object}	models.FinanceList
 //	@Failure		404		{object}	models.HTTP
 //	@Failure		500		{object}	models.HTTP
-//	@Router			/user/{user} [get]
+//	@Router			/finance/{finance} [get]
 func get(ctx *gin.Context) {
 
 	var user *models.User

@@ -15,17 +15,17 @@ import (
 // Swagger:
 //
 //	@Summary		UPDATE
-//	@Description	Update already existing user.
-//	@Tags			user
+//	@Description	Update already existing finance.
+//	@Tags			finance
 //	@Accept			json
-//	@Param			TOKEN		header		string				true	"Bearer token."
-//	@Param			user		path		int					true	"User ID."
-//	@Param			reactivate	query		bool				false	"Reactivate an inactive user."
-//	@Param			JSON		body		models.UserUpdate	true	"Json request."
-//	@Success		204			{string}	string				"No Content"
+//	@Param			TOKEN		header		string					true	"Bearer token."
+//	@Param			finance		path		int						true	"Finance ID."
+//	@Param			reactivate	query		bool					false	"Reactivate an inactive finance."
+//	@Param			JSON		body		models.FinanceUpdate	true	"Json request."
+//	@Success		204			{string}	string					"No Content"
 //	@Failure		422			{object}	models.HTTP
 //	@Failure		500			{object}	models.HTTP
-//	@Router			/user/{user} [patch]
+//	@Router			/finance/{finance} [patch]
 func update(ctx *gin.Context) {
 
 	var (

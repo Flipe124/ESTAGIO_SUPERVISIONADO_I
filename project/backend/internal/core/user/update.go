@@ -18,12 +18,12 @@ import (
 //	@Description	Update already existing user.
 //	@Tags			user
 //	@Accept			json
-//	@Param			TOKEN		header		string				true	"Bearer token."
-//	@Param			user		path		int					true	"User ID."
-//	@Param			JSON		body		models.UserUpdate	true	"Json request."
-//	@Success		204			{string}	string				"No Content"
-//	@Failure		422			{object}	models.HTTP
-//	@Failure		500			{object}	models.HTTP
+//	@Param			TOKEN	header		string				true	"Bearer token."
+//	@Param			user	path		int					true	"User ID."
+//	@Param			JSON	body		models.UserUpdate	true	"Json request."
+//	@Success		204		{string}	string				"No Content"
+//	@Failure		422		{object}	models.HTTP
+//	@Failure		500		{object}	models.HTTP
 //	@Router			/user/{user} [patch]
 func update(ctx *gin.Context) {
 

@@ -114,6 +114,323 @@ const docTemplate = `{
                 }
             }
         },
+        "/finance": {
+            "get": {
+                "description": "List all finances.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance"
+                ],
+                "summary": "LIST",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Finance name.",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Finance financename.",
+                        "name": "financename",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Finance email.",
+                        "name": "email",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Finance role.",
+                        "name": "role",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Bring the inactive ones.",
+                        "name": "inactives",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.FinanceList"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new finance.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance"
+                ],
+                "summary": "CREATE",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Json request.",
+                        "name": "JSON",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.FinanceCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.FinanceList"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deactivate many or all finance.",
+                "tags": [
+                    "finance"
+                ],
+                "summary": "DELETE",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Finance ID's.",
+                        "name": "finances",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    }
+                }
+            }
+        },
+        "/finance/{finance}": {
+            "get": {
+                "description": "Get a single finance from ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance"
+                ],
+                "summary": "GET",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Finance ID.",
+                        "name": "finance",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.FinanceList"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deactivate a single finance.",
+                "tags": [
+                    "finance"
+                ],
+                "summary": "DELETE",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "Token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Finance ID.",
+                        "name": "finance",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update already existing finance.",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "finance"
+                ],
+                "summary": "UPDATE",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Finance ID.",
+                        "name": "finance",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Reactivate an inactive finance.",
+                        "name": "reactivate",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Json request.",
+                        "name": "JSON",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.FinanceUpdate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    }
+                }
+            }
+        },
         "/status": {
             "get": {
                 "description": "List all available status to use.",
@@ -153,72 +470,6 @@ const docTemplate = `{
             }
         },
         "/user": {
-            "get": {
-                "description": "List all users.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "user"
-                ],
-                "summary": "LIST",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token.",
-                        "name": "TOKEN",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "User name.",
-                        "name": "name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "User username.",
-                        "name": "username",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "User email.",
-                        "name": "email",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "User role.",
-                        "name": "role",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "Bring the inactive ones.",
-                        "name": "inactives",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.UserList"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.HTTP"
-                        }
-                    }
-                }
-            },
             "post": {
                 "description": "Create a new user.",
                 "consumes": [
@@ -232,13 +483,6 @@ const docTemplate = `{
                 ],
                 "summary": "CREATE",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token.",
-                        "name": "TOKEN",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "description": "Json request.",
                         "name": "JSON",
@@ -264,52 +508,6 @@ const docTemplate = `{
                     },
                     "422": {
                         "description": "Unprocessable Entity",
-                        "schema": {
-                            "$ref": "#/definitions/models.HTTP"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.HTTP"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Deactivate many or all user.",
-                "tags": [
-                    "user"
-                ],
-                "summary": "DELETE",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token.",
-                        "name": "TOKEN",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "integer"
-                        },
-                        "collectionFormat": "csv",
-                        "description": "User ID's.",
-                        "name": "users",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/models.HTTP"
                         }
@@ -432,12 +630,6 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "type": "boolean",
-                        "description": "Reactivate an inactive user.",
-                        "name": "reactivate",
-                        "in": "query"
-                    },
-                    {
                         "description": "Json request.",
                         "name": "JSON",
                         "in": "body",
@@ -489,6 +681,15 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        },
+        "models.FinanceCreate": {
+            "type": "object"
+        },
+        "models.FinanceList": {
+            "type": "object"
+        },
+        "models.FinanceUpdate": {
+            "type": "object"
         },
         "models.HTTP": {
             "type": "object",
@@ -545,9 +746,6 @@ const docTemplate = `{
                     "maxLength": 32,
                     "minLength": 8
                 },
-                "role": {
-                    "type": "integer"
-                },
                 "username": {
                     "type": "string"
                 }
@@ -565,9 +763,6 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
-                "role": {
-                    "type": "integer"
-                },
                 "username": {
                     "type": "string"
                 }
@@ -581,9 +776,6 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
-                },
-                "role": {
-                    "type": "integer"
                 },
                 "username": {
                     "type": "string"

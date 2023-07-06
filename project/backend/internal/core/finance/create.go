@@ -15,17 +15,17 @@ import (
 // Swagger:
 //
 //	@Summary		CREATE
-//	@Description	Create a new user.
-//	@Tags			user
+//	@Description	Create a new finance.
+//	@Tags			finance
 //	@Accept			json
 //	@Produce		json
-//	@Param			TOKEN	header		string				true	"Bearer token."
-//	@Param			JSON	body		models.UserCreate	true	"Json request."
-//	@Success		201		{object}	models.UserList
+//	@Param			TOKEN	header		string					true	"Bearer token."
+//	@Param			JSON	body		models.FinanceCreate	true	"Json request."
+//	@Success		201		{object}	models.FinanceList
 //	@Failure		409		{object}	models.HTTP
 //	@Failure		422		{object}	models.HTTP
 //	@Failure		500		{object}	models.HTTP
-//	@Router			/user [post]
+//	@Router			/finance [post]
 func create(ctx *gin.Context) {
 
 	var userCreate *models.UserCreate

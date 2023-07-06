@@ -15,14 +15,14 @@ import (
 // Swagger:
 //
 //	@Summary		DELETE
-//	@Description	Deactivate many or all user.
-//	@Tags			user
-//	@Param			TOKEN	header		string	true	"Bearer token."
-//	@Param			users	query		[]int	false	"User ID's."
-//	@Success		204		{string}	string	"No Content"
-//	@Failure		400		{object}	models.HTTP
-//	@Failure		500		{object}	models.HTTP
-//	@Router			/user [delete]
+//	@Description	Deactivate many or all finance.
+//	@Tags			finance
+//	@Param			TOKEN		header		string	true	"Bearer token."
+//	@Param			finances	query		[]int	false	"Finance ID's."
+//	@Success		204			{string}	string	"No Content"
+//	@Failure		400			{object}	models.HTTP
+//	@Failure		500			{object}	models.HTTP
+//	@Router			/finance [delete]
 func delete(ctx *gin.Context) {
 
 	var err error
@@ -61,13 +61,13 @@ func delete(ctx *gin.Context) {
 // Swagger:
 //
 //	@Summary		DELETE
-//	@Description	Deactivate a single user.
-//	@Tags			user
+//	@Description	Deactivate a single finance.
+//	@Tags			finance
 //	@Param			Token	header		string	true	"Bearer token."
-//	@Param			user	path		int		true	"User ID."
+//	@Param			finance	path		int		true	"Finance ID."
 //	@Success		204		{string}	string	"No Content"
 //	@Failure		500		{object}	models.HTTP
-//	@Router			/user/{user} [delete]
+//	@Router			/finance/{finance} [delete]
 func deleteUser(ctx *gin.Context) {
 
 	ID := ctx.Param("user")

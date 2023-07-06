@@ -18,6 +18,10 @@ RUN go mod download && go mod verify
 
 COPY ./ ./
 
+RUN go install github.com/swaggo/swag/cmd/swag@latest \
+&& \
+	swag init -g ./cmd/openfinance.go -o ./pkg/docs/
+
 RUN go build -ldflags '-s -w' -o /go/bin/app ./cmd/
 
 EXPOSE 8008
