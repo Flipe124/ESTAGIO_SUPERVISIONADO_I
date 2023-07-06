@@ -13,7 +13,7 @@ $('#button-register').on('click', function () {
     $('#error-msg-authentication').text('');
 
     if (validationField() == true) {
-        console.log(validationField());
+        resquestRegisterUser();
     }
 });
 
@@ -199,43 +199,60 @@ $(document).ready(function () {
 // REQUEST
 
 function resquestRegisterUser() {
+    // disabledButton($('#button-user-create'), true);
+
+    // var accessToken = sessionStorage.getItem('accessToken');
+    // var objeto = JSON.parse(accessToken);
+    // token = objeto.token;
+
+    var email = $("#email").val();
+    var name = $("#name").val();
+    var password = $("#password").val();
+    var username = $("#username").val();
+    var role = 0; // AQUI
+
+    // console.log(parseInt(role.value))
+
+    var connect_success = true;
     var xhr = new XMLHttpRequest();
 
-    xhr.open('POST', 'http://localhost:9999/api/v0/auth/');
+    xhr.open('POST', 'http://localhost:9999/api/v0/user/');
 
-    xhr.setRequestHeader('Content-Type', 'application/json');
+    // xhr.setRequestHeader('Token', `Bearer ${token}`);
 
     xhr.onload = function () {
-        if (xhr.status === 200) {
-            sessionStorage.setItem('accessToken', xhr.responseText);
-            sessionStorage.setItem('emailUser', email.value)
+        if (xhr.status === 200 || xhr.status === 201) {
+            // disabledButton($('#button-user-create'), false);
 
-            accessToken = sessionStorage.getItem('accessToken');
-            emailUser = sessionStorage.getItem('emailUser');
-
-            if (accessToken) {
-                location.replace('http://localhost:9999/page/index.php')
-            }
-
+            // showModalMessage("background-light-green", "NOVO USUÁRIO", `Usuário ${username.value} registrado com sucesso!`, 0);
+            console.log("SUCESSO!");
         } else {
-            $('#error-msg-authentication').text('Credenciais incorretas!');
+            // disabledButton($('#button-user-create'), false);
+
+            connect_success = false;
+
+            // var code = objMessage.code;
+            // var msg = objMessage.error;
+
+            console.log(xhr.responseText);
+
+            // showModalMessage("bg-danger", "ERRO", msg, code);
+
+            return connect_success
         }
     };
 
-    // if (email.value.includes('@')) {
-    //     var data = {
-    //         "email": email.value,
-    //         "password": password.value,
-    //     }
-
-    // } else {
     var data = {
-        "username": email.value,
-        "password": password.value
+        "email": email,
+        "name": name,
+        "password": password,
+        "role": role, // AQUI
+        "username": username
     }
-    // }
 
     var json = JSON.stringify(data);
 
     xhr.send(json);
+
+    return connect_success
 }
