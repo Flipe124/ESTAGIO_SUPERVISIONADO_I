@@ -32,9 +32,9 @@
                             </div>
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="create-input-category-operation" aria-label="Floating">
-                                    <option value="1">Salário</option>
-                                    <option value="2">Investimento</option>
-                                    <option value="3">Presente</option>
+                                    <option value="Salário">Salário</option>
+                                    <option value="Investimento">Investimento</option>
+                                    <option value="Presente">Presente</option>
                                 </select>
                                 <label for="create-input-category-operation">Categoria: <span class="text-danger">*</span></label>
                             </div>
