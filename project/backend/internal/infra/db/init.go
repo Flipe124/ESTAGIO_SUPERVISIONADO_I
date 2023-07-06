@@ -21,7 +21,7 @@ func init() {
 
 	var databaseError error
 
-	dns := fmt.Sprintf(
+	dsn := fmt.Sprintf(
 		"%s:%s@%s(%s:%d)/%s?multiStatements=true&parseTime=true&loc=Local",
 		consts.DBUSER,
 		consts.DBPASSWORD,
@@ -31,7 +31,7 @@ func init() {
 		consts.DBNAME,
 	)
 
-	Tx, databaseError = gorm.Open(mysql.Open(dns), &gorm.Config{})
+	Tx, databaseError = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if databaseError != nil {
 		logger.Log.Fatal("can't establish database connection!")
 	}
