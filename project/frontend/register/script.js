@@ -199,44 +199,24 @@ $(document).ready(function () {
 // REQUEST
 
 function resquestRegisterUser() {
-    // disabledButton($('#button-user-create'), true);
-
-    // var accessToken = sessionStorage.getItem('accessToken');
-    // var objeto = JSON.parse(accessToken);
-    // token = objeto.token;
-
     var email = $("#email").val();
     var name = $("#name").val();
     var password = $("#password").val();
     var username = $("#username").val();
     var role = 0; // AQUI
 
-    // console.log(parseInt(role.value))
-
     var connect_success = true;
     var xhr = new XMLHttpRequest();
 
     xhr.open('POST', 'http://localhost:9999/api/v0/user/');
 
-    // xhr.setRequestHeader('Token', `Bearer ${token}`);
-
     xhr.onload = function () {
         if (xhr.status === 200 || xhr.status === 201) {
-            // disabledButton($('#button-user-create'), false);
-
-            // showModalMessage("background-light-green", "NOVO USUÁRIO", `Usuário ${username.value} registrado com sucesso!`, 0);
             console.log("SUCESSO!");
         } else {
-            // disabledButton($('#button-user-create'), false);
-
             connect_success = false;
 
-            // var code = objMessage.code;
-            // var msg = objMessage.error;
-
             console.log(xhr.responseText);
-
-            // showModalMessage("bg-danger", "ERRO", msg, code);
 
             return connect_success
         }
