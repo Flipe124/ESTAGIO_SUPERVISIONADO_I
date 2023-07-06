@@ -48,6 +48,22 @@ i {
     width: 15px;
 }
 
+.password-field {
+    height: 57.99px;
+}
+
+.placeholder-text {
+    color: gray;
+}
+
+.placeholder-red {
+    color: red;
+}
+
+.placeholder-text.hide {
+    display: none;
+}
+
 .line-green {
     background-color: rgb(87, 226, 151);
     width: 30%;
