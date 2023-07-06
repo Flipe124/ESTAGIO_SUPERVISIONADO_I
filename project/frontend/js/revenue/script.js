@@ -14,8 +14,9 @@ $("#button-new-revenue").on("click", function () {
 });
 
 $(".result").on("click", function () {
-    $(`#form-update`)[0].reset();
-    modalAction("update", "show")
+    $("#form-update")[0].reset();
+    modalAction("update", "show");
+    fillModalUpdateRevenue($(this).data("id"), $(this).data("type"), $(this).data("value"), $(this).data("status"), $(this).data("date"), $(this).data("description"), $(this).data("category"), $(this).data("account"));
 });
 
 $("#button-delete-revenue").on("click", function () {
@@ -40,15 +41,18 @@ function generateTableOperation() {
     var result = document.querySelector('.revenue-table');
 
     id = 1;
-    iconCategory = setIconCategory(2);
     type = "revenue";
-    value = 12300.30;
-    categoryName = "Salário";
-    data = "QuantumTech | Nubank";
+    value = "12300.30";
+    statusOp = "OK";
     date = "21/07/2023";
+    data = "QuantumTech";
+    categoryName = "Presente";
+    account = "Bradesco";
+
+    iconCategory = setIconCategory(2);
 
     result.innerHTML +=
-        `<div class="result filter-preset-1" data-id="${id}" data-category="${categoryName}" data-type="${type}" data-value="${value}">
+        `<div class="result filter-preset-1" data-id="${id}" data-type="${type}" data-value="${value}" data-status="${statusOp}" data-date="${date}" data-description="${data}" data-category="${categoryName}" data-account="${account}" >
             <span class="icon-category">
                 ${iconCategory}
             </span>
@@ -104,20 +108,69 @@ function sumRevenueAndFormated() {
     divSum.innerHTML = sumFormated;
 }
 
-
 function formatValue(input) {
-    var value = input.value.replace(/\D/g, '');
+    var valor = input.value.replace(/\D/g, '');
 
-    value = (value / 100).toFixed(2);
+    valor = (valor / 100).toFixed(2);
 
-    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    value = value.replace('.', ',');
+    var partes = valor.split('.');
+    var parteInteira = partes[0];
+    var parteDecimal = partes[1];
 
-    input.value = 'R$ ' + value;
+    parteInteira = parteInteira.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+    if (parteDecimal === '00') {
+        parteDecimal = '00';
+    }
+
+    input.value = 'R$ ' + parteInteira + ',' + parteDecimal;
 }
 
 function blockInsertDateManual() {
-    document.getElementById("update-input-date-operation").addEventListener("keydown", function(event) {
+    document.getElementById("update-input-date-operation").addEventListener("keydown", function (event) {
+        event.preventDefault();
+    });
+    document.getElementById("create-input-date-operation").addEventListener("keydown", function (event) {
         event.preventDefault();
     });
 }
+
+function fillModalUpdateRevenue(id, type, value, status, date, description, category, account) {
+    $("#update-id").val(id);
+    $("#update-input-type-operation").val(type);
+    $("#update-input-value-operation").val(value);
+    // $("#update-input-status-operation").val(status);
+    $("#update-input-date-operation").val(converterFormatoData(date));
+    $("#update-input-description-operation").val(description);
+    $("#update-input-category-operation").val(category);
+    $("#update-input-account-operation").val(account);
+
+    console.log(date)
+
+    var meuInput = document.getElementById('update-input-value-operation');
+
+    formatValue(meuInput);
+
+    selecionarCheckbox(status)
+
+}
+
+function converterFormatoData(date) {
+    var partes = date.split('/');
+    var dia = partes[0];
+    var mes = partes[1];
+    var ano = partes[2];
+
+    var dataFormatada = ano + '-' + mes + '-' + dia;
+
+    return dataFormatada;
+}
+
+function selecionarCheckbox(value) {
+    var checkbox = document.getElementById('update-input-status-operation');
+
+    if (value === 'OK' && checkbox) {
+        checkbox.checked = true;
+    }
+}
+
