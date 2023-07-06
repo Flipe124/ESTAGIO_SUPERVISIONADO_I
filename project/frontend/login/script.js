@@ -111,12 +111,38 @@ function validationUserName(email) {
     return true;
 }
 
+// HIDE PLACEHOLDER
+
+$(document).ready(function() {
+    var passwordInput = $('#password');
+    var passwordRepeatInput = $('#password-repeat');
+    var placeholderText = $('.placeholder-text');
+
+    if (passwordInput.length > 0 && placeholderText.length > 0) {
+        passwordInput.on('input', function() {
+            if (passwordInput.val().length > 0) {
+                placeholderText.eq(0).addClass('hide');
+            } else {
+                placeholderText.eq(0).removeClass('hide');
+            }
+        });
+
+        passwordRepeatInput.on('input', function() {
+            if (passwordRepeatInput.val().length > 0) {
+                placeholderText.eq(1).addClass('hide');
+            } else {
+                placeholderText.eq(1).removeClass('hide');
+            }
+        });
+    }
+});
+
 // REQUEST
 
 function requestAuthentication() {
     var xhr = new XMLHttpRequest();
 
-    xhr.open('POST', 'http://localhost:8008/api/v2/auth/');
+    xhr.open('POST', 'http://localhost:9999/api/v0/auth/');
 
     xhr.setRequestHeader('Content-Type', 'application/json');
 
@@ -129,7 +155,7 @@ function requestAuthentication() {
             emailUser = sessionStorage.getItem('emailUser');
 
             if (accessToken) {
-                location.replace('http://localhost:8080/page/index.php')
+                location.replace('http://localhost:9999/page/index.php')
             }
 
         } else {
