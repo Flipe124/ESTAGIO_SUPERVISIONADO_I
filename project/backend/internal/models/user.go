@@ -45,7 +45,6 @@ type UserList struct {
 	Name     *string `json:"name,omitempty"`
 	Username *string `json:"username,omitempty"`
 	Email    *string `json:"email,omitempty"`
-	Role     *byte   `json:"role,omitempty"`
 }
 
 // UserCreate is the struct to bind create POST requests.
@@ -53,7 +52,6 @@ type UserCreate struct {
 	Name     *string `json:"name,omitempty" binding:"omitempty,phrase"`
 	Username *string `json:"username" binding:"required,username"`
 	Email    *string `json:"email" binding:"required,email"`
-	Role     *byte   `json:"role,omitempty" binding:"omitempty,numeric"`
 	Password *string `json:"password" binding:"required,min=8,max=32"`
 }
 
@@ -62,5 +60,4 @@ type UserUpdate struct {
 	Name     *string `json:"name,omitempty" binding:"omitempty,phrase"`
 	Username *string `json:"username,omitempty" binding:"omitempty,username"`
 	Email    *string `json:"email,omitempty" binding:"omitempty,email"`
-	Role     *byte   `json:"role,omitempty" binding:"omitempty,numeric"`
 }

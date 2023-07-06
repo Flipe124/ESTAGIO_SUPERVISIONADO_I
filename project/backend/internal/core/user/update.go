@@ -20,7 +20,6 @@ import (
 //	@Accept			json
 //	@Param			TOKEN		header		string				true	"Bearer token."
 //	@Param			user		path		int					true	"User ID."
-//	@Param			reactivate	query		bool				false	"Reactivate an inactive user."
 //	@Param			JSON		body		models.UserUpdate	true	"Json request."
 //	@Success		204			{string}	string				"No Content"
 //	@Failure		422			{object}	models.HTTP
@@ -34,20 +33,16 @@ func update(ctx *gin.Context) {
 	)
 
 	ID := ctx.Param("user")
-	if ctx.Query("reactivate") != "true" {
-		if err := ctx.ShouldBindJSON(&userUpdate); err != nil {
-			api.LogReturn(
-				ctx,
-				http.StatusUnprocessableEntity,
-				"malformed JSON",
-				err.Error(),
-			)
-			return
-		}
-		err = db.Tx.Model(&models.User{}).Where("id", &ID).Updates(structure.Map(&userUpdate)).Error
-	} else {
-		err = db.Tx.Unscoped().Model(&models.User{}).Where("id", &ID).Updates(map[string]any{"deleted_at": nil}).Error
+	if err := ctx.ShouldBindJSON(&userUpdate); err != nil {
+		api.LogReturn(
+			ctx,
+			http.StatusUnprocessableEntity,
+			"malformed JSON",
+			err.Error(),
+		)
+		return
 	}
+	err = db.Tx.Model(&models.User{}).Where("id", &ID).Updates(structure.Map(&userUpdate)).Error
 
 	if err != nil {
 

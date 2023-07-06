@@ -6,14 +6,11 @@ import (
 )
 
 func init() {
-	user := api.V2.Group("/user", middlewares.Auth)
+	user := api.V2.Group("/user")
 	{
 		user.GET(
-			"/",
-			list,
-		)
-		user.GET(
 			"/:user",
+			middlewares.Auth,
 			get,
 		)
 		user.POST(
@@ -22,15 +19,13 @@ func init() {
 		)
 		user.PATCH(
 			"/:user",
+			middlewares.Auth,
 			update,
 		)
 		user.DELETE(
-			"/",
-			delete,
-		)
-		user.DELETE(
 			"/:user",
-			deleteUser,
+			middlewares.Auth,
+			delete,
 		)
 	}
 }

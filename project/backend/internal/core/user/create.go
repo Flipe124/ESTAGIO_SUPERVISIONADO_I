@@ -19,7 +19,6 @@ import (
 //	@Tags			user
 //	@Accept			json
 //	@Produce		json
-//	@Param			TOKEN	header		string				true	"Bearer token."
 //	@Param			JSON	body		models.UserCreate	true	"Json request."
 //	@Success		201		{object}	models.UserList
 //	@Failure		409		{object}	models.HTTP
