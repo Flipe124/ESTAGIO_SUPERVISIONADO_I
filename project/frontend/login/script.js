@@ -27,7 +27,7 @@ $('#button-eye-repeat').on('click', function () {
 $('#button-login').on('click', function () {
     $('#error-msg-authentication').text('');
 
-    if (validationEmail(email.value) && validationPassword(password.value)) {
+    if (validationEmailOrUsername(email.value) && validationPassword(password.value)) {
         event.preventDefault();
         requestAuthentication();
     }
@@ -70,7 +70,7 @@ function validationPassword(password) {
     return true;
 }
 
-function validationEmail(email) {
+function validationEmailOrUsername(email) {
     field_error_email = document.getElementById("error-msg-email");
 
     if (email.includes('@') || email.includes('.')) {
@@ -113,13 +113,13 @@ function validationUserName(email) {
 
 // HIDE PLACEHOLDER
 
-$(document).ready(function() {
+$(document).ready(function () {
     var passwordInput = $('#password');
     var passwordRepeatInput = $('#password-repeat');
     var placeholderText = $('.placeholder-text');
 
     if (passwordInput.length > 0 && placeholderText.length > 0) {
-        passwordInput.on('input', function() {
+        passwordInput.on('input', function () {
             if (passwordInput.val().length > 0) {
                 placeholderText.eq(0).addClass('hide');
             } else {
@@ -127,7 +127,7 @@ $(document).ready(function() {
             }
         });
 
-        passwordRepeatInput.on('input', function() {
+        passwordRepeatInput.on('input', function () {
             if (passwordRepeatInput.val().length > 0) {
                 placeholderText.eq(1).addClass('hide');
             } else {
@@ -140,6 +140,9 @@ $(document).ready(function() {
 // REQUEST
 
 function requestAuthentication() {
+    user = $("#email").val();
+    password = $("#password").val();
+
     var xhr = new XMLHttpRequest();
 
     xhr.open('POST', 'http://localhost:9999/api/v0/auth/');
@@ -155,7 +158,7 @@ function requestAuthentication() {
             emailUser = sessionStorage.getItem('emailUser');
 
             if (accessToken) {
-                location.replace('http://localhost:9999/page/index.php')
+                location.replace('http://localhost:8080/page/index.php')
             }
 
         } else {
@@ -165,14 +168,14 @@ function requestAuthentication() {
 
     if (email.value.includes('@')) {
         var data = {
-            "email": email.value,
-            "password": password.value,
+            "email": user,
+            "password": password,
         }
 
     } else {
         var data = {
-            "username": email.value,
-            "password": password.value
+            "username": user,
+            "password": password
         }
     }
 
