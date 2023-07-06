@@ -1,5 +1,5 @@
 <div class="revenue-table results">
-    <div class="result filter-preset-1" data-id="1" data-category="um" data-value="12300.30">
+    <!-- <div class="result filter-preset-1" data-id="1" data-category="um" data-value="12300.30">
         <span class="icon-category">
             <i class="fab fa-sellcast text-success"></i>
         </span>
@@ -15,5 +15,5 @@
         <div class="value text-success">
             <b class="text-value">R$ 12.300,30</b> <span class="status mb-1 ms-1"><i class="fas fa-check-circle text-danger"></i></span>
         </div>
-    </div>
+    </div> -->
 </div>
