@@ -16,7 +16,7 @@
 <body>
     <main>
         <div class="mt-4 ms-4">
-            <a class="btn btn-light" href="./index.php"><b><i class="fa-solid fa-chevron-left"></i> VOLTAR</b></a>
+            <a class="btn btn-light" href="../login/index.php"><b><i class="fa-solid fa-chevron-left"></i> VOLTAR</b></a>
         </div>
         <div class="row">
             <div id="login-box">
