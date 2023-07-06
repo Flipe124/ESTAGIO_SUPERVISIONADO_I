@@ -49,7 +49,7 @@
                     </div>
                 </form>
                 <div class="col-md-12 mt-2">
-                    <a href="./register.php">Criar uma conta?</a>
+                    <a href="../register/index.php">Criar uma conta?</a>
                     <a href="">Esqueceu a senha?</a>
                 </div>
                 <div class="col-md-3 mt-2">
