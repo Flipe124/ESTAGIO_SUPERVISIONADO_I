@@ -10,9 +10,6 @@ const ERROR_MIN_CHARACTER_PASSWORD = "Senha deve conter " + PASSWORD_MIN_LENGHT 
 var accessToken;
 var emailUser;
 
-email = document.getElementById("email");
-password = document.getElementById("password");
-
 document.getElementById("alert-error").style.display = "none"
 
 $('#button-eye').on('click', function () {
@@ -49,6 +46,8 @@ function showHidePassword(button, field) {
 }
 
 function validationPassword(password) {
+    var password = document.getElementById("password").value;
+
     field_error_password = document.getElementById("error-msg-password");
 
     if (password.length < PASSWORD_MIN_LENGHT && password.length > 0) {
@@ -70,33 +69,33 @@ function validationPassword(password) {
     return true;
 }
 
-function validationEmailOrUsername(email) {
-    field_error_email = document.getElementById("error-msg-email");
+function validationEmailOrUsername() {
+    var email = document.getElementById("email").value;
+
+    var field_error_email = document.getElementById("error-msg-email");
 
     if (email.includes('@') || email.includes('.')) {
         if (!REGEX_EMAIL.test(email) && email.length > 0) {
             field_error_email.innerHTML = ERROR_INVALID_EMAIL;
             field_error_email.style.display = 'block';
-
             return false;
-
         }
     }
 
     if (email.length == 0) {
         field_error_email.innerHTML = ERROR_EMPTY_EMAIL_USERNAME;
         field_error_email.style.display = 'block';
-
         return false;
-
     }
 
     field_error_email.style.display = 'none';
-
     return true;
 }
 
+
 function validationUserName(email) {
+    var email = document.getElementById("email").value;
+
     field_error_email = document.getElementById("error-msg-email");
 
     if (email.length == 0) {
