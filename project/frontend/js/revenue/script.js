@@ -147,15 +147,22 @@ function generateTableOperation() {
     account = "Bradesco";
 
     text_type = "";
+    text_type_operation = "";
 
     iconCategory = setIconCategory(2);
+
+    if (type == "revenue") {
+        text_type_operation = "text-success";
+
+    } else {
+        text_type_operation = "text-danger";
+    }
 
     if (statusOp != "OK") {
         text_type = "text-danger";
     } else {
         text_type = "text-success"
     }
-
 
     result.innerHTML +=
         `<div class="result filter-preset-1" data-id="${id}" data-type="${type}" data-value="${value}" data-status="${statusOp}" data-date="${date}" data-description="${data}" data-category="${categoryName}" data-account="${account}" >
@@ -171,12 +178,12 @@ function generateTableOperation() {
                 </div>
                 <span class="font-size-14 text-secondary">${date}</span>
             </span>
-            <div class="value text-success">
+            <div class="value ${text_type_operation}">
                 <b class="text-value">${formatValue(value)}</b> <span class="status mb-1 ms-1"><i class="fas fa-check-circle ${text_type}"></i></span>
             </div>
         </div>`
 
-    sumRevenueAndFormated();
+    sumRevenueAndExpenseAndFormat();
 }
 
 function setIconCategory(category) {
@@ -196,22 +203,36 @@ function setIconCategory(category) {
 
 }
 
-function sumRevenueAndFormated() {
-    var sum = 0;
+function sumRevenueAndExpenseAndFormat() {
+    var sumRevenue = 0;
+    var sumExpense = 0;
 
     $('.result').each(function () {
         var value = parseFloat($(this).attr('data-value'));
+        var type = $(this).attr('data-type');
 
         if (!isNaN(value)) {
-            sum += value;
+            if (type === 'revenue') {
+                sumRevenue += value;
+            } else if (type === 'expense') {
+                sumExpense += value;
+            }
         }
     });
 
-    var sumFormated = sum.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    var sumRevenueFormatted = sumRevenue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    var sumExpenseFormatted = sumExpense.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
-    var divSum = document.querySelector('.sum-revenue');
+    var divSumRevenue = document.querySelector('.sum-revenue');
+    var divSumExpense = document.querySelector('.sum-expense');
 
-    divSum.innerHTML = sumFormated;
+    if (divSumRevenue) {
+        divSumRevenue.innerHTML = sumRevenueFormatted;
+    }
+
+    if (divSumExpense) {
+        divSumExpense.innerHTML = sumExpenseFormatted;
+    }
 }
 
 function formatValueInput(input) {
