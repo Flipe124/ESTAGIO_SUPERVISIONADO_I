@@ -196,6 +196,39 @@ $(document).ready(function () {
     }
 });
 
+function showModalMessage() {
+    $("#modal-message").modal("show");
+
+    $(".modal-header").addClass("bg-success");
+    $("#modal-message .modal-title").text("REGISTRAR");
+    $("#modal-message .message").text("Conta registrada com sucesso. Você será redirecionado para a tela de login!");
+
+    $("#modal-message .btn-success").on("click", function () {
+        location.replace("../login/index.php");
+    })
+}
+
+function showMessage(message, code) {
+    const ERROR_ALREADY_EXISTS_EMAIL = "Email já  cadastrado!";
+    const ERROR_ALREADY_EXISTS_USERNAME = "Username já  cadastrado!";
+
+    isValid = true;
+
+    if (message == "username already exists") {
+        $("#error-msg-authentication").text(ERROR_ALREADY_EXISTS_USERNAME);
+        isValid = false;
+
+    } else if (message == "email already exists"){
+        $("#error-msg-authentication").text(ERROR_ALREADY_EXISTS_EMAIL);
+        isValid = false;
+
+    } else {
+        $("#error-msg-authentication").text("");
+    }
+
+    return isValid
+}
+
 // REQUEST
 
 function resquestRegisterUser() {
@@ -211,9 +244,17 @@ function resquestRegisterUser() {
 
     xhr.onload = function () {
         if (xhr.status === 200 || xhr.status === 201) {
-            console.log("SUCESSO!");
+            showModalMessage();
+            
         } else {
             connect_success = false;
+
+            var objMessage = JSON.parse(xhr.responseText);
+
+            var code = objMessage.code;
+            var msg = objMessage.error;
+
+            showMessage(msg, code);
 
             console.log(xhr.responseText);
 
