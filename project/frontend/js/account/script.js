@@ -31,7 +31,7 @@ $('#button-create-account').on('click', function () {
 
 $('#button-update-account').on('click', function () {
     if (validationFormAccount("update") == true) {
-        console.log("Tudo certo!")
+        resquestUpdateAccount();
     }
 });
 
@@ -66,7 +66,10 @@ function buttonOpenUpdateAccountModal(modalForm, id, name, value) {
     $(`#modal-${modalForm}-account`).modal("show");
     $(`#form-${modalForm}-account`)[0].reset();
 
-    // $('#update-id').val(id);
+    $('#update-input-id-account').val(id);
+
+    console.log($('#update-input-id-account').val())
+
     $(`#form-${modalForm}-account #${modalForm}-input-name-account`).val(name);
     $(`#form-${modalForm}-account #${modalForm}-input-balance-account`).val(formatValueFromData(value));
 
@@ -75,7 +78,7 @@ function buttonOpenUpdateAccountModal(modalForm, id, name, value) {
 function buttonOpenDeleteAccountModal(modal, id, name, value) {
     $(`#modal-${modal}`).modal("show");
 
-    // $('#update-id').val(id);
+    $('#update-id').val(id);
     $(`#text-name-account`).text(name);
     $(`#text-balance-account`).text(formatValueFromData(value));
 
@@ -358,6 +361,76 @@ function resquestCreateAccount() {
 
     return connect_success
 };
+
+function resquestUpdateAccount() {
+    // disabledButton($('#button-update-revenue'), true);
+
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    var balance = $("#update-input-balance-account").val();
+    balance = balance.replace("R$", "").replace(",", ".");
+    balance = parseFloat(balance);
+
+    var id = $("#update-input-id-account").val();
+    var name = $("#update-input-name-account").val();
+
+
+    console.log(id)
+    console.log(name)
+    console.log(balance)
+
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('PATCH', 'http://localhost:9999/api/v0/account/');// ALTERAR
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200 || xhr.status === 201 || xhr.status === 204) {
+            // disabledButton($('#button-update-revenue'), false);
+
+            showModalMessage("bg-success", "EDITAR CONTA", `Conta editada com sucesso!`, 0);
+
+        } else {
+            // disabledButton($('#button-update-revenue'), false);
+
+            connect_success = false;
+
+            var objMessage;
+
+            if (xhr.responseText) {
+                objMessage = JSON.parse(xhr.responseText);
+                var code = objMessage.code;
+                var msg = objMessage.error;
+
+                showModalMessage("bg-danger", "ERROR", msg, code);
+
+            } else {
+                showModalMessage("bg-danger", "ERROR", "Ocorreu um erro desconhecido.", "");
+            }
+
+            return connect_success
+        }
+    };
+
+    var data = {
+        "id": id,
+        "name": name,
+        "balance": balance
+    }
+
+    var json = JSON.stringify(data);
+
+    xhr.send(json);
+
+    return connect_success
+};
+
 
 function requestListAccount() {
     var accessToken = sessionStorage.getItem('accessToken');
