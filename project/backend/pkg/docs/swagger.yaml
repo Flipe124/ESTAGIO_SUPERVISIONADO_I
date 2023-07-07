@@ -146,6 +146,28 @@ definitions:
       token:
         type: string
     type: object
+  models.TransactionCreate:
+    properties:
+      beneficiary_id:
+        type: integer
+      emitter_id:
+        type: integer
+      value:
+        type: number
+    required:
+    - beneficiary_id
+    - emitter_id
+    - value
+    type: object
+  models.TransactionList:
+    properties:
+      beneficiary_id:
+        type: integer
+      emitter_id:
+        type: integer
+      value:
+        type: number
+    type: object
   models.TypeList:
     properties:
       code:
@@ -244,6 +266,10 @@ paths:
             items:
               $ref: '#/definitions/models.AccountList'
             type: array
+        "204":
+          description: No Content
+          schema:
+            type: string
         "500":
           description: Internal Server Error
           schema:
@@ -272,6 +298,10 @@ paths:
           description: No Content
           schema:
             type: string
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.HTTP'
         "422":
           description: Unprocessable Entity
           schema:
@@ -420,6 +450,10 @@ paths:
             items:
               $ref: '#/definitions/models.CategoryList'
             type: array
+        "204":
+          description: No Content
+          schema:
+            type: string
         "500":
           description: Internal Server Error
           schema:
@@ -448,6 +482,10 @@ paths:
           description: No Content
           schema:
             type: string
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.HTTP'
         "422":
           description: Unprocessable Entity
           schema:
@@ -735,6 +773,64 @@ paths:
       summary: LIST
       tags:
       - status
+  /transaction:
+    get:
+      description: List all transactions.
+      parameters:
+      - description: Bearer token.
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.TransactionList'
+            type: array
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.HTTP'
+      summary: LIST
+      tags:
+      - transaction
+    post:
+      consumes:
+      - application/json
+      description: Create a new transaction.
+      parameters:
+      - description: Json request.
+        in: body
+        name: JSON
+        required: true
+        schema:
+          $ref: '#/definitions/models.TransactionCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.TransactionList'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.HTTP'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.HTTP'
+      summary: CREATE
+      tags:
+      - transaction
   /type:
     get:
       description: List all available type to use.

@@ -20,6 +20,7 @@ import (
 //	@Param			TOKEN		header		string	true	"Bearer token."
 //	@Param			inactives	query		bool	false	"Bring the inactive ones."
 //	@Success		200			{array}		models.CategoryList
+//	@Success		204			{string}	string	"No Content"
 //	@Failure		500			{object}	models.HTTP
 //	@Router			/category [get]
 func list(ctx *gin.Context) {

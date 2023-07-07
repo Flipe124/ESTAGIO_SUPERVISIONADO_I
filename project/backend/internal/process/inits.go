@@ -6,6 +6,7 @@ import (
 	_ "backend/internal/core/auth"
 	_ "backend/internal/core/category"
 	_ "backend/internal/core/status"
+	_ "backend/internal/core/transaction"
 	_ "backend/internal/core/type"
 	_ "backend/internal/core/user"
 	_ "backend/internal/infra/db"
