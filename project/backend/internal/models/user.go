@@ -45,7 +45,6 @@ func (user *User) IsValidPassword(passwordToCompare string) bool {
 
 // UserList is the struct to bind list GET requests.
 type UserList struct {
-	ID       *uint   `json:"id,omitempty"`
 	Name     *string `json:"name,omitempty"`
 	Username *string `json:"username,omitempty"`
 	Email    *string `json:"email,omitempty"`
