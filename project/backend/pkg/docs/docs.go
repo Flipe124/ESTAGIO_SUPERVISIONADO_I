@@ -99,12 +99,6 @@ const docTemplate = `{
                             "$ref": "#/definitions/models.AccountList"
                         }
                     },
-                    "409": {
-                        "description": "Conflict",
-                        "schema": {
-                            "$ref": "#/definitions/models.HTTP"
-                        }
-                    },
                     "422": {
                         "description": "Unprocessable Entity",
                         "schema": {
@@ -197,12 +191,6 @@ const docTemplate = `{
                         "description": "No Content",
                         "schema": {
                             "type": "string"
-                        }
-                    },
-                    "409": {
-                        "description": "Conflict",
-                        "schema": {
-                            "$ref": "#/definitions/models.HTTP"
                         }
                     },
                     "422": {
@@ -393,12 +381,6 @@ const docTemplate = `{
                             "$ref": "#/definitions/models.CategoryList"
                         }
                     },
-                    "409": {
-                        "description": "Conflict",
-                        "schema": {
-                            "$ref": "#/definitions/models.HTTP"
-                        }
-                    },
                     "422": {
                         "description": "Unprocessable Entity",
                         "schema": {
@@ -493,12 +475,6 @@ const docTemplate = `{
                             "type": "string"
                         }
                     },
-                    "409": {
-                        "description": "Conflict",
-                        "schema": {
-                            "$ref": "#/definitions/models.HTTP"
-                        }
-                    },
                     "422": {
                         "description": "Unprocessable Entity",
                         "schema": {
@@ -524,7 +500,6 @@ const docTemplate = `{
                     "finance"
                 ],
                 "summary": "LIST",
-                "deprecated": true,
                 "parameters": [
                     {
                         "type": "string",
@@ -532,30 +507,6 @@ const docTemplate = `{
                         "name": "TOKEN",
                         "in": "header",
                         "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Finance name.",
-                        "name": "name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Finance financename.",
-                        "name": "financename",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Finance email.",
-                        "name": "email",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Finance role.",
-                        "name": "role",
-                        "in": "query"
                     },
                     {
                         "type": "boolean",
@@ -572,6 +523,12 @@ const docTemplate = `{
                             "items": {
                                 "$ref": "#/definitions/models.FinanceList"
                             }
+                        }
+                    },
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
                         }
                     },
                     "500": {
@@ -594,15 +551,7 @@ const docTemplate = `{
                     "finance"
                 ],
                 "summary": "CREATE",
-                "deprecated": true,
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token.",
-                        "name": "TOKEN",
-                        "in": "header",
-                        "required": true
-                    },
                     {
                         "description": "Json request.",
                         "name": "JSON",
@@ -639,110 +588,15 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
-            "delete": {
-                "description": "Deactivate many or all finance.",
-                "tags": [
-                    "finance"
-                ],
-                "summary": "DELETE",
-                "deprecated": true,
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token.",
-                        "name": "TOKEN",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "integer"
-                        },
-                        "collectionFormat": "csv",
-                        "description": "Finance ID's.",
-                        "name": "finances",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.HTTP"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.HTTP"
-                        }
-                    }
-                }
             }
         },
         "/finance/{finance}": {
-            "get": {
-                "description": "Get a single finance from ID.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "finance"
-                ],
-                "summary": "GET",
-                "deprecated": true,
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Bearer token.",
-                        "name": "TOKEN",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Finance ID.",
-                        "name": "finance",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.FinanceList"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.HTTP"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.HTTP"
-                        }
-                    }
-                }
-            },
             "delete": {
-                "description": "Deactivate a single finance.",
+                "description": "Delete the finance.",
                 "tags": [
                     "finance"
                 ],
                 "summary": "DELETE",
-                "deprecated": true,
                 "parameters": [
                     {
                         "type": "string",
@@ -775,7 +629,7 @@ const docTemplate = `{
                 }
             },
             "patch": {
-                "description": "Update already existing finance.",
+                "description": "Update the finance infos.",
                 "consumes": [
                     "application/json"
                 ],
@@ -783,7 +637,6 @@ const docTemplate = `{
                     "finance"
                 ],
                 "summary": "UPDATE",
-                "deprecated": true,
                 "parameters": [
                     {
                         "type": "string",
@@ -800,12 +653,6 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "type": "boolean",
-                        "description": "Reactivate an inactive finance.",
-                        "name": "reactivate",
-                        "in": "query"
-                    },
-                    {
                         "description": "Json request.",
                         "name": "JSON",
                         "in": "body",
@@ -820,6 +667,12 @@ const docTemplate = `{
                         "description": "No Content",
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
                         }
                     },
                     "422": {
@@ -1283,7 +1136,6 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "account_id",
-                "category_id",
                 "status_id",
                 "type_id",
                 "value"

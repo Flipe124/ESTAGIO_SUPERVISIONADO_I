@@ -86,7 +86,6 @@ definitions:
         type: number
     required:
     - account_id
-    - category_id
     - status_id
     - type_id
     - value
@@ -279,10 +278,6 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/models.AccountList'
-        "409":
-          description: Conflict
-          schema:
-            $ref: '#/definitions/models.HTTP'
         "422":
           description: Unprocessable Entity
           schema:
@@ -346,10 +341,6 @@ paths:
           description: No Content
           schema:
             type: string
-        "409":
-          description: Conflict
-          schema:
-            $ref: '#/definitions/models.HTTP'
         "422":
           description: Unprocessable Entity
           schema:
@@ -474,10 +465,6 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/models.CategoryList'
-        "409":
-          description: Conflict
-          schema:
-            $ref: '#/definitions/models.HTTP'
         "422":
           description: Unprocessable Entity
           schema:
@@ -541,10 +528,6 @@ paths:
           description: No Content
           schema:
             type: string
-        "409":
-          description: Conflict
-          schema:
-            $ref: '#/definitions/models.HTTP'
         "422":
           description: Unprocessable Entity
           schema:
@@ -557,40 +540,7 @@ paths:
       tags:
       - category
   /finance:
-    delete:
-      deprecated: true
-      description: Deactivate many or all finance.
-      parameters:
-      - description: Bearer token.
-        in: header
-        name: TOKEN
-        required: true
-        type: string
-      - collectionFormat: csv
-        description: Finance ID's.
-        in: query
-        items:
-          type: integer
-        name: finances
-        type: array
-      responses:
-        "204":
-          description: No Content
-          schema:
-            type: string
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.HTTP'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.HTTP'
-      summary: DELETE
-      tags:
-      - finance
     get:
-      deprecated: true
       description: List all finances.
       parameters:
       - description: Bearer token.
@@ -598,22 +548,6 @@ paths:
         name: TOKEN
         required: true
         type: string
-      - description: Finance name.
-        in: query
-        name: name
-        type: string
-      - description: Finance financename.
-        in: query
-        name: financename
-        type: string
-      - description: Finance email.
-        in: query
-        name: email
-        type: string
-      - description: Finance role.
-        in: query
-        name: role
-        type: integer
       - description: Bring the inactive ones.
         in: query
         name: inactives
@@ -627,6 +561,10 @@ paths:
             items:
               $ref: '#/definitions/models.FinanceList'
             type: array
+        "204":
+          description: No Content
+          schema:
+            type: string
         "500":
           description: Internal Server Error
           schema:
@@ -637,14 +575,8 @@ paths:
     post:
       consumes:
       - application/json
-      deprecated: true
       description: Create a new finance.
       parameters:
-      - description: Bearer token.
-        in: header
-        name: TOKEN
-        required: true
-        type: string
       - description: Json request.
         in: body
         name: JSON
@@ -675,8 +607,7 @@ paths:
       - finance
   /finance/{finance}:
     delete:
-      deprecated: true
-      description: Deactivate a single finance.
+      description: Delete the finance.
       parameters:
       - description: Bearer token.
         in: header
@@ -700,43 +631,10 @@ paths:
       summary: DELETE
       tags:
       - finance
-    get:
-      deprecated: true
-      description: Get a single finance from ID.
-      parameters:
-      - description: Bearer token.
-        in: header
-        name: TOKEN
-        required: true
-        type: string
-      - description: Finance ID.
-        in: path
-        name: finance
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.FinanceList'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.HTTP'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.HTTP'
-      summary: GET
-      tags:
-      - finance
     patch:
       consumes:
       - application/json
-      deprecated: true
-      description: Update already existing finance.
+      description: Update the finance infos.
       parameters:
       - description: Bearer token.
         in: header
@@ -748,10 +646,6 @@ paths:
         name: finance
         required: true
         type: integer
-      - description: Reactivate an inactive finance.
-        in: query
-        name: reactivate
-        type: boolean
       - description: Json request.
         in: body
         name: JSON
@@ -763,6 +657,10 @@ paths:
           description: No Content
           schema:
             type: string
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.HTTP'
         "422":
           description: Unprocessable Entity
           schema:
