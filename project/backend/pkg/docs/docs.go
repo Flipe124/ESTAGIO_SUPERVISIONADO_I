@@ -1147,6 +1147,9 @@ const docTemplate = `{
                 "category_id": {
                     "type": "integer"
                 },
+                "datetime": {
+                    "type": "string"
+                },
                 "description": {
                     "type": "string"
                 },
@@ -1169,6 +1172,9 @@ const docTemplate = `{
                 },
                 "category_id": {
                     "type": "integer"
+                },
+                "datetime": {
+                    "type": "string"
                 },
                 "description": {
                     "type": "string"
@@ -1195,6 +1201,9 @@ const docTemplate = `{
                 },
                 "category_id": {
                     "type": "integer"
+                },
+                "datetime": {
+                    "type": "string"
                 },
                 "description": {
                     "type": "string"

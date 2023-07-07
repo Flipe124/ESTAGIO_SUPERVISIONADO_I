@@ -1140,6 +1140,9 @@
                 "category_id": {
                     "type": "integer"
                 },
+                "datetime": {
+                    "type": "string"
+                },
                 "description": {
                     "type": "string"
                 },
@@ -1162,6 +1165,9 @@
                 },
                 "category_id": {
                     "type": "integer"
+                },
+                "datetime": {
+                    "type": "string"
                 },
                 "description": {
                     "type": "string"
@@ -1188,6 +1194,9 @@
                 },
                 "category_id": {
                     "type": "integer"
+                },
+                "datetime": {
+                    "type": "string"
                 },
                 "description": {
                     "type": "string"
