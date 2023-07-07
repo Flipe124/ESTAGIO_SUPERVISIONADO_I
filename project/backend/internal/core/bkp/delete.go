@@ -64,7 +64,7 @@ func delete(ctx *gin.Context) {
 //	@Summary		DELETE
 //	@Description	Deactivate a single finance.
 //	@Tags			finance
-//	@Param			Token	header		string	true	"Bearer token."
+//	@Param			TOKEN	header		string	true	"Bearer token."
 //	@Param			finance	path		int		true	"Finance ID."
 //	@Success		204		{string}	string	"No Content"
 //	@Failure		500		{object}	models.HTTP

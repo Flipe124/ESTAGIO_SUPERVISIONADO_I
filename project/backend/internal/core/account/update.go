@@ -19,12 +19,13 @@ import (
 //	@Tags			account
 //	@Accept			json
 //	@Param			TOKEN	header		string					true	"Bearer token."
+//	@Param			account	path		int						true	"Account ID."
 //	@Param			JSON	body		models.AccountUpdate	true	"Json request."
 //	@Success		204		{string}	string					"No Content"
 //	@Failure		409		{object}	models.HTTP
 //	@Failure		422		{object}	models.HTTP
 //	@Failure		500		{object}	models.HTTP
-//	@Router			/account [patch]
+//	@Router			/account/{account} [patch]
 func update(ctx *gin.Context) {
 
 	var (
@@ -41,7 +42,7 @@ func update(ctx *gin.Context) {
 		)
 		return
 	}
-	err = db.Tx.Model(&models.Account{}).Where("id", ctx.GetUint("id")).Updates(structure.Map(&accountUpdate)).Error
+	err = db.Tx.Model(&models.Account{}).Where("id", ctx.Param("account")).Updates(structure.Map(&accountUpdate)).Error
 
 	if err != nil {
 

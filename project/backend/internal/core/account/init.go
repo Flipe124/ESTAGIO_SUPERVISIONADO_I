@@ -17,11 +17,11 @@ func init() {
 			create,
 		)
 		account.PATCH(
-			"/",
+			"/:account",
 			update,
 		)
 		account.DELETE(
-			"/",
+			"/:account",
 			delete,
 		)
 	}

@@ -229,26 +229,6 @@ info:
   version: 0.0.0
 paths:
   /account:
-    delete:
-      description: Delete the account.
-      parameters:
-      - description: Bearer token.
-        in: header
-        name: Token
-        required: true
-        type: string
-      responses:
-        "204":
-          description: No Content
-          schema:
-            type: string
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.HTTP'
-      summary: DELETE
-      tags:
-      - account
     get:
       description: List all accounts.
       parameters:
@@ -279,42 +259,6 @@ paths:
           schema:
             $ref: '#/definitions/models.HTTP'
       summary: LIST
-      tags:
-      - account
-    patch:
-      consumes:
-      - application/json
-      description: Update the account infos.
-      parameters:
-      - description: Bearer token.
-        in: header
-        name: TOKEN
-        required: true
-        type: string
-      - description: Json request.
-        in: body
-        name: JSON
-        required: true
-        schema:
-          $ref: '#/definitions/models.AccountUpdate'
-      responses:
-        "204":
-          description: No Content
-          schema:
-            type: string
-        "409":
-          description: Conflict
-          schema:
-            $ref: '#/definitions/models.HTTP'
-        "422":
-          description: Unprocessable Entity
-          schema:
-            $ref: '#/definitions/models.HTTP'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.HTTP'
-      summary: UPDATE
       tags:
       - account
     post:
@@ -348,6 +292,73 @@ paths:
           schema:
             $ref: '#/definitions/models.HTTP'
       summary: CREATE
+      tags:
+      - account
+  /account/{account}:
+    delete:
+      description: Delete the account.
+      parameters:
+      - description: Bearer token.
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - description: Account ID.
+        in: path
+        name: account
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.HTTP'
+      summary: DELETE
+      tags:
+      - account
+    patch:
+      consumes:
+      - application/json
+      description: Update the account infos.
+      parameters:
+      - description: Bearer token.
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - description: Account ID.
+        in: path
+        name: account
+        required: true
+        type: integer
+      - description: Json request.
+        in: body
+        name: JSON
+        required: true
+        schema:
+          $ref: '#/definitions/models.AccountUpdate'
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.HTTP'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.HTTP'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.HTTP'
+      summary: UPDATE
       tags:
       - account
   /auth:
@@ -413,26 +424,6 @@ paths:
       tags:
       - auth
   /category:
-    delete:
-      description: Delete the category.
-      parameters:
-      - description: Bearer token.
-        in: header
-        name: Token
-        required: true
-        type: string
-      responses:
-        "204":
-          description: No Content
-          schema:
-            type: string
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.HTTP'
-      summary: DELETE
-      tags:
-      - category
     get:
       description: List all categories.
       parameters:
@@ -463,42 +454,6 @@ paths:
           schema:
             $ref: '#/definitions/models.HTTP'
       summary: LIST
-      tags:
-      - category
-    patch:
-      consumes:
-      - application/json
-      description: Update the category infos.
-      parameters:
-      - description: Bearer token.
-        in: header
-        name: TOKEN
-        required: true
-        type: string
-      - description: Json request.
-        in: body
-        name: JSON
-        required: true
-        schema:
-          $ref: '#/definitions/models.CategoryUpdate'
-      responses:
-        "204":
-          description: No Content
-          schema:
-            type: string
-        "409":
-          description: Conflict
-          schema:
-            $ref: '#/definitions/models.HTTP'
-        "422":
-          description: Unprocessable Entity
-          schema:
-            $ref: '#/definitions/models.HTTP'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.HTTP'
-      summary: UPDATE
       tags:
       - category
     post:
@@ -532,6 +487,73 @@ paths:
           schema:
             $ref: '#/definitions/models.HTTP'
       summary: CREATE
+      tags:
+      - category
+  /category/{category}:
+    delete:
+      description: Delete the category.
+      parameters:
+      - description: Bearer token.
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - description: Category ID.
+        in: path
+        name: category
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.HTTP'
+      summary: DELETE
+      tags:
+      - category
+    patch:
+      consumes:
+      - application/json
+      description: Update the category infos.
+      parameters:
+      - description: Bearer token.
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - description: Category ID.
+        in: path
+        name: category
+        required: true
+        type: integer
+      - description: Json request.
+        in: body
+        name: JSON
+        required: true
+        schema:
+          $ref: '#/definitions/models.CategoryUpdate'
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.HTTP'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.HTTP'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.HTTP'
+      summary: UPDATE
       tags:
       - category
   /finance:
@@ -658,7 +680,7 @@ paths:
       parameters:
       - description: Bearer token.
         in: header
-        name: Token
+        name: TOKEN
         required: true
         type: string
       - description: Finance ID.
@@ -866,7 +888,7 @@ paths:
       parameters:
       - description: Bearer token.
         in: header
-        name: Token
+        name: TOKEN
         required: true
         type: string
       responses:

@@ -118,7 +118,9 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
+            }
+        },
+        "/account/{account}": {
             "delete": {
                 "description": "Delete the account.",
                 "tags": [
@@ -129,8 +131,15 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Bearer token.",
-                        "name": "Token",
+                        "name": "TOKEN",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Account ID.",
+                        "name": "account",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -164,6 +173,13 @@ const docTemplate = `{
                         "description": "Bearer token.",
                         "name": "TOKEN",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Account ID.",
+                        "name": "account",
+                        "in": "path",
                         "required": true
                     },
                     {
@@ -396,7 +412,9 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
+            }
+        },
+        "/category/{category}": {
             "delete": {
                 "description": "Delete the category.",
                 "tags": [
@@ -407,8 +425,15 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Bearer token.",
-                        "name": "Token",
+                        "name": "TOKEN",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Category ID.",
+                        "name": "category",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -442,6 +467,13 @@ const docTemplate = `{
                         "description": "Bearer token.",
                         "name": "TOKEN",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Category ID.",
+                        "name": "category",
+                        "in": "path",
                         "required": true
                     },
                     {
@@ -715,7 +747,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Bearer token.",
-                        "name": "Token",
+                        "name": "TOKEN",
                         "in": "header",
                         "required": true
                     },
@@ -1069,7 +1101,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Bearer token.",
-                        "name": "Token",
+                        "name": "TOKEN",
                         "in": "header",
                         "required": true
                     }

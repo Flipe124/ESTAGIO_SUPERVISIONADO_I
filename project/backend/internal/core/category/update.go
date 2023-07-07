@@ -18,13 +18,14 @@ import (
 //	@Description	Update the category infos.
 //	@Tags			category
 //	@Accept			json
-//	@Param			TOKEN	header		string					true	"Bearer token."
-//	@Param			JSON	body		models.CategoryUpdate	true	"Json request."
-//	@Success		204		{string}	string					"No Content"
-//	@Failure		409		{object}	models.HTTP
-//	@Failure		422		{object}	models.HTTP
-//	@Failure		500		{object}	models.HTTP
-//	@Router			/category [patch]
+//	@Param			TOKEN		header		string					true	"Bearer token."
+//	@Param			category	path		int						true	"Category ID."
+//	@Param			JSON		body		models.CategoryUpdate	true	"Json request."
+//	@Success		204			{string}	string					"No Content"
+//	@Failure		409			{object}	models.HTTP
+//	@Failure		422			{object}	models.HTTP
+//	@Failure		500			{object}	models.HTTP
+//	@Router			/category/{category} [patch]
 func update(ctx *gin.Context) {
 
 	var (
@@ -41,7 +42,7 @@ func update(ctx *gin.Context) {
 		)
 		return
 	}
-	err = db.Tx.Model(&models.Category{}).Where("id", ctx.GetUint("id")).Updates(structure.Map(&categoryUpdate)).Error
+	err = db.Tx.Model(&models.Category{}).Where("id", ctx.Param("category")).Updates(structure.Map(&categoryUpdate)).Error
 
 	if err != nil {
 

@@ -17,11 +17,11 @@ func init() {
 			create,
 		)
 		category.PATCH(
-			"/",
+			"/:category",
 			update,
 		)
 		category.DELETE(
-			"/",
+			"/:category",
 			delete,
 		)
 	}

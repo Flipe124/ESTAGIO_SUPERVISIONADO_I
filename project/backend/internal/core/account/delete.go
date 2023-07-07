@@ -15,13 +15,14 @@ import (
 //	@Summary		DELETE
 //	@Description	Delete the account.
 //	@Tags			account
-//	@Param			Token	header		string	true	"Bearer token."
+//	@Param			TOKEN	header		string	true	"Bearer token."
+//	@Param			account	path		int		true	"Account ID."
 //	@Success		204		{string}	string	"No Content"
 //	@Failure		500		{object}	models.HTTP
-//	@Router			/account [delete]
+//	@Router			/account/{account} [delete]
 func delete(ctx *gin.Context) {
 
-	if err := db.Tx.Unscoped().Delete(&models.Account{}, ctx.GetUint("id")).Error; err != nil {
+	if err := db.Tx.Unscoped().Delete(&models.Account{}, ctx.Param("account")).Error; err != nil {
 		api.LogReturn(
 			ctx,
 			http.StatusInternalServerError,
