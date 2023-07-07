@@ -203,7 +203,6 @@ function resquestRegisterUser() {
     var name = $("#name").val();
     var password = $("#password").val();
     var username = $("#username").val();
-    var role = 0; // AQUI
 
     var connect_success = true;
     var xhr = new XMLHttpRequest();
@@ -226,7 +225,6 @@ function resquestRegisterUser() {
         "email": email,
         "name": name,
         "password": password,
-        "role": role, // AQUI
         "username": username
     }
 
