@@ -375,9 +375,22 @@ function showModalMessage(backgroundTitle, title, message, code) {
     }
 };
 
+function disabledButton(button, disabled){
+
+    button.text("Carregando...");
+
+    button.prop("disabled", disabled);
+}
+
 // REQUEST
 
 function resquestCreateRevenue() {
+    disabledButton($('#button-create'), true);
+
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
     var value = $("#create-input-value-operation").val();
     var status = $("#create-input-status-operation").val();
     var date = $("#create-input-date-operation").val();
@@ -386,17 +399,30 @@ function resquestCreateRevenue() {
     var account = $("#create-input-account-operation").val();
 
     var connect_success = true;
+
     var xhr = new XMLHttpRequest();
 
     xhr.open('POST', 'http://localhost:9999/api/v0/user/');// ALTERAR
 
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
     xhr.onload = function () {
         if (xhr.status === 200 || xhr.status === 201) {
-            console.log("SUCESSO!");
+            disabledButton($('#button-create'), false);
+
+            showModalMessage("bg-success", "NOVA RECEITA", `Receita cadastrada com sucesso!`, 0);
+
         } else {
+            disabledButton($('#button-create'), false);
+
             connect_success = false;
 
-            console.log(xhr.responseText);
+            var objMessage = JSON.parse(xhr.responseText);
+
+            var code = objMessage.code;
+            var msg = objMessage.error;
+
+            showModalMessage("bg-danger", "ERROR", msg, code);
 
             return connect_success
         }
@@ -417,6 +443,12 @@ function resquestCreateRevenue() {
 }
 
 function resquestUpdateRevenue() {
+    disabledButton($('#button-update-revenue'), true);
+
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
     var value = $("#create-input-value-operation").val();
     var status = $("#create-input-status-operation").val();
     var date = $("#create-input-date-operation").val();
@@ -425,17 +457,30 @@ function resquestUpdateRevenue() {
     var account = $("#create-input-account-operation").val();
 
     var connect_success = true;
+
     var xhr = new XMLHttpRequest();
 
     xhr.open('PATCH', 'http://localhost:9999/api/v0/user/');// ALTERAR
 
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
     xhr.onload = function () {
         if (xhr.status === 200 || xhr.status === 201) {
-            console.log("SUCESSO!");
+            disabledButton($('#button-update-revenue'), false);
+
+            showModalMessage("bg-success", "EDITAR RECEITA", `Receita editada com sucesso!`, 0);
+
         } else {
+            disabledButton($('#button-update-revenue'), false);
+
             connect_success = false;
 
-            console.log(xhr.responseText);
+            var objMessage = JSON.parse(xhr.responseText);
+
+            var code = objMessage.code;
+            var msg = objMessage.error;
+
+            showModalMessage("bg-danger", "ERROR", msg, code);
 
             return connect_success
         }
@@ -456,6 +501,11 @@ function resquestUpdateRevenue() {
 }
 
 function requestDeleteRevenue() {
+    disabledButton($('#button-confirm-delete'), true);
+    
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
 
     var id = $('#delete-id').val();
 
@@ -465,15 +515,25 @@ function requestDeleteRevenue() {
 
     xhr.open('DELETE', `http://localhost:8008/api/v2/user/${id}`); // ALTERAR
 
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
     xhr.onload = function () {
         if (xhr.status === 200 || xhr.status === 204) {
-            console.log("SUCESSO!")
+            disabledButton($('#button-confirm-delete'), false);
+
+            showModalMessage("bg-success", "EXCLUIR RECEITA", `Receita excluida com sucesso!`, 0);
 
         } else {
+            disabledButton($('#button-confirm-delete'), false);
 
             connect_success = false;
 
-            console.log(xhr.responseText);
+            var objMessage = JSON.parse(xhr.responseText);
+
+            var code = objMessage.code;
+            var msg = objMessage.error;
+
+            showModalMessage("bg-danger", "ERROR", msg, code);
 
             return connect_success
         }
