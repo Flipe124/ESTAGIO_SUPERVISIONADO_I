@@ -46,6 +46,7 @@
         <?php require_once("../modal/modal-new.php"); ?>
         <?php require_once("../modal/modal-update.php"); ?>
         <?php require_once("../modal/modal-delete.php"); ?>
+        <?php require_once("../modal/modal-message.php"); ?>
     </div>
 
     <div></div>
