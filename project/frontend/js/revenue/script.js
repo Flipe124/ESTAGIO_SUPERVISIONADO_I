@@ -28,8 +28,8 @@ $("#button-delete-revenue").on("click", function () {
     modalAction("delete", "show")
 });
 
-$('#modal-delete').on('hidden.bs.modal', function (e) {
-    modalAction("update", "show")
+$('#button-cancel-delete').on('click', function () {
+    modalAction("update", "show");
 });
 
 
@@ -46,6 +46,13 @@ $("#button-update-revenue").on("click", function () {
         // resquestCreateRevenue();
     }
 });
+
+$("#button-confirm-delete").on("click", function () {
+    // resquestDeleteRevenue();
+    showModalMessage("bg-success", "EXCLUIR RECEITA", `Receita excluida com sucesso!`, 0);
+
+});
+
 
 //------------------ Funções ------------------
 
@@ -375,7 +382,7 @@ function showModalMessage(backgroundTitle, title, message, code) {
     }
 };
 
-function disabledButton(button, disabled){
+function disabledButton(button, disabled) {
 
     button.text("Carregando...");
 
@@ -440,7 +447,7 @@ function resquestCreateRevenue() {
     xhr.send(json);
 
     return connect_success
-}
+};
 
 function resquestUpdateRevenue() {
     disabledButton($('#button-update-revenue'), true);
@@ -498,11 +505,11 @@ function resquestUpdateRevenue() {
     xhr.send(json);
 
     return connect_success
-}
+};
 
 function requestDeleteRevenue() {
     disabledButton($('#button-confirm-delete'), true);
-    
+
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
@@ -548,4 +555,46 @@ function requestDeleteRevenue() {
     xhr.send(json);
 
     return connect_success
+};
+
+function requestListRevenue() {
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    console.log(token); // Remover na versão final
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', 'http://localhost:8008/api/v2/user/'); // ALTERAR
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            console.log("Status OK");
+            var resposta = JSON.parse(xhr.responseText);
+
+            for (var i = 0; i < resposta.length; i++) {
+                tableUserResults(resposta[i].id, resposta[i].name, resposta[i].username, resposta[i].email, true);// ALTERAR
+
+            }
+
+        } else {
+            connect_success = false;
+
+            var objMessage = JSON.parse(xhr.responseText);
+
+            var code = objMessage.code;
+            var msg = objMessage.error;
+
+            showModalMessage("bg-danger", "ERRO", msg, code);
+
+            return connect_success
+        }
+    };
+
+    xhr.send();
 };
