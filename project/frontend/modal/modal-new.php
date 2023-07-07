@@ -11,7 +11,7 @@
                     <div class="row">
                         <div class="col-md-12 mt-2">
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="create-input-value-operation" placeholder="Valor" oninput="formatValue(this)" maxlength="20">
+                                <input type="text" class="form-control" id="create-input-value-operation" placeholder="Valor" oninput="formatValueOniput(this)" maxlength="20">
                                 <label for="create-input-value-operation">Valor: <span class="text-danger">*</span></label>
                                 <span class="text-danger error error-msg-value-operation"></span>
                             </div>
