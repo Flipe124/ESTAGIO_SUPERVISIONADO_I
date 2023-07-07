@@ -35,9 +35,10 @@ $('#button-update-account').on('click', function () {
     }
 });
 
-$('#button-delete-account').on('click', function () {
-
-});
+$('#button-confirm-delete').on('click', function () {
+    console.log($("#delete-id-account").val());
+    // requestDeleteAccount();
+}); 
 
 // FUNCTIONS
 
@@ -422,6 +423,56 @@ function resquestUpdateAccount() {
         "id": id,
         "name": name,
         "balance": balance
+    }
+
+    var json = JSON.stringify(data);
+
+    xhr.send(json);
+
+    return connect_success
+};
+
+function requestDeleteAccount() {
+    // disabledButton($('#button-confirm-delete'), true);
+
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    var id = $('#delete-id').val();
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('DELETE', `http://localhost:8008/api/v2/account/${id}`); // ALTERAR
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200 || xhr.status === 204) {
+            // disabledButton($('#button-confirm-delete'), false);
+
+            showModalMessage("bg-success", "EXCLUIR RECEITA", `Receita excluida com sucesso!`, 0);
+
+        } else {
+            // disabledButton($('#button-confirm-delete'), false);
+
+            connect_success = false;
+
+            var objMessage = JSON.parse(xhr.responseText);
+
+            var code = objMessage.code;
+            var msg = objMessage.error;
+
+            showModalMessage("bg-danger", "ERROR", msg, code);
+
+            return connect_success
+        }
+    };
+
+    var data = {
+        "id": id,
     }
 
     var json = JSON.stringify(data);
