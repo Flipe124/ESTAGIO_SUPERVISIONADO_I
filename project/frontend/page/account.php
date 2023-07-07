@@ -37,6 +37,7 @@
     <?php include_once("../modal/modal-new-account.php") ?>
     <?php include_once("../modal/modal-update-account.php") ?>
     <?php include_once("../modal/modal-delete-account.php") ?>
+    <?php require_once("../modal/modal-message.php"); ?>
     <?php include_once("../includes/footer.php") ?>
     <script src="../js/account/script.js"></script>
     <script src="https://cdn.datatables.net/1.11.2/js/jquery.dataTables.min.js"></script>
