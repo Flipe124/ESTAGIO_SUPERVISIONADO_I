@@ -10,7 +10,10 @@ $("#btn-open-modal-revenue").on("click", function () {
 })
 
 $("#button-new-revenue").on("click", function () {
-    modalAction("create", "show")
+    modalAction("create", "show");
+    requestListCategory();
+    requestListAccount();
+
     var meuInput = document.getElementById('create-input-value-operation');
 
     formatValueInput(meuInput);
@@ -410,6 +413,26 @@ function disabledButton(button, disabled) {
     button.prop("disabled", disabled);
 }
 
+function fillSelectCategory(id, name, icon) {
+
+    categoria =
+        `
+        <option value="${id}">${name}</option>
+        `
+
+    $("#create-input-category-operation").append(categoria);
+}
+
+function fillSelectAccount(id, bank, balance) {
+
+    conta =
+        `
+        <option value="${id}">${bank}</option>
+        `
+
+    $("#create-input-account-operation").append(conta);
+}
+
 // REQUEST
 
 function resquestCreateRevenue() {
@@ -430,7 +453,7 @@ function resquestCreateRevenue() {
 
     var xhr = new XMLHttpRequest();
 
-    xhr.open('POST', 'http://localhost:9999/api/v0/user/');// ALTERAR
+    xhr.open('POST', 'http://localhost:9999/api/v0/finance/');// ALTERAR
 
     xhr.setRequestHeader('Token', `Bearer ${token}`);
 
@@ -541,7 +564,7 @@ function requestDeleteRevenue() {
 
     var xhr = new XMLHttpRequest();
 
-    xhr.open('DELETE', `http://localhost:8008/api/v2/user/${id}`); // ALTERAR
+    xhr.open('DELETE', `http://localhost:9999/api/v0/user/${id}`); // ALTERAR
 
     xhr.setRequestHeader('Token', `Bearer ${token}`);
 
@@ -602,6 +625,92 @@ function requestListRevenue() {
                 tableUserResults(resposta[i].id, resposta[i].name, resposta[i].username, resposta[i].email, true);// ALTERAR
 
             }
+
+        } else {
+            connect_success = false;
+
+            var objMessage = JSON.parse(xhr.responseText);
+
+            var code = objMessage.code;
+            var msg = objMessage.error;
+
+            showModalMessage("bg-danger", "ERRO", msg, code);
+
+            return connect_success
+        }
+    };
+
+    xhr.send();
+};
+
+function requestListCategory() {
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    console.log(token); // Remover na versão final
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', 'http://localhost:9999/api/v0/category/');
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var resposta = JSON.parse(xhr.responseText);
+
+            for (var i = 0; i < resposta.length; i++) {
+                fillSelectCategory(resposta[i].id, resposta[i].name, resposta[i].icon)
+            }
+
+        } else if (xhr.status === 204) {
+            console.log("Sem categorias registradas!");
+
+        } else {
+            connect_success = false;
+
+            var objMessage = JSON.parse(xhr.responseText);
+
+            var code = objMessage.code;
+            var msg = objMessage.error;
+
+            showModalMessage("bg-danger", "ERRO", msg, code);
+
+            return connect_success
+        }
+    };
+
+    xhr.send();
+};
+
+function requestListAccount() {
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    console.log(token); // Remover na versão final
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', 'http://localhost:9999/api/v0/account/');
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var resposta = JSON.parse(xhr.responseText);
+
+            for (var i = 0; i < resposta.length; i++) {
+                fillSelectAccount(resposta[i].id, resposta[i].name, resposta[i].balance)
+            }
+
+        } else if (xhr.status === 204) {
+            console.log("Sem contas registradas!");
 
         } else {
             connect_success = false;
