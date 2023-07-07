@@ -58,12 +58,12 @@ func list(ctx *gin.Context) {
 		return
 	}
 
-	usersList := make([]*models.UserList, len(accounts))
-	for index, user := range accounts {
-		usersList[index] = &models.UserList{}
-		structure.Assign(user, usersList[index])
+	accountsList := make([]*models.AccountList, len(accounts))
+	for index, account := range accounts {
+		accountsList[index] = &models.AccountList{}
+		structure.Assign(account, accountsList[index])
 	}
 
-	ctx.JSON(http.StatusOK, usersList)
+	ctx.JSON(http.StatusOK, accountsList)
 
 }
