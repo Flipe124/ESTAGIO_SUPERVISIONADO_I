@@ -1,4 +1,4 @@
-package user
+package account
 
 import (
 	"net/http"
@@ -31,15 +31,6 @@ func update(ctx *gin.Context) {
 		err           error
 	)
 
-	id, exists := ctx.Get("id")
-	if !exists {
-		api.Return(
-			ctx,
-			http.StatusBadRequest,
-			"missing user id",
-		)
-		return
-	}
 	if err := ctx.ShouldBindJSON(&accountUpdate); err != nil {
 		api.LogReturn(
 			ctx,
@@ -49,7 +40,7 @@ func update(ctx *gin.Context) {
 		)
 		return
 	}
-	err = db.Tx.Model(&models.User{}).Where("id", &id).Updates(structure.Map(&accountUpdate)).Error
+	err = db.Tx.Model(&models.Account{}).Where("id", ctx.GetUint("id")).Updates(structure.Map(&accountUpdate)).Error
 
 	if err != nil {
 

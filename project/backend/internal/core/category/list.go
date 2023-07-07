@@ -1,4 +1,4 @@
-package account
+package category
 
 import (
 	"net/http"
@@ -14,22 +14,22 @@ import (
 // Swagger:
 //
 //	@Summary		LIST
-//	@Description	List all accounts.
-//	@Tags			account
+//	@Description	List all categories.
+//	@Tags			category
 //	@Produce		json
 //	@Param			TOKEN		header		string	true	"Bearer token."
 //	@Param			inactives	query		bool	false	"Bring the inactive ones."
-//	@Success		200			{array}		models.AccountList
+//	@Success		200			{array}		models.CategoryList
 //	@Failure		500			{object}	models.HTTP
-//	@Router			/account [get]
+//	@Router			/category [get]
 func list(ctx *gin.Context) {
 
 	var (
-		accounts []*models.Account
-		err      error
+		categories []*models.Category
+		err        error
 	)
 
-	err = db.Tx.Find(&accounts, ctx.GetUint("id")).Error
+	err = db.Tx.Find(&categories, ctx.GetUint("id")).Error
 	if err != nil {
 		api.LogReturn(
 			ctx,
@@ -40,17 +40,17 @@ func list(ctx *gin.Context) {
 		return
 	}
 
-	if len(accounts) < 1 {
+	if len(categories) < 1 {
 		ctx.Status(http.StatusNoContent)
 		return
 	}
 
-	accountsList := make([]*models.AccountList, len(accounts))
-	for index, account := range accounts {
-		accountsList[index] = &models.AccountList{}
-		structure.Assign(account, accountsList[index])
+	categoriesList := make([]*models.CategoryList, len(categories))
+	for index, category := range categories {
+		categoriesList[index] = &models.CategoryList{}
+		structure.Assign(category, categoriesList[index])
 	}
 
-	ctx.JSON(http.StatusOK, accountsList)
+	ctx.JSON(http.StatusOK, categoriesList)
 
 }

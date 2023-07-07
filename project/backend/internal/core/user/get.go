@@ -30,15 +30,7 @@ func get(ctx *gin.Context) {
 
 	userList := &models.UserList{}
 
-	id, exists := ctx.Get("id")
-	if !exists {
-		api.Return(
-			ctx,
-			http.StatusBadRequest,
-			"missing user id",
-		)
-		return
-	}
+	id := ctx.GetUint("id")
 	if err := db.Tx.First(&user, &id).Error; err != nil {
 
 		code := http.StatusInternalServerError

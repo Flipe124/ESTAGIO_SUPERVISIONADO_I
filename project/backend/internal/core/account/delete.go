@@ -1,4 +1,4 @@
-package user
+package account
 
 import (
 	"net/http"
@@ -21,16 +21,7 @@ import (
 //	@Router			/account [delete]
 func delete(ctx *gin.Context) {
 
-	id, exists := ctx.Get("id")
-	if !exists {
-		api.Return(
-			ctx,
-			http.StatusBadRequest,
-			"missing user id",
-		)
-		return
-	}
-	if err := db.Tx.Delete(&models.User{}, &id).Error; err != nil {
+	if err := db.Tx.Unscoped().Delete(&models.Account{}, ctx.GetUint("id")).Error; err != nil {
 		api.LogReturn(
 			ctx,
 			http.StatusInternalServerError,

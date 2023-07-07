@@ -1,4 +1,4 @@
-package account
+package category
 
 import (
 	"net/http"
@@ -15,25 +15,25 @@ import (
 // Swagger:
 //
 //	@Summary		CREATE
-//	@Description	Create a new account.
-//	@Tags			account
+//	@Description	Create a new category.
+//	@Tags			category
 //	@Accept			json
 //	@Produce		json
-//	@Param			JSON	body		models.AccountCreate	true	"Json request."
-//	@Success		201		{object}	models.AccountList
+//	@Param			JSON	body		models.CategoryCreate	true	"Json request."
+//	@Success		201		{object}	models.CategoryList
 //	@Failure		409		{object}	models.HTTP
 //	@Failure		422		{object}	models.HTTP
 //	@Failure		500		{object}	models.HTTP
-//	@Router			/account [post]
+//	@Router			/category [post]
 func create(ctx *gin.Context) {
 
-	var accountCreate *models.AccountCreate
+	var categoryCreate *models.CategoryCreate
 
-	account := &models.Account{}
-	accountList := &models.AccountList{}
+	category := &models.Category{}
+	categoryList := &models.CategoryList{}
 
 	id := ctx.GetUint("id")
-	if err := ctx.ShouldBindJSON(&accountCreate); err != nil {
+	if err := ctx.ShouldBindJSON(&categoryCreate); err != nil {
 		api.LogReturn(
 			ctx,
 			http.StatusUnprocessableEntity,
@@ -42,10 +42,10 @@ func create(ctx *gin.Context) {
 		)
 		return
 	}
-	structure.Assign(accountCreate, account)
-	account.UserID = &id
+	structure.Assign(categoryCreate, category)
+	category.UserID = &id
 
-	if err := db.Tx.Create(&account).Error; err != nil {
+	if err := db.Tx.Create(&category).Error; err != nil {
 
 		code := http.StatusInternalServerError
 		message := http.StatusText(http.StatusInternalServerError)
@@ -64,8 +64,8 @@ func create(ctx *gin.Context) {
 		return
 
 	}
-	structure.Assign(account, accountList)
+	structure.Assign(category, categoryList)
 
-	ctx.JSON(http.StatusCreated, accountList)
+	ctx.JSON(http.StatusCreated, categoryList)
 
 }

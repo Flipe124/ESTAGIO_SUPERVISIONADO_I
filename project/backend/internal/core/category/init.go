@@ -1,4 +1,4 @@
-package account
+package category
 
 import (
 	"backend/internal/infra/api"
@@ -6,21 +6,21 @@ import (
 )
 
 func init() {
-	account := api.V2.Group("/account", middlewares.Auth)
+	category := api.V2.Group("/category", middlewares.Auth)
 	{
-		account.GET(
+		category.GET(
 			"/",
 			list,
 		)
-		account.POST(
+		category.POST(
 			"/",
 			create,
 		)
-		account.PATCH(
+		category.PATCH(
 			"/",
 			update,
 		)
-		account.DELETE(
+		category.DELETE(
 			"/",
 			delete,
 		)

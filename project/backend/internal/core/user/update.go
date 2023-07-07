@@ -31,15 +31,7 @@ func update(ctx *gin.Context) {
 		err        error
 	)
 
-	id, exists := ctx.Get("id")
-	if !exists {
-		api.Return(
-			ctx,
-			http.StatusBadRequest,
-			"missing user id",
-		)
-		return
-	}
+	id := ctx.GetUint("id")
 	if err := ctx.ShouldBindJSON(&userUpdate); err != nil {
 		api.LogReturn(
 			ctx,
