@@ -39,6 +39,9 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-12">
+                <?php include_once("../table/transaction-table.php") ?>
+            </div>
         </div>
     </div>
 
