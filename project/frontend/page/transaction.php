@@ -47,6 +47,7 @@
     <?php include_once("../modal/modal-update-account.php") ?>
     <?php include_once("../modal/modal-delete-account.php") ?>
     <?php include_once("../includes/footer.php") ?>
+    <script src="../js/transaction/script.js"></script>
 </body>
 
 
