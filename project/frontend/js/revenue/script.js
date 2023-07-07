@@ -4,13 +4,15 @@ blockInsertDateManual();
 
 // sumRevenueAndFormated();
 
-
 $("#btn-open-modal-revenue").on("click", function () {
     modalAction("new-revenue", "show")
 })
 
 $("#button-new-revenue").on("click", function () {
     modalAction("create", "show")
+    var meuInput = document.getElementById('create-input-value-operation');
+
+    formatValue(meuInput);
 });
 
 $(".result").on("click", function () {
@@ -29,12 +31,91 @@ $('#modal-delete').on('hidden.bs.modal', function (e) {
     modalAction("update", "show")
 });
 
+
+$("#button-create").on("click", function () {
+    if (validationField() == true) {
+        resquestCreateRevenue();
+    }
+});
+
 //------------------ Funções ------------------
 
 // Apresentar/esconder modal
 function modalAction(modalName, action) {
     $().modal('hide')
+    $(".error").text("")
     $("#modal-" + modalName).modal(action)
+}
+
+function validationField() {
+    const PAY_STATUS = "OK";
+
+    const ERROR_EMPTY_VALUE = "Informe o valor da receita!";
+    const ERROR_EMPTY_STATUS = "Informe o status da receita!";
+    const ERROR_EMPTY_DESCRIPTION = "Informe a descrição!";
+    const ERROR_EMPTY_DATE = "Informe a data!";
+    const ERROR_EMPTY_CATEGORY = "Informe a categoria!";
+    const ERROR_EMPTY_ACCOUNT = "Informe a conta!";
+
+
+    value = $("#create-input-value-operation").val();
+    status = $("#create-input-status-operation").val();
+    description = $("#create-input-description-operation").val();
+    date = $("#create-input-date-operation").val();
+    category = $("#create-input-category-operation").val();
+    account = $("#create-input-account-operation").val();
+
+    isValid = true;
+
+    if (value == "" || value == "R$ 0,00") {
+        $(".error-msg-value-operation").text(ERROR_EMPTY_VALUE);
+        isValid = false;
+
+    } else {
+        $(".error-msg-value-operation").text();
+    }
+
+    // if (status != "" || status != PAY_STATUS) {
+    //     $(".error-msg-status-operation").text(ERROR_EMPTY_STATUS);
+    //     isValid = false;
+
+    // } else {
+    //     $(".error-msg-status-operation").text();
+    // }
+
+    if (description == "") {
+        $(".error-msg-description-operation").text(ERROR_EMPTY_DESCRIPTION);
+        isValid = false;
+
+    } else {
+        $(".error-msg-description-operation").text();
+    }
+
+    if (date == "") {
+        $(".error-msg-date-operation").text(ERROR_EMPTY_DATE);
+        isValid = false;
+
+    } else {
+        $(".error-msg-date-operation").text();
+    }
+
+    if (category == "") {
+        $(".error-msg-category-operation").text(ERROR_EMPTY_CATEGORY);
+        isValid = false;
+
+    } else {
+        $(".error-msg-category-operation").text();
+    }
+
+    if (account == "") {
+        $(".error-msg-account-operation").text(ERROR_EMPTY_ACCOUNT);
+        isValid = false;
+
+    } else {
+        $(".error-msg-account-operation").text();
+    }
+
+    return isValid
 }
 
 function generateTableOperation() {
@@ -174,3 +255,117 @@ function selecionarCheckbox(value) {
     }
 }
 
+// REQUEST
+
+function resquestCreateRevenue() {
+    var value = $("#create-input-value-operation").val();
+    var status = $("#create-input-status-operation").val();
+    var date = $("#create-input-date-operation").val();
+    var description = $("#create-input-description-operation").val();
+    var category = $("#create-input-category-operation").val();
+    var account = $("#create-input-account-operation").val();
+
+    var connect_success = true;
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('POST', 'http://localhost:9999/api/v0/user/');// ALTERAR
+
+    xhr.onload = function () {
+        if (xhr.status === 200 || xhr.status === 201) {
+            console.log("SUCESSO!");
+        } else {
+            connect_success = false;
+
+            console.log(xhr.responseText);
+
+            return connect_success
+        }
+    };
+
+    var data = { // ALTERAR
+        "email": email,
+        "name": name,
+        "password": password,
+        "username": username
+    }
+
+    var json = JSON.stringify(data);
+
+    xhr.send(json);
+
+    return connect_success
+}
+
+function resquestUpdateRevenue() {
+    var value = $("#create-input-value-operation").val();
+    var status = $("#create-input-status-operation").val();
+    var date = $("#create-input-date-operation").val();
+    var description = $("#create-input-description-operation").val();
+    var category = $("#create-input-category-operation").val();
+    var account = $("#create-input-account-operation").val();
+
+    var connect_success = true;
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('PATCH', 'http://localhost:9999/api/v0/user/');// ALTERAR
+
+    xhr.onload = function () {
+        if (xhr.status === 200 || xhr.status === 201) {
+            console.log("SUCESSO!");
+        } else {
+            connect_success = false;
+
+            console.log(xhr.responseText);
+
+            return connect_success
+        }
+    };
+
+    var data = { // ALTERAR
+        "email": email,
+        "name": name,
+        "password": password,
+        "username": username
+    }
+
+    var json = JSON.stringify(data);
+
+    xhr.send(json);
+
+    return connect_success
+}
+
+function requestDeleteRevenue() {
+
+    var id = $('#delete-id').val();
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('DELETE', `http://localhost:8008/api/v2/user/${id}`); // ALTERAR
+
+    xhr.onload = function () {
+        if (xhr.status === 200 || xhr.status === 204) {
+            console.log("SUCESSO!")
+
+        } else {
+
+            connect_success = false;
+
+            console.log(xhr.responseText);
+
+            return connect_success
+        }
+    };
+
+    var data = {
+        "id": id,
+    }
+
+    var json = JSON.stringify(data);
+
+    xhr.send(json);
+
+    return connect_success
+};
