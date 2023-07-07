@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body">
                 <form action="" method="post" name="form_update_account" id="form-update-account">
-                    <input type="hidden" name="update_id_account" id="update-id-account">
+                    <input type="hidden" name="update_id_account" id="update-input-id-account">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-floating mb-3">
