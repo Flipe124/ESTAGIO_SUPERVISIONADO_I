@@ -35,10 +35,9 @@ $('#button-update-account').on('click', function () {
     }
 });
 
-$('#button-confirm-delete').on('click', function () {
-    console.log($("#delete-id-account").val());
-    // requestDeleteAccount();
-}); 
+$('#button-confirm-delete-account').on('click', function () {
+    requestDeleteAccount();
+});
 
 // FUNCTIONS
 
@@ -79,7 +78,7 @@ function buttonOpenUpdateAccountModal(modalForm, id, name, value) {
 function buttonOpenDeleteAccountModal(modal, id, name, value) {
     $(`#modal-${modal}`).modal("show");
 
-    $('#update-id').val(id);
+    $('#delete-id-account').val(id);
     $(`#text-name-account`).text(name);
     $(`#text-balance-account`).text(formatValueFromData(value));
 
@@ -314,10 +313,12 @@ function resquestCreateAccount() {
     var objeto = JSON.parse(accessToken);
 
     token = objeto.token;
-
+    
     var balance = $("#create-input-balance-account").val();
-    balance = balance.replace("R$", "").replace(",", ".");
-    balance = parseFloat(balance);
+
+    balance = balance.replace(/[^0-9]/g, "");
+
+    balance = parseFloat((parseFloat(balance) / 100).toFixed(2));
 
     var name = $("#create-input-name-account").val();
 
@@ -369,25 +370,21 @@ function resquestUpdateAccount() {
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
-
+    
     var balance = $("#update-input-balance-account").val();
-    balance = balance.replace("R$", "").replace(",", ".");
-    balance = parseFloat(balance);
+
+    balance = balance.replace(/[^0-9]/g, "");
+
+    balance = parseFloat((parseFloat(balance) / 100).toFixed(2));
 
     var id = $("#update-input-id-account").val();
     var name = $("#update-input-name-account").val();
-
-
-    console.log(id)
-    console.log(name)
-    console.log(balance)
-
 
     var connect_success = true;
 
     var xhr = new XMLHttpRequest();
 
-    xhr.open('PATCH', 'http://localhost:9999/api/v0/account/');// ALTERAR
+    xhr.open('PATCH', `http://localhost:9999/api/v0/account/${id}`);
 
     xhr.setRequestHeader('Token', `Bearer ${token}`);
 
@@ -439,13 +436,13 @@ function requestDeleteAccount() {
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
 
-    var id = $('#delete-id').val();
+    var id = $('#delete-id-account').val();
 
     var connect_success = true;
 
     var xhr = new XMLHttpRequest();
 
-    xhr.open('DELETE', `http://localhost:8008/api/v2/account/${id}`); // ALTERAR
+    xhr.open('DELETE', `http://localhost:9999/api/v0/account/${id}`);
 
     xhr.setRequestHeader('Token', `Bearer ${token}`);
 
@@ -494,19 +491,16 @@ function requestListAccount() {
 
     var xhr = new XMLHttpRequest();
 
-    xhr.open('GET', 'http://localhost:9999/api/v0/account/'); // ALTERAR
+    xhr.open('GET', 'http://localhost:9999/api/v0/account/');
 
     xhr.setRequestHeader('Token', `Bearer ${token}`);
 
     xhr.onload = function () {
         if (xhr.status === 200) {
             var resposta = JSON.parse(xhr.responseText);
-            console.log(resposta);
 
             for (var i = 0; i < resposta.length; i++) {
                 fillTableAccount(resposta[i].id, resposta[i].name, resposta[i].balance);
-                // tableUserResults(resposta[i].value, resposta[i].name, resposta[i].username, resposta[i].email, true);// ALTERAR
-                console.log("FUNCIONANDO")
             }
 
         } else if (xhr.status === 204) {
