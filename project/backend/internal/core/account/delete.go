@@ -13,12 +13,12 @@ import (
 // Swagger:
 //
 //	@Summary		DELETE
-//	@Description	Delete the user.
-//	@Tags			user
+//	@Description	Delete the account.
+//	@Tags			account
 //	@Param			Token	header		string	true	"Bearer token."
 //	@Success		204		{string}	string	"No Content"
 //	@Failure		500		{object}	models.HTTP
-//	@Router			/user [delete]
+//	@Router			/account [delete]
 func delete(ctx *gin.Context) {
 
 	id, exists := ctx.Get("id")
@@ -30,7 +30,7 @@ func delete(ctx *gin.Context) {
 		)
 		return
 	}
-	if err := db.Tx.Unscoped().Delete(&models.User{}, &id).Error; err != nil {
+	if err := db.Tx.Delete(&models.User{}, &id).Error; err != nil {
 		api.LogReturn(
 			ctx,
 			http.StatusInternalServerError,

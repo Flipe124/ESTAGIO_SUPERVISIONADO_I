@@ -26,6 +26,7 @@ import (
 //	@Failure		422			{object}	models.HTTP
 //	@Failure		500			{object}	models.HTTP
 //	@Router			/finance/{finance} [patch]
+//	@Deprecated
 func update(ctx *gin.Context) {
 
 	var (

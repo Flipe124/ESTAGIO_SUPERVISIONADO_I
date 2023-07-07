@@ -30,7 +30,18 @@ func Auth(ctx *gin.Context) {
 		return
 	}
 
-	ctx.Set("token", token)
+	id, err := jwt.StdGetUserID(token, consts.JWTSECRETKEY)
+	if err != nil {
+		api.LogReturn(
+			ctx,
+			http.StatusUnauthorized,
+			http.StatusText(http.StatusUnauthorized),
+			err.Error(),
+		)
+		return
+	}
+	ctx.Set("id", id)
+
 	ctx.Next()
 
 }

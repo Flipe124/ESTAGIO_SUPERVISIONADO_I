@@ -23,6 +23,7 @@ import (
 //	@Failure		400			{object}	models.HTTP
 //	@Failure		500			{object}	models.HTTP
 //	@Router			/finance [delete]
+//	@Deprecated
 func delete(ctx *gin.Context) {
 
 	var err error
@@ -68,6 +69,7 @@ func delete(ctx *gin.Context) {
 //	@Success		204		{string}	string	"No Content"
 //	@Failure		500		{object}	models.HTTP
 //	@Router			/finance/{finance} [delete]
+//	@Deprecated
 func deleteUser(ctx *gin.Context) {
 
 	ID := ctx.Param("user")

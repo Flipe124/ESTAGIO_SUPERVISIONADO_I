@@ -15,20 +15,20 @@ import (
 // Swagger:
 //
 //	@Summary		UPDATE
-//	@Description	Update the user infos.
-//	@Tags			user
+//	@Description	Update the account infos.
+//	@Tags			account
 //	@Accept			json
-//	@Param			TOKEN	header		string				true	"Bearer token."
-//	@Param			JSON	body		models.UserUpdate	true	"Json request."
-//	@Success		204		{string}	string				"No Content"
+//	@Param			TOKEN	header		string					true	"Bearer token."
+//	@Param			JSON	body		models.AccountUpdate	true	"Json request."
+//	@Success		204		{string}	string					"No Content"
 //	@Failure		422		{object}	models.HTTP
 //	@Failure		500		{object}	models.HTTP
-//	@Router			/user [patch]
+//	@Router			/account [patch]
 func update(ctx *gin.Context) {
 
 	var (
-		userUpdate *models.UserUpdate
-		err        error
+		accountUpdate *models.AccountUpdate
+		err           error
 	)
 
 	id, exists := ctx.Get("id")
@@ -40,7 +40,7 @@ func update(ctx *gin.Context) {
 		)
 		return
 	}
-	if err := ctx.ShouldBindJSON(&userUpdate); err != nil {
+	if err := ctx.ShouldBindJSON(&accountUpdate); err != nil {
 		api.LogReturn(
 			ctx,
 			http.StatusUnprocessableEntity,
@@ -49,25 +49,16 @@ func update(ctx *gin.Context) {
 		)
 		return
 	}
-	err = db.Tx.Model(&models.User{}).Where("id", &id).Updates(structure.Map(&userUpdate)).Error
+	err = db.Tx.Model(&models.User{}).Where("id", &id).Updates(structure.Map(&accountUpdate)).Error
 
 	if err != nil {
 
-		code := http.StatusConflict
+		code := http.StatusInternalServerError
 		message := http.StatusText(http.StatusInternalServerError)
 
 		if regex.Grep(`(?i)duplicate entry`, err.Error()) {
-			message = "already exists"
-			switch {
-			case regex.Grep(`(?i)username`, err.Error()):
-				message = "username " + message
-			case regex.Grep(`(?i)email`, err.Error()):
-				message = "email " + message
-			case regex.Grep(`(?i)password`, err.Error()):
-				message = "password " + message
-			}
-		} else {
-			code = http.StatusInternalServerError
+			code = http.StatusConflict
+			message = "name already exists"
 		}
 
 		api.LogReturn(

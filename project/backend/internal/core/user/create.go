@@ -59,20 +59,15 @@ func create(ctx *gin.Context) {
 		message := http.StatusText(http.StatusInternalServerError)
 
 		if regex.Grep(`(?i)duplicate entry`, err.Error()) {
-			db.Tx.Unscoped().Where("username", &user.Username).First(&user)
-			if user.DeletedAt != nil && user.DeletedAt.Valid {
-				message = "deactivated user"
-			} else {
-				message = "already exists"
-				switch {
-				case regex.Grep(`(?i)username`, err.Error()):
-					message = "username " + message
-				case regex.Grep(`(?i)email`, err.Error()):
-					message = "email " + message
-				case regex.Grep(`(?i)password`, err.Error()):
-					message = "password " + message
-				}
+			switch {
+			case regex.Grep(`(?i)username`, err.Error()):
+				message = "username"
+			case regex.Grep(`(?i)email`, err.Error()):
+				message = "email"
+			case regex.Grep(`(?i)password`, err.Error()):
+				message = "password"
 			}
+			message += " already exists"
 		} else {
 			code = http.StatusInternalServerError
 		}

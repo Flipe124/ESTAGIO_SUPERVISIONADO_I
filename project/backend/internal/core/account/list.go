@@ -5,7 +5,6 @@ import (
 
 	"backend/internal/infra/db"
 	"backend/internal/models"
-	"backend/pkg/helpers/query"
 	"backend/pkg/helpers/structure"
 	"backend/pkg/utils/api"
 
@@ -15,34 +14,34 @@ import (
 // Swagger:
 //
 //	@Summary		LIST
-//	@Description	List all finances.
-//	@Tags			finance
+//	@Description	List all accounts.
+//	@Tags			account
 //	@Produce		json
 //	@Param			TOKEN		header		string	true	"Bearer token."
-//	@Param			name		query		string	false	"Finance name."
-//	@Param			financename	query		string	false	"Finance financename."
-//	@Param			email		query		string	false	"Finance email."
-//	@Param			role		query		byte	false	"Finance role."
 //	@Param			inactives	query		bool	false	"Bring the inactive ones."
-//	@Success		200			{array}		models.FinanceList
+//	@Success		200			{array}		models.AccountList
 //	@Failure		500			{object}	models.HTTP
-//	@Router			/finance [get]
-//	@Deprecated
+//	@Router			/account [get]
 func list(ctx *gin.Context) {
 
 	var (
-		users []*models.User
-		err   error
+		accounts []*models.Account
+		err      error
 	)
 
+	id, exists := ctx.Get("id")
+	if !exists {
+		api.Return(
+			ctx,
+			http.StatusBadRequest,
+			"missing user id",
+		)
+		return
+	}
 	if ctx.Query("inactives") != "true" {
-		if query, values, paramsExists := query.Make(ctx, &models.UserList{}, "ID"); !paramsExists {
-			err = db.Tx.Find(&users).Error
-		} else {
-			err = db.Tx.Where(query, values...).Find(&users).Error
-		}
+		err = db.Tx.Find(&accounts, &id).Error
 	} else {
-		err = db.Tx.Unscoped().Where("deleted_at IS NOT NULL").Find(&users).Error
+		err = db.Tx.Unscoped().Where("deleted_at IS NOT NULL").Find(&accounts, &id).Error
 	}
 	if err != nil {
 		api.LogReturn(
@@ -54,13 +53,13 @@ func list(ctx *gin.Context) {
 		return
 	}
 
-	if len(users) < 1 {
+	if len(accounts) < 1 {
 		ctx.Status(http.StatusNoContent)
 		return
 	}
 
-	usersList := make([]*models.UserList, len(users))
-	for index, user := range users {
+	usersList := make([]*models.UserList, len(accounts))
+	for index, user := range accounts {
 		usersList[index] = &models.UserList{}
 		structure.Assign(user, usersList[index])
 	}

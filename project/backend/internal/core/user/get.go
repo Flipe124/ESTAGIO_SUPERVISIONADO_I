@@ -16,23 +16,30 @@ import (
 // Swagger:
 //
 //	@Summary		GET
-//	@Description	Get a single user from ID.
+//	@Description	Get the user infos.
 //	@Tags			user
 //	@Produce		json
 //	@Param			TOKEN	header		string	true	"Bearer token."
-//	@Param			user	path		int		true	"User ID."
 //	@Success		200		{object}	models.UserList
 //	@Failure		404		{object}	models.HTTP
 //	@Failure		500		{object}	models.HTTP
-//	@Router			/user/{user} [get]
+//	@Router			/user [get]
 func get(ctx *gin.Context) {
 
 	var user *models.User
 
 	userList := &models.UserList{}
-	ID := ctx.Param("user")
 
-	if err := db.Tx.First(&user, &ID).Error; err != nil {
+	id, exists := ctx.Get("id")
+	if !exists {
+		api.Return(
+			ctx,
+			http.StatusBadRequest,
+			"missing user id",
+		)
+		return
+	}
+	if err := db.Tx.First(&user, &id).Error; err != nil {
 
 		code := http.StatusInternalServerError
 		message := http.StatusText(http.StatusInternalServerError)

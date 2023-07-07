@@ -25,6 +25,7 @@ import (
 //	@Failure		404		{object}	models.HTTP
 //	@Failure		500		{object}	models.HTTP
 //	@Router			/finance/{finance} [get]
+//	@Deprecated
 func get(ctx *gin.Context) {
 
 	var user *models.User
