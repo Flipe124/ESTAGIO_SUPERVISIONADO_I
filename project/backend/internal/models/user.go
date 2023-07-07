@@ -9,14 +9,18 @@ import (
 
 // User is the struct for ORM operations.
 type User struct {
-	ID        *uint           `gorm:"primaryKey"`
-	Name      *string         `gorm:"default:unnamed"`
-	Username  *string         `gorm:"unique;not null"`
-	Email     *string         `gorm:"unique;not null"`
-	Password  *string         `gorm:"unique;not null"`
-	CreatedAt *time.Time      `gorm:"autoCreateTime"`
-	UpdatedAt *time.Time      `gorm:"autoUpdateTime"`
-	DeletedAt *gorm.DeletedAt `gorm:"index"`
+	ID          *uint           `gorm:"primaryKey"`
+	Name        *string         `gorm:"default:unnamed"`
+	Username    *string         `gorm:"unique;not null"`
+	Email       *string         `gorm:"unique;not null"`
+	Password    *string         `gorm:"unique;not null"`
+	CreatedAt   *time.Time      `gorm:"autoCreateTime"`
+	UpdatedAt   *time.Time      `gorm:"autoUpdateTime"`
+	DeletedAt   *gorm.DeletedAt `gorm:"index"`
+	Account     []*Account
+	Category    []*Category
+	Finance     []*Finance
+	Transaction []*Transaction
 }
 
 // HashPassword hash the password of entity.

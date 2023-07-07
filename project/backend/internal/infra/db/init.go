@@ -37,8 +37,13 @@ func init() {
 	}
 
 	if Tx.AutoMigrate(
-		&models.User{},
+		&models.Type{},
 		&models.Status{},
+		&models.User{},
+		&models.Account{},
+		&models.Category{},
+		&models.Finance{},
+		&models.Transaction{},
 	) != nil {
 		logger.Log.Fatal("can't database auto migration!")
 	}
