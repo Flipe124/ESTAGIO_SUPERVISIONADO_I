@@ -10,7 +10,7 @@ import (
 type Category struct {
 	ID        *uint   `gorm:"primaryKey"`
 	UserID    *uint   `gorm:"not null"`
-	Name      *string `gorm:"unique;not null"`
+	Name      *string `gorm:"not null"`
 	Icon      *[]byte
 	CreatedAt *time.Time      `gorm:"autoCreateTime"`
 	UpdatedAt *time.Time      `gorm:"autoUpdateTime"`

@@ -1,4 +1,4 @@
-package category
+package finance
 
 import (
 	"net/http"
@@ -14,24 +14,25 @@ import (
 // Swagger:
 //
 //	@Summary		CREATE
-//	@Description	Create a new category.
-//	@Tags			category
+//	@Description	Create a new finance.
+//	@Tags			finance
 //	@Accept			json
 //	@Produce		json
-//	@Param			JSON	body		models.CategoryCreate	true	"Json request."
-//	@Success		201		{object}	models.CategoryList
+//	@Param			JSON	body		models.FinanceCreate	true	"Json request."
+//	@Success		201		{object}	models.FinanceList
+//	@Failure		409		{object}	models.HTTP
 //	@Failure		422		{object}	models.HTTP
 //	@Failure		500		{object}	models.HTTP
-//	@Router			/category [post]
+//	@Router			/finance [post]
 func create(ctx *gin.Context) {
 
-	var categoryCreate *models.CategoryCreate
+	var financeCreate *models.FinanceCreate
 
-	category := &models.Category{}
-	categoryList := &models.CategoryList{}
+	finance := &models.Finance{}
+	financeList := &models.FinanceList{}
 
 	id := ctx.GetUint("id")
-	if err := ctx.ShouldBindJSON(&categoryCreate); err != nil {
+	if err := ctx.ShouldBindJSON(&financeCreate); err != nil {
 		api.LogReturn(
 			ctx,
 			http.StatusUnprocessableEntity,
@@ -40,10 +41,10 @@ func create(ctx *gin.Context) {
 		)
 		return
 	}
-	structure.Assign(categoryCreate, category)
-	category.UserID = &id
+	structure.Assign(financeCreate, finance)
+	finance.UserID = &id
 
-	if err := db.Tx.Create(&category).Error; err != nil {
+	if err := db.Tx.Create(&finance).Error; err != nil {
 		api.LogReturn(
 			ctx,
 			http.StatusInternalServerError,
@@ -52,8 +53,8 @@ func create(ctx *gin.Context) {
 		)
 		return
 	}
-	structure.Assign(category, categoryList)
+	structure.Assign(finance, financeList)
 
-	ctx.JSON(http.StatusCreated, categoryList)
+	ctx.JSON(http.StatusCreated, financeList)
 
 }

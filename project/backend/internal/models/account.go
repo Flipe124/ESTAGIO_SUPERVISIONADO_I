@@ -10,7 +10,7 @@ import (
 type Account struct {
 	ID        *uint           `gorm:"primaryKey"`
 	UserID    *uint           `gorm:"not null"`
-	Name      *string         `gorm:"unique;not null"`
+	Name      *string         `gorm:"not null"`
 	Balance   *float64        `gorm:"not null"`
 	CreatedAt *time.Time      `gorm:"autoCreateTime"`
 	UpdatedAt *time.Time      `gorm:"autoUpdateTime"`

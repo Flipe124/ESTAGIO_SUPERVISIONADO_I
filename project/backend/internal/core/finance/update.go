@@ -1,4 +1,4 @@
-package account
+package finance
 
 import (
 	"net/http"
@@ -14,24 +14,25 @@ import (
 // Swagger:
 //
 //	@Summary		UPDATE
-//	@Description	Update the account infos.
-//	@Tags			account
+//	@Description	Update the finance infos.
+//	@Tags			finance
 //	@Accept			json
 //	@Param			TOKEN	header		string					true	"Bearer token."
-//	@Param			account	path		int						true	"Account ID."
-//	@Param			JSON	body		models.AccountUpdate	true	"Json request."
+//	@Param			finance	path		int						true	"Finance ID."
+//	@Param			JSON	body		models.FinanceUpdate	true	"Json request."
 //	@Success		204		{string}	string					"No Content"
+//	@Failure		409		{object}	models.HTTP
 //	@Failure		422		{object}	models.HTTP
 //	@Failure		500		{object}	models.HTTP
-//	@Router			/account/{account} [patch]
+//	@Router			/finance/{finance} [patch]
 func update(ctx *gin.Context) {
 
 	var (
-		accountUpdate *models.AccountUpdate
+		financeUpdate *models.FinanceUpdate
 		err           error
 	)
 
-	if err := ctx.ShouldBindJSON(&accountUpdate); err != nil {
+	if err := ctx.ShouldBindJSON(&financeUpdate); err != nil {
 		api.LogReturn(
 			ctx,
 			http.StatusUnprocessableEntity,
@@ -40,7 +41,7 @@ func update(ctx *gin.Context) {
 		)
 		return
 	}
-	err = db.Tx.Model(&models.Account{}).Where("id", ctx.Param("account")).Updates(structure.Map(&accountUpdate)).Error
+	err = db.Tx.Model(&models.Finance{}).Where("id", ctx.Param("finance")).Updates(structure.Map(&financeUpdate)).Error
 
 	if err != nil {
 		api.LogReturn(
