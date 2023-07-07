@@ -1387,7 +1387,16 @@ const docTemplate = `{
                 "beneficiary_id": {
                     "type": "integer"
                 },
+                "beneficiary_name": {
+                    "type": "string"
+                },
                 "emitter_id": {
+                    "type": "integer"
+                },
+                "emitter_name": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "integer"
                 },
                 "value": {
@@ -1438,9 +1447,6 @@ const docTemplate = `{
             "properties": {
                 "email": {
                     "type": "string"
-                },
-                "id": {
-                    "type": "integer"
                 },
                 "name": {
                     "type": "string"

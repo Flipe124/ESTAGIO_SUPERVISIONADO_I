@@ -30,7 +30,7 @@ func list(ctx *gin.Context) {
 		err        error
 	)
 
-	err = db.Tx.Find(&categories, ctx.GetUint("id")).Error
+	err = db.Tx.Where("user_id", ctx.GetUint("id")).Find(&categories).Error
 	if err != nil {
 		api.LogReturn(
 			ctx,

@@ -53,6 +53,14 @@ func create(ctx *gin.Context) {
 		return
 	}
 	structure.Assign(transaction, transactionList)
+	db.Tx.Table("accounts").
+		Select("name").
+		Where("id", &transactionList.EmitterID).
+		Scan(&transactionList.EmitterName)
+	db.Tx.Table("accounts").
+		Select("name").
+		Where("id", &transactionList.BeneficiaryID).
+		Scan(&transactionList.BeneficiaryName)
 
 	ctx.JSON(http.StatusCreated, transactionList)
 

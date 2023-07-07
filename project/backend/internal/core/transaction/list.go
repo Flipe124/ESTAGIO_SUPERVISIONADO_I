@@ -29,7 +29,7 @@ func list(ctx *gin.Context) {
 		err          error
 	)
 
-	err = db.Tx.Find(&transactions, ctx.GetUint("id")).Error
+	err = db.Tx.Where("user_id", ctx.GetUint("id")).Find(&transactions).Error
 	if err != nil {
 		api.LogReturn(
 			ctx,
@@ -49,6 +49,14 @@ func list(ctx *gin.Context) {
 	for index, transaction := range transactions {
 		transactionsList[index] = &models.TransactionList{}
 		structure.Assign(transaction, transactionsList[index])
+		db.Tx.Table("accounts").
+			Select("name").
+			Where("id", &transactionsList[index].EmitterID).
+			Scan(&transactionsList[index].EmitterName)
+		db.Tx.Table("accounts").
+			Select("name").
+			Where("id", &transactionsList[index].BeneficiaryID).
+			Scan(&transactionsList[index].BeneficiaryName)
 	}
 
 	ctx.JSON(http.StatusOK, transactionsList)
