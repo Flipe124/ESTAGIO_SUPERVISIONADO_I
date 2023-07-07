@@ -18,7 +18,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="create-input-balance-account" placeholder="Saldo atual" oninput="formatValue(this)" maxlength="20">
+                                <input type="text" class="form-control" id="create-input-balance-account" placeholder="Saldo atual" oninput="formatValueOniput(this)" maxlength="20">
                                 <label for="input-balance-account">Saldo atual: <span class="text-danger">*</span></label>
                                 <span class="text-danger error error-balance-account"></span>
                             </div>
