@@ -32,18 +32,12 @@
                             </div>
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="create-input-category-operation" aria-label="Floating">
-                                    <option value="Salário">Salário</option>
-                                    <option value="Investimento">Investimento</option>
-                                    <option value="Presente">Presente</option>
                                 </select>
                                 <label for="create-input-category-operation">Categoria: <span class="text-danger">*</span></label>
                                 <span class="text-danger error error-msg-category-operation"></span>
                             </div>
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="create-input-account-operation" aria-label="Floating">
-                                    <option value="1">Nubank</option>
-                                    <option value="2">Inter</option>
-                                    <option value="3">Bradesco</option>
                                 </select>
                                 <label for="create-input-account-operation">Conta: <span class="text-danger">*</span></label>
                                 <span class="text-danger error error-msg-account-operation"></span>
