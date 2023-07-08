@@ -19,7 +19,7 @@ import (
 //	@Tags			finance
 //	@Accept			json
 //	@Produce		json
-//	@Param			TOKEN	header		string	true	"Bearer token."
+//	@Param			TOKEN	header		string					true	"Bearer token."
 //	@Param			JSON	body		models.FinanceCreate	true	"Json request."
 //	@Success		201		{object}	models.FinanceList
 //	@Failure		422		{object}	models.HTTP

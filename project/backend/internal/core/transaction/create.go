@@ -18,7 +18,7 @@ import (
 //	@Tags			transaction
 //	@Accept			json
 //	@Produce		json
-//	@Param			TOKEN	header		string	true	"Bearer token."
+//	@Param			TOKEN	header		string						true	"Bearer token."
 //	@Param			JSON	body		models.TransactionCreate	true	"Json request."
 //	@Success		201		{object}	models.TransactionList
 //	@Failure		422		{object}	models.HTTP

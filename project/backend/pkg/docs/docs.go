@@ -83,6 +83,13 @@ const docTemplate = `{
                 "summary": "CREATE",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "Json request.",
                         "name": "JSON",
                         "in": "body",
@@ -365,6 +372,13 @@ const docTemplate = `{
                 "summary": "CREATE",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "Json request.",
                         "name": "JSON",
                         "in": "body",
@@ -552,6 +566,13 @@ const docTemplate = `{
                 ],
                 "summary": "CREATE",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "Json request.",
                         "name": "JSON",
@@ -772,6 +793,13 @@ const docTemplate = `{
                 ],
                 "summary": "CREATE",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "Json request.",
                         "name": "JSON",

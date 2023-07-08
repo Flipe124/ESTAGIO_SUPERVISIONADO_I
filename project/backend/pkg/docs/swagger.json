@@ -76,6 +76,13 @@
                 "summary": "CREATE",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "Json request.",
                         "name": "JSON",
                         "in": "body",
@@ -358,6 +365,13 @@
                 "summary": "CREATE",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "Json request.",
                         "name": "JSON",
                         "in": "body",
@@ -545,6 +559,13 @@
                 ],
                 "summary": "CREATE",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "Json request.",
                         "name": "JSON",
@@ -765,6 +786,13 @@
                 ],
                 "summary": "CREATE",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "Json request.",
                         "name": "JSON",

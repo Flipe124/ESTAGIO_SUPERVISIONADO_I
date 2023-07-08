@@ -18,7 +18,7 @@ import (
 //	@Tags			account
 //	@Accept			json
 //	@Produce		json
-//	@Param			TOKEN	header		string	true	"Bearer token."
+//	@Param			TOKEN	header		string					true	"Bearer token."
 //	@Param			JSON	body		models.AccountCreate	true	"Json request."
 //	@Success		201		{object}	models.AccountList
 //	@Failure		422		{object}	models.HTTP

@@ -271,6 +271,11 @@ paths:
       - application/json
       description: Create a new account.
       parameters:
+      - description: Bearer token.
+        in: header
+        name: TOKEN
+        required: true
+        type: string
       - description: Json request.
         in: body
         name: JSON
@@ -458,6 +463,11 @@ paths:
       - application/json
       description: Create a new category.
       parameters:
+      - description: Bearer token.
+        in: header
+        name: TOKEN
+        required: true
+        type: string
       - description: Json request.
         in: body
         name: JSON
@@ -585,6 +595,11 @@ paths:
         Create a new finance.
         The "datetime" field follows this pattern: "yyyy-mm-dd hh:mm:ss".
       parameters:
+      - description: Bearer token.
+        in: header
+        name: TOKEN
+        required: true
+        type: string
       - description: Json request.
         in: body
         name: JSON
@@ -731,6 +746,11 @@ paths:
       - application/json
       description: Create a new transaction.
       parameters:
+      - description: Bearer token.
+        in: header
+        name: TOKEN
+        required: true
+        type: string
       - description: Json request.
         in: body
         name: JSON
