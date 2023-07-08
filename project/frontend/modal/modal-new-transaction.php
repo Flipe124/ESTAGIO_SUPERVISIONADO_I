@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-success text-light">
-                <h5 class="modal-title"><b>NOVA TRANSFÊRENCIA</b></h5>
+                <h5 class="modal-title"><b>NOVA TRANSFERÊNCIA</b></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                     <div class="modal-footer mt-3" id="footer-modal-create-transaction">
-                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">CANCELAR</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
                         <button type="button" class="btn btn-success" id="button-create-transaction">SALVAR</button>
                     </div>
                 </form>
