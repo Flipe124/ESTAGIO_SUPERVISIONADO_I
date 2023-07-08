@@ -22,7 +22,7 @@ function createTableTransaction(beneficiary_id, beneficiary_name, emitter_id, em
     var result = document.querySelector('.transaction-table');
 
     result.innerHTML +=
-        `<div class="result filter-preset-1" data-baneficiary-id="${beneficiary_id}" data-baneficiary-name="${beneficiary_name}" data-emitter-id="${emitter_id}" data-emitter-name="${emitter_name}" data-id="${id}" data-value="${value}">
+        `<div class="result filter-preset-1" data-baneficiary-id="${beneficiary_id}" data-baneficiary-name="${beneficiary_name}" data-emitter-id="${emitter_id}" data-emitter-name="${emitter_name}" data-id="${id}" data-value="${value}" style="cursor:context-menu">
             <span class="icon-category text-primary">
                 <i class="fa-solid fa-money-bill-transfer"></i>
             </span>
