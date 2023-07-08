@@ -21,7 +21,6 @@ import (
 //	@Param			finance	path		int						true	"Finance ID."
 //	@Param			JSON	body		models.FinanceUpdate	true	"Json request."
 //	@Success		204		{string}	string					"No Content"
-//	@Failure		409		{object}	models.HTTP
 //	@Failure		422		{object}	models.HTTP
 //	@Failure		500		{object}	models.HTTP
 //	@Router			/finance/{finance} [patch]
