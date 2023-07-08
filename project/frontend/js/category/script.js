@@ -28,11 +28,11 @@ $('#button-create-category').on('click', function () {
     }
 });
 
-// $('#button-update-account').on('click', function () {
-//     if (validationFormAccount("update") == true) {
-//         resquestUpdateAccount();
-//     }
-// });
+$('#button-update-category').on('click', function () {
+    if (validationFormCategory("update") == true) {
+        resquestUpdateCategory();
+    }
+});
 
 $('#button-confirm-delete-category').on('click', function () {
     requestDeleteCategory();
@@ -241,9 +241,9 @@ function resquestCreateCategory() {
 
     token = objeto.token;
 
-    
+
     var name = $("#create-input-name-category").val();
-    
+
     // var balance = $("#create-input-icon-category").val();
 
     var connect_success = true;
@@ -277,6 +277,68 @@ function resquestCreateCategory() {
     };
 
     var data = {
+        "name": name,
+        "icon": ""
+    }
+
+    var json = JSON.stringify(data);
+
+    xhr.send(json);
+
+    return connect_success
+};
+
+function resquestUpdateCategory() {
+    // disabledButton($('#button-update-revenue'), true);
+
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    var id = parseInt($("#update-input-id-category").val());
+
+    var name = $("#create-input-name-category").val();
+
+    // var balance = $("#create-input-icon-category").val();
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('PATCH', `http://localhost:9999/api/v0/category/${id}`);
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200 || xhr.status === 201 || xhr.status === 204) {
+            // disabledButton($('#button-update-revenue'), false);
+
+            showModalMessage("bg-success", "EDITAR CATEGORIA", `Categoria editada com sucesso!`, 0);
+
+        } else {
+            // disabledButton($('#button-update-revenue'), false);
+
+            connect_success = false;
+
+            var objMessage;
+
+            if (xhr.responseText) {
+                objMessage = JSON.parse(xhr.responseText);
+                var code = objMessage.code;
+                var msg = objMessage.error;
+
+                showModalMessage("bg-danger", "ERROR", msg, code);
+
+            } else {
+                showModalMessage("bg-danger", "ERROR", "Ocorreu um erro desconhecido.", "");
+            }
+
+            return connect_success
+        }
+    };
+
+    var data = {
+        "id": id,
         "name": name,
         "icon": ""
     }
