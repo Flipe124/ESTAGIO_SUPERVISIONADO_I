@@ -17,11 +17,10 @@ import (
 //	@Description	List all accounts.
 //	@Tags			account
 //	@Produce		json
-//	@Param			TOKEN		header		string	true	"Bearer token."
-//	@Param			inactives	query		bool	false	"Bring the inactive ones."
-//	@Success		200			{array}		models.AccountList
-//	@Success		204			{string}	string	"No Content"
-//	@Failure		500			{object}	models.HTTP
+//	@Param			TOKEN	header		string	true	"Bearer token."
+//	@Success		200		{array}		models.AccountList
+//	@Success		204		{string}	string	"No Content"
+//	@Failure		500		{object}	models.HTTP
 //	@Router			/account [get]
 func list(ctx *gin.Context) {
 
