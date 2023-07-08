@@ -16,7 +16,7 @@
                 <a class="list-group-item p-3 option-not-selected" href="../page/expense.php"><i class="fas fa-chevron-circle-down fa-lg"></i> <b>DESPESAS</b></a>
             </li>
             <li class="option-not-selected">
-                <a class="list-group-item p-3 option-not-selected" href="../page/transaction.php"><i class="fas fa-exchange-alt fa-lg"></i> <b>TRANSAÇÕES</b></a>
+                <a class="list-group-item p-3 option-not-selected" href="../page/transaction.php"><i class="fas fa-exchange-alt fa-lg"></i> <b>TRANSFERÊNCIAS</b></a>
             </li>
             <li class="option-not-selected">
                 <a class="list-group-item p-3 option-not-selected" href="../page/account.php"><i class="fa-solid fa-building-columns fa-lg"></i> <b>CONTAS</b></a>
