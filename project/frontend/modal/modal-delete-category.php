@@ -13,7 +13,7 @@
                             <span>Tem certeza que deseja excluir a categoria:</span>
                         </div>
                         <div class="col-md-12">
-                            <b>Conta:</b>
+                            <b>Nome:</b>
                             <span id="text-name-category"></span>
                         </div>
                         <!-- <div class="col-md-12">
