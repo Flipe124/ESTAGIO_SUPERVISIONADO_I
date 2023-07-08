@@ -20,6 +20,7 @@
             <div class="col-md-12">
                 <?php include_once("../table/transaction-table.php") ?>
             </div>
+            <div class="col-md-12 text-empty-transaction mt-2"></div>
         </div>
     </div>
 
@@ -27,6 +28,8 @@
     <?php include_once("../modal/modal-new-account.php") ?>
     <?php include_once("../modal/modal-update-account.php") ?>
     <?php include_once("../modal/modal-delete-account.php") ?>
+    <?php require_once("../modal/modal-message.php"); ?>
+    
     <?php include_once("../includes/footer.php") ?>
     <script src="../js/transaction/script.js"></script>
 </body>
