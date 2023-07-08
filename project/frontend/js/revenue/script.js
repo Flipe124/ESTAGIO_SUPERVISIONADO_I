@@ -1,6 +1,8 @@
 generateTableOperation();
 generateTableOperation();
 
+requestListRevenue();
+
 blockInsertDateManual();
 
 // sumRevenueAndFormated();
@@ -137,24 +139,34 @@ function validationField(operationType) {
     return isValid
 }
 
-function generateTableOperation() {
+function generateTableOperation(account_id, category_id, status_id, type_id, id, datetime, description, revenue) {
     var result = document.querySelector('.revenue-table');
 
-    id = 1;
-    type = "revenue";
-    value = "12300.30";
-    statusOp = "OK";
-    date = "21/07/2023";
-    data = "QuantumTech";
-    categoryName = "Presente";
-    account = "Bradesco";
+    // id = 1;
+    type = type_id;
+    value = revenue;
+    statusOp = status_id;
+    date = datetime;
+    data = description;
+    categoryName = category_id;
+    account = account_id;
+
+    console.log("----------------")
+    console.log(id)
+    console.log(value)
+    console.log(type)
+    console.log(statusOp)
+    console.log(date)
+    console.log(data)
+    console.log(categoryName)
+    console.log(account)
 
     text_type = "";
     text_type_operation = "";
 
     iconCategory = setIconCategory(2);
 
-    if (type == "revenue") {
+    if (type == "receita") {
         text_type_operation = "text-success";
 
     } else {
@@ -182,7 +194,7 @@ function generateTableOperation() {
                 <span class="font-size-14 text-secondary">${date}</span>
             </span>
             <div class="value ${text_type_operation}">
-                <b class="text-value">${formatValue(value)}</b> <span class="status mb-1 ms-1"><i class="fas fa-check-circle ${text_type}"></i></span>
+                <b class="text-value">${value}</b> <span class="status mb-1 ms-1"><i class="fas fa-check-circle ${text_type}"></i></span>
             </div>
         </div>`
 
@@ -283,6 +295,25 @@ function formatValueOniput(input) {
     value = value.replace('.', ',');
 
     input.value = 'R$ ' + value;
+}
+
+function formatValueNumber(number) {
+    // Verifica se o número é um float
+    if (Number.isFinite(number) && Number(number) % 1 !== 0) {
+        // Formata o número de ponto flutuante como valor monetário
+        return number.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    // Converte o número em uma string
+    var stringNumber = number.toString();
+
+    // Verifica se o número já possui formatação com vírgula
+    if (stringNumber.indexOf('.') !== -1 || stringNumber.indexOf(',') !== -1) {
+        return stringNumber; // Retorna o número original
+    }
+
+    // Adiciona o separador de milhares e retorna a string formatada como valor monetário
+    return stringNumber.replace(/\B(?=(\d{3})+(?!\d))/g, '.').concat(',00');
 }
 
 function blockInsertDateManual() {
@@ -612,7 +643,7 @@ function requestListRevenue() {
 
     var xhr = new XMLHttpRequest();
 
-    xhr.open('GET', 'http://localhost:8008/api/v2/user/'); // ALTERAR
+    xhr.open('GET', 'http://localhost:9999/api/v0/finance/'); // ALTERAR
 
     xhr.setRequestHeader('Token', `Bearer ${token}`);
 
@@ -620,11 +651,17 @@ function requestListRevenue() {
         if (xhr.status === 200) {
             console.log("Status OK");
             var resposta = JSON.parse(xhr.responseText);
+            console.log("RESPOSTA -> " + resposta);
 
             for (var i = 0; i < resposta.length; i++) {
-                tableUserResults(resposta[i].id, resposta[i].name, resposta[i].username, resposta[i].email, true);// ALTERAR
+                console.log("RESPOSTA -> " + resposta);
+                // tableUserResults(resposta[i].id, resposta[i].name, resposta[i].username, resposta[i].email, true);// ALTERAR
+                generateTableOperation(resposta[i].account_id, resposta[i].category_id, resposta[i].status_id, resposta[i].type_id, resposta[i].id, resposta[i].datetime, resposta[i].description, resposta[i].value)
 
             }
+
+        } else if (xhr.status === 204) {
+            console.log("Sem receitas registradas!");
 
         } else {
             connect_success = false;
