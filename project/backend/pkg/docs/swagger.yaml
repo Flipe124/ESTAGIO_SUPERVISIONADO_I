@@ -255,10 +255,6 @@ paths:
         name: TOKEN
         required: true
         type: string
-      - description: Bring the inactive ones.
-        in: query
-        name: inactives
-        type: boolean
       produces:
       - application/json
       responses:
@@ -478,10 +474,6 @@ paths:
         name: TOKEN
         required: true
         type: string
-      - description: Bring the inactive ones.
-        in: query
-        name: inactives
-        type: boolean
       produces:
       - application/json
       responses:
@@ -639,10 +631,6 @@ paths:
         name: TOKEN
         required: true
         type: string
-      - description: Bring the inactive ones.
-        in: query
-        name: inactives
-        type: boolean
       produces:
       - application/json
       responses:

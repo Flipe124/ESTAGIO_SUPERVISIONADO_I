@@ -30,12 +30,6 @@
                         "name": "TOKEN",
                         "in": "header",
                         "required": true
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "Bring the inactive ones.",
-                        "name": "inactives",
-                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -365,12 +359,6 @@
                         "name": "TOKEN",
                         "in": "header",
                         "required": true
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "Bring the inactive ones.",
-                        "name": "inactives",
-                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -606,12 +594,6 @@
                         "name": "TOKEN",
                         "in": "header",
                         "required": true
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "Bring the inactive ones.",
-                        "name": "inactives",
-                        "in": "query"
                     }
                 ],
                 "responses": {

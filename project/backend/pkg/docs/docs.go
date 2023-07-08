@@ -37,12 +37,6 @@ const docTemplate = `{
                         "name": "TOKEN",
                         "in": "header",
                         "required": true
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "Bring the inactive ones.",
-                        "name": "inactives",
-                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -372,12 +366,6 @@ const docTemplate = `{
                         "name": "TOKEN",
                         "in": "header",
                         "required": true
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "Bring the inactive ones.",
-                        "name": "inactives",
-                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -613,12 +601,6 @@ const docTemplate = `{
                         "name": "TOKEN",
                         "in": "header",
                         "required": true
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "Bring the inactive ones.",
-                        "name": "inactives",
-                        "in": "query"
                     }
                 ],
                 "responses": {
