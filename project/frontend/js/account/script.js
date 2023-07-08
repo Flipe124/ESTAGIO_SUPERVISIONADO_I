@@ -47,11 +47,17 @@ function fillTableAccount(id, bank, balance) {
     console.log(bank)
     console.log(balance)
 
+    text_color = "";
+
+    if(balance < 0) {
+        text_color = "text-danger";
+    }
+
     register =
         `
         <tr class="result-table-account text-center">
-            <td>${bank}</td>
-            <td>${formatValueNumber(balance)}</td>
+            <td class="text-start ps-3">${bank}</td>
+            <td class="text-end ${text_color}">R$ ${formatValueNumber(balance)}</td>
             <td class="text-center">
                 <button class="btn btn-danger button-delete-account" type="button" data-id="${id}" data-name-account="${bank}" data-balance-account="${formatValueNumber(balance)}"><i class="fa-solid fa-trash"></i></button>
                 <button class="btn btn-primary button-update-account" type="button" data-id="${id}" data-name-account="${bank}" data-balance-account="${formatValueNumber(balance)}"><i class="fa-solid fa-pen"></i></button>
@@ -227,9 +233,9 @@ $(document).ready(function () {
         $('.order-by i').removeClass('fa-sort-up fa-sort-down').addClass('fa-sort');
         var colunaSelecionada = $('.order-by').eq(colunaOrdenada);
         var icon = colunaSelecionada.find('i');
-        if (tabela.order()[0][1] === 'desc') {
+        if (tabela.order()[0][1] === 'asc') {
             icon.removeClass('fa-sort').addClass('fa-sort-up');
-        } else if (tabela.order()[0][1] === 'asc') {
+        } else if (tabela.order()[0][1] === 'desc') {
             icon.removeClass('fa-sort').addClass('fa-sort-down');
         }
     }
@@ -238,6 +244,13 @@ $(document).ready(function () {
 function ordenarTabela(coluna) {
     var tabela = $('#table-account').DataTable();
     tabela.order([coluna, tabela.order()[0][1]]).draw();
+}
+
+
+function sumBalance(balance) {
+    saldo = formatValueNumber(balance);
+
+    $(".saldo").text(`R$ ${saldo}`);
 }
 
 function showModalMessage(backgroundTitle, title, message, code) {
@@ -499,9 +512,16 @@ function requestListAccount() {
         if (xhr.status === 200) {
             var resposta = JSON.parse(xhr.responseText);
 
+                var saldo = 0
+
             for (var i = 0; i < resposta.length; i++) {
                 fillTableAccount(resposta[i].id, resposta[i].name, resposta[i].balance);
+
+                saldo += resposta[i].balance;
             }
+
+                console.log(saldo)
+                sumBalance(saldo)
 
         } else if (xhr.status === 204) {
             console.log("Sem contas registradas!");
