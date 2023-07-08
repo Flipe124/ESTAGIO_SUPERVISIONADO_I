@@ -1,3 +1,6 @@
+requestListTransaction();
+
+
 $('#box-dashboard-revenue').on('click', function () {
     location.replace('./revenue.php');
 });
@@ -6,144 +9,128 @@ $('#box-dashboard-expense').on('click', function () {
     location.replace('./expense.php');
 });
 
-requestListTransaction()
 
-createTableTransaction(1200)
-createTableTransaction(14000)
+// PREENCHER ELEMENTO
 
-function createTableTransaction(value) {
+function createTableTransaction(beneficiary_id, beneficiary_name, emitter_id, emitter_name, id, value) {
     var result = document.querySelector('.transaction-table');
 
-    id = 0;
-    type = "";
-    // value = "";
-    statusOp = "";
-    date = "";
-    data = "";
-    categoryName = "";
-    account = "";
-
-    text_type = "";
-    text_type_operation = "";
-
-    // iconCategory = setIconCategory(2);
-
-    iconCategory = "";
-
-    if (type == "revenue") {
-        text_type_operation = "text-success";
-
-    } else {
-        text_type_operation = "text-danger";
-    }
-
-    if (statusOp != "OK") {
-        text_type = "text-danger";
-    } else {
-        text_type = "text-success"
-    }
-
     result.innerHTML +=
-        `<div class="result filter-preset-1" data-id="${id}" data-type="${type}" data-value="${value}" data-status="${statusOp}" data-date="${date}" data-description="${data}" data-category="${categoryName}" data-account="${account}" >
-            <span class="icon-category">
-                ${iconCategory}
+        `<div class="result filter-preset-1" data-baneficiary-id="${beneficiary_id}" data-baneficiary-name="${beneficiary_name}" data-emitter-id="${emitter_id}" data-emitter-name="${emitter_name}" data-id="${id}" data-value="${value}">
+            <span class="icon-category text-primary">
+                <i class="fa-solid fa-money-bill-transfer"></i>
             </span>
             <span class="description">
                 <span class="category">
-                    <b>${categoryName}</b>
+                    <b>Transferência</b>
                 </span>
                 <div class="data text-secondary">
-                    ${data} | ${account}
+                    ${emitter_name} para ${beneficiary_name}
                 </div>
-                <span class="font-size-14 text-secondary">${date}</span>
+                <span class="font-size-14 text-secondary"></span>
             </span>
-            <div class="value ${text_type_operation}">
-                <b class="text-value">${formatValue(value)}</b> <span class="status mb-1 ms-1"><i class="fas fa-check-circle ${text_type}"></i></span>
+            <div class="value">
+                <b class="text-value">${value}</b> <span class="status mb-1 ms-1"></span>
             </div>
         </div>`
 
-    sumRevenueAndExpenseAndFormat();
 }
 
-function sumRevenueAndExpenseAndFormat() {
-    var sumRevenue = 0;
-    var sumExpense = 0;
+// TRATAMENTO DE ERROS
 
-    $('.result').each(function () {
-        var value = parseFloat($(this).attr('data-value'));
-        var type = $(this).attr('data-type');
+function showModalMessage(backgroundTitle, title, message, code) {
+    $(".modal").modal("hide");
+    $("#modal-message").modal("show");
 
-        if (!isNaN(value)) {
-            if (type === 'revenue') {
-                sumRevenue += value;
-            } else if (type === 'expense') {
-                sumExpense += value;
-            }
-        }
-    });
+    const ERROR_BAD_REQUEST = `Requisição inválida, se o erro persistir contate o suporte!`;
+    const ERROR_UNAUTHORIZED = `Seu token de acesso expirou, faça o login novamente!`;
+    const ERROR_CONFLIT = `Erro de conflito, registro já existente!`;
+    const ERROR_UNPROCESSABLE_ENTITY = `Erro de entidade improcessável, se o erro persisitir contate o suporte!`;
+    const ERROR_INTERNAL_SERVER = `Erro interno do servidor, se o erro persistir contate o suporte!`;
 
-    var sumRevenueFormatted = sumRevenue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    var sumExpenseFormatted = sumExpense.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    if (code == 400) {
+        $(".modal-header").addClass(backgroundTitle);
+        $("#modal-message .modal-title").text(title);
+        $("#modal-message .message").text(ERROR_BAD_REQUEST);
 
-    var divSumRevenue = document.querySelector('.sum-revenue');
-    var divSumExpense = document.querySelector('.sum-expense');
-
-    if (divSumRevenue) {
-        divSumRevenue.innerHTML = sumRevenueFormatted;
+        $("#modal-message .btn-success").on("click", function () {
+            location.reload();
+        })
     }
+    else if (code == 401 && message == "Unauthorized") {
+        $(".modal-header").addClass(backgroundTitle);
+        $("#modal-message .modal-title").text(title);
+        $("#modal-message .message").text(ERROR_UNAUTHORIZED);
 
-    if (divSumExpense) {
-        divSumExpense.innerHTML = sumExpenseFormatted;
+        $("#modal-message .btn-success").on("click", function () {
+            location.replace("../login");
+        })
+
+    } else if (code == 409) {
+        $(".modal-header").addClass(backgroundTitle);
+        $("#modal-message .modal-title").text(title);
+        $("#modal-message .message").text(ERROR_CONFLIT);
+
+        $("#modal-message .btn-success").on("click", function () {
+            location.reload();
+        })
+
+    } else if (code == 422) {
+        $(".modal-header").addClass(backgroundTitle);
+        $("#modal-message .modal-title").text(title);
+        $("#modal-message .message").text(ERROR_UNPROCESSABLE_ENTITY);
+
+        $("#modal-message .btn-success").on("click", function () {
+            location.reload();
+        })
+    } else if (code == 500) {
+        $(".modal-header").addClass(backgroundTitle);
+        $("#modal-message .modal-title").text(title);
+        $("#modal-message .message").text(ERROR_INTERNAL_SERVER);
+
+        $("#modal-message .btn-success").on("click", function () {
+            location.reload();
+        })
+
+    } else {
+        $(".modal-header").addClass(backgroundTitle);
+        $("#modal-message .modal-title").text(title);
+        $("#modal-message .message").text(message);
+
+        $("#modal-message .btn-success").on("click", function () {
+            location.reload();
+        })
     }
-}
+};
 
-function formatValue(valor) {
-    var valor = valor.replace(/\D/g, '');
-
-    var valor = (valor / 100).toFixed(2);
-
-    var partes = valor.split('.');
-    var parteInteira = partes[0];
-    var parteDecimal = partes[1];
-
-    parteInteira = parteInteira.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-
-    if (parteDecimal === '00') {
-        parteDecimal = '00';
-    }
-
-    return 'R$ ' + parteInteira + ',' + parteDecimal;
-}
-
-// Function 
+// REQUEST 
 
 function requestListTransaction() {
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
 
-    console.log(token); // Remover na versão final
-
     var connect_success = true;
 
     var xhr = new XMLHttpRequest();
 
-    xhr.open('GET', 'http://localhost:9999/api/v0/transaction/'); // ALTERAR
+    xhr.open('GET', 'http://localhost:9999/api/v0/transaction/');
 
     xhr.setRequestHeader('Token', `Bearer ${token}`);
 
     xhr.onload = function () {
         if (xhr.status === 200) {
-            console.log("Status OK");
+            $(".text-empty-transaction").text("");
             var resposta = JSON.parse(xhr.responseText);
 
             for (var i = 0; i < resposta.length; i++) {
-                // tableUserResults(resposta[i].value, resposta[i].name, resposta[i].username, resposta[i].email, true);// ALTERAR
+                createTableTransaction(resposta[i].beneficiary_id, resposta[i].beneficiary_name, resposta[i].emitter_id, resposta[i].emitter_name, resposta[i].id, resposta[i].value);
+
                 console.log("TESTE")
             }
 
         } else if (xhr.status === 204) {
-            console.log("Sem transações registradas!");
+            $(".text-empty-transaction").text("Sem transferências realizadas!");
 
         } else {
             connect_success = false;
