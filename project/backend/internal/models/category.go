@@ -15,6 +15,7 @@ type Category struct {
 	CreatedAt *time.Time      `gorm:"autoCreateTime"`
 	UpdatedAt *time.Time      `gorm:"autoUpdateTime"`
 	DeletedAt *gorm.DeletedAt `gorm:"index"`
+	Finance   *[]Finance
 }
 
 // CategoryList is the struct to bind list GET requests.

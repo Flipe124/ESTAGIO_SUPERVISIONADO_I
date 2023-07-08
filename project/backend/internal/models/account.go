@@ -15,6 +15,7 @@ type Account struct {
 	CreatedAt *time.Time      `gorm:"autoCreateTime"`
 	UpdatedAt *time.Time      `gorm:"autoUpdateTime"`
 	DeletedAt *gorm.DeletedAt `gorm:"index"`
+	Finance   *[]Finance
 }
 
 // AccountList is the struct to bind list GET requests.

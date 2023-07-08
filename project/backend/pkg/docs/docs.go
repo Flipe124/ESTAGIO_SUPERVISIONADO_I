@@ -1154,8 +1154,8 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "account_id",
-                "status_id",
-                "type_id",
+                "status_code",
+                "type_code",
                 "value"
             ],
             "properties": {
@@ -1171,11 +1171,11 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "status_id": {
+                "status_code": {
                     "type": "integer",
                     "minimum": 0
                 },
-                "type_id": {
+                "type_code": {
                     "type": "integer",
                     "minimum": 0
                 },
@@ -1203,10 +1203,10 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
-                "status_id": {
+                "status_code": {
                     "type": "integer"
                 },
-                "type_id": {
+                "type_code": {
                     "type": "integer"
                 },
                 "value": {
@@ -1229,11 +1229,11 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "status_id": {
+                "status_code": {
                     "type": "integer",
                     "minimum": 0
                 },
-                "type_id": {
+                "type_code": {
                     "type": "integer",
                     "minimum": 0
                 },
