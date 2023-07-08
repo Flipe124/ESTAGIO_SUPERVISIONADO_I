@@ -199,7 +199,7 @@ function generateTableOperation(account_id, category_id, status_id, type_id, id,
     console.log(statusOp)
     console.log(date)
     console.log(data)
-    console.log(categoryName)
+    console.log("CATEGORY " + categoryName)
     console.log(account)
 
     text_type = "";
@@ -207,7 +207,7 @@ function generateTableOperation(account_id, category_id, status_id, type_id, id,
 
     iconCategory = setIconCategory(2);
 
-    if (type == 1) {
+    if (type == '0') {
         text_type_operation = "text-success";
 
     } else {
@@ -238,6 +238,8 @@ function generateTableOperation(account_id, category_id, status_id, type_id, id,
                 <b class="text-value">${formatValueMonetary(value)}</b> <span class="status mb-1 ms-1"><i class="fas fa-check-circle ${text_type}"></i></span>
             </div>
         </div>`
+
+    console.log("NAME " + requestNameCategory(category_id))
 
     sumRevenueAndExpenseAndFormat();
 }
@@ -931,8 +933,9 @@ function requestListRevenue() {
 
             for (var i = 0; i < resposta.length; i++) {
                 console.log("RESPOSTA -> " + resposta);
-                generateTableOperation(resposta[i].account_id, resposta[i].category_id, resposta[i].status_code, resposta[i].type_code, resposta[i].id, resposta[i].datetime, resposta[i].description, resposta[i].value)
-
+                if (resposta[i].type_code == 0) {// 0 entrada
+                    generateTableOperation(resposta[i].account_id, resposta[i].category_id, resposta[i].status_code, resposta[i].type_code, resposta[i].id, resposta[i].datetime, resposta[i].description, resposta[i].value)
+                }
             }
 
         } else if (xhr.status === 204) {
@@ -1060,13 +1063,14 @@ function requestNameCategory(id) {
     xhr.setRequestHeader('Token', `Bearer ${token}`);
 
     xhr.onload = function () {
-        if (xhr.status === 200) {
+        if (xhr.status === 200 || xhr.status === 201 || xhr.status === 204) {
             var resposta = JSON.parse(xhr.responseText);
 
             for (var i = 0; i < resposta.length; i++) {
                 // fillSelectCategory(resposta[i].id, resposta[i].name, resposta[i].icon, form)
                 name = resposta[i].name
 
+                console.log("NAME " + name)
 
                 return name
             }
@@ -1110,16 +1114,16 @@ function requestNameAccount(id) {
     xhr.setRequestHeader('Token', `Bearer ${token}`);
 
     xhr.onload = function () {
-        if (xhr.status === 200) {
+        if (xhr.status === 200 || xhr.status === 201) {
             var resposta = JSON.parse(xhr.responseText);
+            var name = resposta.name
 
             for (var i = 0; i < resposta.length; i++) {
                 // fillSelectCategory(resposta[i].id, resposta[i].name, resposta[i].icon, form)
-                name = resposta[i].name
 
 
-                return name
             }
+            return name
 
         } else if (xhr.status === 204) {
             console.log("vazio");
