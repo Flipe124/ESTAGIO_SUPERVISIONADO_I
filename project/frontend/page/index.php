@@ -18,7 +18,7 @@
                         <i class="fa-solid fa-building-columns"></i> Saldo
                     </div>
                     <div class="pt-2 ps-2 fs-6 text-start">
-                        <b>R$ 2.300,50</b>
+                        <b class="saldo">R$ 0,00</b>
                     </div>
                 </div>
                 <div class="box-dashboard mt-1 bg-success filter-preset-1" id="box-dashboard-revenue">
@@ -82,16 +82,10 @@
     </div>
     </div>
     </div>
-
-    <div></div>
     <?php include_once("../includes/footer.php") ?>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../js/graph/script.js"></script>
     <script src="../js/dashboard/script.js"></script>
-    <script src="https://cdn.datatables.net/1.11.2/js/jquery.dataTables.min.js"></script>
-
 </body>
-
 
 </html>
