@@ -18,12 +18,21 @@ body {
     --black-blue: rgb(6, 22, 30);
 }
 
+.dataTables_empty{
+    display: none;
+}
+
 a {
     text-decoration: none !important;
 }
 
 a:hover {
     color: inherit !important;
+}
+
+.result-table-account {
+    border-width: 1px !important;
+    border-top: #5c5b5b !important;
 }
 
 .filter-preset-1 {
