@@ -3,6 +3,7 @@ definitions:
   models.AccountCreate:
     properties:
       balance:
+        minimum: 0
         type: number
       name:
         type: string
@@ -22,6 +23,7 @@ definitions:
   models.AccountUpdate:
     properties:
       balance:
+        minimum: 0
         type: number
       name:
         type: string
@@ -73,18 +75,22 @@ definitions:
   models.FinanceCreate:
     properties:
       account_id:
+        minimum: 0
         type: integer
       category_id:
+        minimum: 0
         type: integer
-      datetime:
-        type: string
+      datetime: {}
       description:
         type: string
       status_id:
+        minimum: 0
         type: integer
       type_id:
+        minimum: 0
         type: integer
       value:
+        minimum: 0
         type: number
     required:
     - account_id
@@ -114,18 +120,22 @@ definitions:
   models.FinanceUpdate:
     properties:
       account_id:
+        minimum: 0
         type: integer
       category_id:
+        minimum: 0
         type: integer
-      datetime:
-        type: string
+      datetime: {}
       description:
         type: string
       status_id:
+        minimum: 0
         type: integer
       type_id:
+        minimum: 0
         type: integer
       value:
+        minimum: 0
         type: number
     type: object
   models.HTTP:
@@ -154,10 +164,13 @@ definitions:
   models.TransactionCreate:
     properties:
       beneficiary_id:
+        minimum: 0
         type: integer
       emitter_id:
+        minimum: 0
         type: integer
       value:
+        minimum: 0
         type: number
     required:
     - beneficiary_id

@@ -36,22 +36,22 @@ type FinanceList struct {
 
 // FinanceCreate is the struct to bind create POST requests.
 type FinanceCreate struct {
-	AccountID   *uint      `json:"account_id" binding:"required,gt=-1"`
-	TypeID      *uint      `json:"type_id" binding:"required,gt=-1"`
-	CategoryID  *uint      `json:"category_id,omitempty" binding:"omitempty,gt=-1"`
-	StatusID    *uint      `json:"status_id" binding:"required,gt=-1"`
-	Value       *float64   `json:"value" binding:"required,gt=-1"`
-	Description *string    `json:"description,omitempty" binding:"omitempty"`
-	DateTime    *time.Time `json:"datetime,omitempty" binding:"omitempty,datetime"`
+	AccountID   *uint    `json:"account_id" binding:"required,gte=0"`
+	TypeID      *uint    `json:"type_id" binding:"required,gte=0"`
+	CategoryID  *uint    `json:"category_id,omitempty" binding:"omitempty,gte=0"`
+	StatusID    *uint    `json:"status_id" binding:"required,gte=0"`
+	Value       *float64 `json:"value" binding:"required,gte=0"`
+	Description *string  `json:"description,omitempty" binding:"omitempty"`
+	DateTime    *any     `json:"datetime,omitempty" binding:"omitempty,datetime"`
 }
 
 // FinanceUpdate is the struct to bind update PATCH requests.
 type FinanceUpdate struct {
-	AccountID   *uint      `json:"account_id,omitempty" binding:"omitempty,gt=-1"`
-	TypeID      *uint      `json:"type_id,omitempty" binding:"omitempty,gt=-1"`
-	CategoryID  *uint      `json:"category_id,omitempty" binding:"omitempty,gt=-1"`
-	StatusID    *uint      `json:"status_id,omitempty" binding:"omitempty,gt=-1"`
-	Value       *float64   `json:"value,omitempty" binding:"omitempty,gt=-1"`
-	Description *string    `json:"description,omitempty" binding:"omitempty"`
-	DateTime    *time.Time `json:"datetime,omitempty" binding:"omitempty,datetime"`
+	AccountID   *uint    `json:"account_id,omitempty" binding:"omitempty,gte=0"`
+	TypeID      *uint    `json:"type_id,omitempty" binding:"omitempty,gte=0"`
+	CategoryID  *uint    `json:"category_id,omitempty" binding:"omitempty,gte=0"`
+	StatusID    *uint    `json:"status_id,omitempty" binding:"omitempty,gte=0"`
+	Value       *float64 `json:"value,omitempty" binding:"omitempty,gte=0"`
+	Description *string  `json:"description,omitempty" binding:"omitempty"`
+	DateTime    *any     `json:"datetime,omitempty" binding:"omitempty,datetime"`
 }

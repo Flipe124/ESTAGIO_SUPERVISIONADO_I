@@ -1049,7 +1049,8 @@ const docTemplate = `{
             ],
             "properties": {
                 "balance": {
-                    "type": "number"
+                    "type": "number",
+                    "minimum": 0
                 },
                 "name": {
                     "type": "string"
@@ -1074,7 +1075,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "balance": {
-                    "type": "number"
+                    "type": "number",
+                    "minimum": 0
                 },
                 "name": {
                     "type": "string"
@@ -1158,25 +1160,28 @@ const docTemplate = `{
             ],
             "properties": {
                 "account_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0
                 },
                 "category_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0
                 },
-                "datetime": {
-                    "type": "string"
-                },
+                "datetime": {},
                 "description": {
                     "type": "string"
                 },
                 "status_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0
                 },
                 "type_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0
                 },
                 "value": {
-                    "type": "number"
+                    "type": "number",
+                    "minimum": 0
                 }
             }
         },
@@ -1213,25 +1218,28 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "account_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0
                 },
                 "category_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0
                 },
-                "datetime": {
-                    "type": "string"
-                },
+                "datetime": {},
                 "description": {
                     "type": "string"
                 },
                 "status_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0
                 },
                 "type_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0
                 },
                 "value": {
-                    "type": "number"
+                    "type": "number",
+                    "minimum": 0
                 }
             }
         },
@@ -1280,13 +1288,16 @@ const docTemplate = `{
             ],
             "properties": {
                 "beneficiary_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0
                 },
                 "emitter_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0
                 },
                 "value": {
-                    "type": "number"
+                    "type": "number",
+                    "minimum": 0
                 }
             }
         },
