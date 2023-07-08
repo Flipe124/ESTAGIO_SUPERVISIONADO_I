@@ -23,7 +23,7 @@
                     </div>
                     <div class="pt-2 ps-2 fs-6 text-start">
                         <!-- <b class="sum-revenue"></b> -->
-                        <b>R$ 10.420,78</b>
+                        <b class="saldo">R$ 0</b>
                     </div>
                 </div>
             </div>
