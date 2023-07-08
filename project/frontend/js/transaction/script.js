@@ -1,14 +1,14 @@
 requestListTransaction();
 
+$("#button-new-transaction").on("click", function () {
+    $("#modal-create-transaction").modal("show");
 
-$('#box-dashboard-revenue').on('click', function () {
-    location.replace('./revenue.php');
+    $('.error').text("");
+
+    $("#form-create-transaction")[0].reset();
+
+    requestListAccountAndFillSelect()
 });
-
-$('#box-dashboard-expense').on('click', function () {
-    location.replace('./expense.php');
-});
-
 
 // PREENCHER ELEMENTO
 
@@ -103,6 +103,19 @@ function showModalMessage(backgroundTitle, title, message, code) {
     }
 };
 
+// FORMATAÇÃO
+
+function formatValueOniput(input) {
+    var value = input.value.replace(/\D/g, '');
+
+    value = (value / 100).toFixed(2);
+
+    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    value = value.replace('.', ',');
+
+    input.value = 'R$ ' + value;
+}
+
 // REQUEST 
 
 function requestListTransaction() {
@@ -125,12 +138,70 @@ function requestListTransaction() {
 
             for (var i = 0; i < resposta.length; i++) {
                 createTableTransaction(resposta[i].beneficiary_id, resposta[i].beneficiary_name, resposta[i].emitter_id, resposta[i].emitter_name, resposta[i].id, resposta[i].value);
-
-                console.log("TESTE")
             }
 
         } else if (xhr.status === 204) {
             $(".text-empty-transaction").text("Sem transferências realizadas!");
+
+        } else {
+            connect_success = false;
+
+            var objMessage = JSON.parse(xhr.responseText);
+
+            var code = objMessage.code;
+            var msg = objMessage.error;
+
+            showModalMessage("bg-danger", "ERRO", msg, code);
+
+            return connect_success
+        }
+    };
+
+    xhr.send();
+};
+
+function requestListAccountAndFillSelect() {
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', 'http://localhost:9999/api/v0/account/');
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var resposta = JSON.parse(xhr.responseText);
+
+            for (var i = 0; i < resposta.length; i++) {
+                selected = "";
+
+                var result = document.querySelector('#create-input-emitter-transaction');
+
+                var resultBenificiary = document.querySelector('#create-input-beneficiary-transaction');
+
+                result.innerHTML += 
+                `
+                <option value="${resposta[i].id}">${resposta[i].name}</option>
+                `
+
+                if(i == 1) {
+                    selected = "selected";
+                }
+
+                resultBenificiary.innerHTML += 
+                `
+                <option value="${resposta[i].id}" ${selected}>${resposta[i].name}</option>
+                `
+
+            }
+
+        } else if (xhr.status === 204) {
+            console.log("Sem contas registradas!");
 
         } else {
             connect_success = false;
