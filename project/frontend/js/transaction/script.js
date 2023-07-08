@@ -10,6 +10,13 @@ $("#button-new-transaction").on("click", function () {
     requestListAccountAndFillSelect()
 });
 
+$("#button-create-transaction").on("click", function () {
+    if (validationTransation() == true) {
+        resquestCreateTransaction();
+    }
+});
+
+
 // PREENCHER ELEMENTO
 
 function createTableTransaction(beneficiary_id, beneficiary_name, emitter_id, emitter_name, id, value) {
@@ -30,13 +37,40 @@ function createTableTransaction(beneficiary_id, beneficiary_name, emitter_id, em
                 <span class="font-size-14 text-secondary"></span>
             </span>
             <div class="value">
-                <b class="text-value">${value}</b> <span class="status mb-1 ms-1"></span>
+                <b class="text-value">${formatarMoeda(value)}</b> <span class="status mb-1 ms-1"></span>
             </div>
         </div>`
-
 }
 
 // TRATAMENTO DE ERROS
+
+function validationTransation() {
+    const ERROR_EMPTY_VALUE = "Informe o valor da tranferência!";
+
+    const ERROR_CONFLIT_ACCOUNT = "Conta emissora e repitora devem ser diferente!";
+
+    value = $("#create-input-value-transaction").val();
+    emitter = $("#create-input-emitter-transaction").val();
+    beneficiary = $("#create-input-beneficiary-transaction").val();
+
+    let isValid = true;
+
+    if(value == "" || value == "R$ 0,00") {
+        $(".error-msg-value-transaction").text(ERROR_EMPTY_VALUE);
+        isValid = false;
+    } else {
+        $(".error-msg-value-transaction").text("")
+    }
+
+    if(emitter == beneficiary) {
+        $(".error-msg-beneficiary-transaction").text(ERROR_CONFLIT_ACCOUNT)
+        isValid = false;
+    } else {
+        $(".error-msg-beneficiary-transaction").text("")
+    }
+
+    return isValid
+}
 
 function showModalMessage(backgroundTitle, title, message, code) {
     $(".modal").modal("hide");
@@ -116,7 +150,77 @@ function formatValueOniput(input) {
     input.value = 'R$ ' + value;
 }
 
+function formatarMoeda(valor) {
+    var formatter = new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    });
+
+    return formatter.format(valor);
+}
+
+
 // REQUEST 
+
+function resquestCreateTransaction() {
+    // disabledButton($('#button-create'), true);
+
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+
+    token = objeto.token;
+
+    var value = $("#create-input-value-transaction").val();
+
+    value = value.replace(/[^0-9]/g, "");
+
+    value = parseFloat((parseFloat(value) / 100).toFixed(2));
+
+    var beneficiary_id = parseInt($("#create-input-beneficiary-transaction").val());
+    var emitter_id = parseInt($("#create-input-emitter-transaction").val());
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('POST', 'http://localhost:9999/api/v0/transaction/');
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200 || xhr.status === 201) {
+            // disabledButton($('#button-create'), false);
+
+            showModalMessage("bg-success", "NOVA TRANSFERÊNCIA", `Transferência cadastrada com sucesso!`, 0);
+
+        } else {
+            // disabledButton($('#button-create'), false);
+
+            connect_success = false;
+
+            var objMessage = JSON.parse(xhr.responseText);
+
+            var code = objMessage.code;
+            var msg = objMessage.error;
+
+            showModalMessage("bg-danger", "ERROR", msg, code);
+
+            return connect_success
+        }
+    };
+
+    var data = {
+        "beneficiary_id": beneficiary_id,
+        "emitter_id": emitter_id,
+        "value": value
+    }
+
+    var json = JSON.stringify(data);
+
+    xhr.send(json);
+
+    return connect_success
+};
 
 function requestListTransaction() {
     var accessToken = sessionStorage.getItem('accessToken');
@@ -184,17 +288,17 @@ function requestListAccountAndFillSelect() {
 
                 var resultBenificiary = document.querySelector('#create-input-beneficiary-transaction');
 
-                result.innerHTML += 
-                `
+                result.innerHTML +=
+                    `
                 <option value="${resposta[i].id}">${resposta[i].name}</option>
                 `
 
-                if(i == 1) {
+                if (i == 1) {
                     selected = "selected";
                 }
 
-                resultBenificiary.innerHTML += 
-                `
+                resultBenificiary.innerHTML +=
+                    `
                 <option value="${resposta[i].id}" ${selected}>${resposta[i].name}</option>
                 `
 
