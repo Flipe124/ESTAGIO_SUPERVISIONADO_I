@@ -83,6 +83,16 @@ func create(ctx *gin.Context) {
 	}
 	structure.Assign(user, userList)
 
+	if err := db.Tx.Exec(postCreate, user.ID).Error; err != nil {
+		api.LogReturn(
+			ctx,
+			http.StatusInternalServerError,
+			http.StatusText(http.StatusInternalServerError),
+			err.Error(),
+		)
+		return
+	}
+
 	ctx.JSON(http.StatusCreated, userList)
 
 }

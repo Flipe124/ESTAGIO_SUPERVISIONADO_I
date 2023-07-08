@@ -32,7 +32,7 @@ type TransactionList struct {
 
 // TransactionCreate is the struct to bind create POST requests.
 type TransactionCreate struct {
-	EmitterID     *uint    `json:"emitter_id" binding:"required,gt=0"`
-	BeneficiaryID *uint    `json:"beneficiary_id" binding:"required,gt=0"`
-	Value         *float64 `json:"value" binding:"required,gt=0"`
+	EmitterID     *uint    `json:"emitter_id" binding:"required,gt=-1"`
+	BeneficiaryID *uint    `json:"beneficiary_id" binding:"required,gt=-1"`
+	Value         *float64 `json:"value" binding:"required,gt=-1"`
 }
