@@ -5,6 +5,7 @@ import (
 	_ "backend/internal/core/account"
 	_ "backend/internal/core/auth"
 	_ "backend/internal/core/category"
+	_ "backend/internal/core/finance"
 	_ "backend/internal/core/status"
 	_ "backend/internal/core/transaction"
 	_ "backend/internal/core/type"
