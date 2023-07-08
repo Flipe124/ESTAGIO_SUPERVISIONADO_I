@@ -19,11 +19,11 @@ import (
 //	@Description	Get a single category from ID.
 //	@Tags			category
 //	@Produce		json
-//	@Param			TOKEN	header		string	true	"Bearer token."
+//	@Param			TOKEN		header		string	true	"Bearer token."
 //	@Param			category	path		int		true	"Category ID."
-//	@Success		200		{object}	models.CategoryList
-//	@Failure		404		{object}	models.HTTP
-//	@Failure		500		{object}	models.HTTP
+//	@Success		200			{object}	models.CategoryList
+//	@Failure		404			{object}	models.HTTP
+//	@Failure		500			{object}	models.HTTP
 //	@Router			/category/{category} [get]
 func get(ctx *gin.Context) {
 

@@ -339,6 +339,37 @@ paths:
       summary: DELETE
       tags:
       - account
+    get:
+      description: Get a single account from ID.
+      parameters:
+      - description: Bearer token.
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - description: Account ID.
+        in: path
+        name: account
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AccountList'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.HTTP'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.HTTP'
+      summary: GET
+      tags:
+      - account
     patch:
       consumes:
       - application/json
@@ -529,6 +560,37 @@ paths:
           schema:
             $ref: '#/definitions/models.HTTP'
       summary: DELETE
+      tags:
+      - category
+    get:
+      description: Get a single category from ID.
+      parameters:
+      - description: Bearer token.
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - description: Category ID.
+        in: path
+        name: category
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CategoryList'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.HTTP'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.HTTP'
+      summary: GET
       tags:
       - category
     patch:
