@@ -11,9 +11,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="create-input-balance-transaction" placeholder="Saldo atual" oninput="formatValueOniput(this)" maxlength="16" value="R$ 0,00">
-                                <label for="input-balance-transaction">Valor da tranferência: <span class="text-danger">*</span></label>
-                                <span class="text-danger error error-balance-transaction"></span>
+                                <input type="text" class="form-control" id="create-input-value-transaction" placeholder="Saldo atual" oninput="formatValueOniput(this)" maxlength="16" value="R$ 0,00">
+                                <label for="input-value-transaction">Valor da tranferência: <span class="text-danger">*</span></label>
+                                <span class="text-danger error error-msg-value-transaction"></span>
                             </div>
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="create-input-emitter-transaction" aria-label="Floating">
