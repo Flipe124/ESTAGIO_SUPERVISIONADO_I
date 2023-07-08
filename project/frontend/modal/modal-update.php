@@ -33,18 +33,12 @@
                             </div>
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="update-input-category-operation" aria-label="Floating">
-                                    <option value="Salário">Salário</option>
-                                    <option value="Investimento">Investimento</option>
-                                    <option value="Presente">Presente</option>
                                 </select>
                                 <label for="update-input-category-operation">Categoria: <span class="text-danger">*</span></label>
                                 <span class="text-danger error error-msg-category-operation"></span>
                             </div>
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="update-input-account-operation" aria-label="Floating">
-                                    <option value="Nubank">Nubank</option>
-                                    <option value="Inter">Inter</option>
-                                    <option value="Bradesco">Bradesco</option>
                                 </select>
                                 <label for="update-input-account-operation">Conta: <span class="text-danger">*</span></label>
                                 <span class="text-danger error error-msg-account-operation"></span>
