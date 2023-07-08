@@ -233,9 +233,9 @@ $(document).ready(function () {
         $('.order-by i').removeClass('fa-sort-up fa-sort-down').addClass('fa-sort');
         var colunaSelecionada = $('.order-by').eq(colunaOrdenada);
         var icon = colunaSelecionada.find('i');
-        if (tabela.order()[0][1] === 'asc') {
+        if (tabela.order()[0][1] === 'desc') {
             icon.removeClass('fa-sort').addClass('fa-sort-up');
-        } else if (tabela.order()[0][1] === 'desc') {
+        } else if (tabela.order()[0][1] === 'asc') {
             icon.removeClass('fa-sort').addClass('fa-sort-down');
         }
     }
