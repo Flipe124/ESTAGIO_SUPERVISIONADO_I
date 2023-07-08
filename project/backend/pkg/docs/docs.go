@@ -214,7 +214,7 @@ const docTemplate = `{
                 "tags": [
                     "auth"
                 ],
-                "summary": "PROPERTIES",
+                "summary": "ID",
                 "parameters": [
                     {
                         "type": "string",

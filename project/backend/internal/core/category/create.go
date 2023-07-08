@@ -18,6 +18,7 @@ import (
 //	@Tags			category
 //	@Accept			json
 //	@Produce		json
+//	@Param			TOKEN	header		string	true	"Bearer token."
 //	@Param			JSON	body		models.CategoryCreate	true	"Json request."
 //	@Success		201		{object}	models.CategoryList
 //	@Failure		422		{object}	models.HTTP

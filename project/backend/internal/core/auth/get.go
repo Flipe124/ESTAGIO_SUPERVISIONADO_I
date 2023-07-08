@@ -13,7 +13,7 @@ import (
 
 // Swagger:
 //
-//	@Summary		PROPERTIES
+//	@Summary		ID
 //	@Description	Get the user id from your token.
 //	@Tags			auth
 //	@Param			TOKEN	header		string	true	"Bearer token."
