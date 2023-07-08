@@ -68,11 +68,13 @@ function validationFormCategory(form) {
     const MAX_LENGTH_NAME = 30;
     const SPECIAL_CHARACTERS_REGEX = /[!@#$%^&*(),.?":{}|<>]/g;
     const WHITESPACE_REGEX = /\s/g;
+    const NUMBER_REGEX = /\d/g;
 
     const ERROR_EMPTY_NAME = "Informe o nome da categoria!";
     const ERROR_MAX_LENGTH_NAME = `Nome pode conter até ${MAX_LENGTH_NAME} caracteres!`;
     const ERROR_SPECIAL_CHARACTERS_NAME = "Nome não pode conter caracteres especiais!";
     const ERROR_WHITESPACE_NAME = "Nome não pode conter espaços em branco!";
+    const ERROR_NUMBER_NAME = "Nome não pode conter números!";
 
     let name = $(`#form-${form}-category #${form}-input-name-category`).val();
 
@@ -86,12 +88,16 @@ function validationFormCategory(form) {
         $(`#form-${form}-category .error-name-category`).text(ERROR_MAX_LENGTH_NAME);
         isValid = false;
 
-    } else if (SPECIAL_CHARACTERS_REGEX.test(name)) {
+    } else if (SPECIAL_CHARACTERS_REGEX.test(name) || name.includes('_')) {
         $(`#form-${form}-category .error-name-category`).text(ERROR_SPECIAL_CHARACTERS_NAME);
         isValid = false;
 
     } else if (WHITESPACE_REGEX.test(name)) {
         $(`#form-${form}-category .error-name-category`).text(ERROR_WHITESPACE_NAME);
+        isValid = false;
+
+    } else if (NUMBER_REGEX.test(name)) {
+        $(`#form-${form}-category .error-name-category`).text(ERROR_NUMBER_NAME);
         isValid = false;
 
     } else {
@@ -100,9 +106,6 @@ function validationFormCategory(form) {
 
     return isValid;
 }
-
-
-
 
 // SHOW MESSAGE 
 
@@ -297,9 +300,7 @@ function resquestUpdateCategory() {
 
     var id = parseInt($("#update-input-id-category").val());
 
-    var name = $("#create-input-name-category").val();
-
-    // var balance = $("#create-input-icon-category").val();
+    var name = $("#update-input-name-category").val();
 
     var connect_success = true;
 
