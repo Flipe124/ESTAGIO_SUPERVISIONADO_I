@@ -581,7 +581,9 @@ paths:
     post:
       consumes:
       - application/json
-      description: Create a new finance.
+      description: |-
+        Create a new finance.
+        The "datetime" field follows this pattern: "yyyy-mm-dd hh:mm:ss".
       parameters:
       - description: Json request.
         in: body
@@ -596,10 +598,6 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/models.FinanceList'
-        "409":
-          description: Conflict
-          schema:
-            $ref: '#/definitions/models.HTTP'
         "422":
           description: Unprocessable Entity
           schema:
@@ -663,10 +661,6 @@ paths:
           description: No Content
           schema:
             type: string
-        "409":
-          description: Conflict
-          schema:
-            $ref: '#/definitions/models.HTTP'
         "422":
           description: Unprocessable Entity
           schema:

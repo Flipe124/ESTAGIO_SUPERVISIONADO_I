@@ -540,7 +540,7 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "description": "Create a new finance.",
+                "description": "Create a new finance.\nThe \"datetime\" field follows this pattern: \"yyyy-mm-dd hh:mm:ss\".",
                 "consumes": [
                     "application/json"
                 ],
@@ -567,12 +567,6 @@ const docTemplate = `{
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/models.FinanceList"
-                        }
-                    },
-                    "409": {
-                        "description": "Conflict",
-                        "schema": {
-                            "$ref": "#/definitions/models.HTTP"
                         }
                     },
                     "422": {
@@ -667,12 +661,6 @@ const docTemplate = `{
                         "description": "No Content",
                         "schema": {
                             "type": "string"
-                        }
-                    },
-                    "409": {
-                        "description": "Conflict",
-                        "schema": {
-                            "$ref": "#/definitions/models.HTTP"
                         }
                     },
                     "422": {

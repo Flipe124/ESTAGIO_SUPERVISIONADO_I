@@ -15,12 +15,12 @@ import (
 //
 //	@Summary		CREATE
 //	@Description	Create a new finance.
+//	@Description	The "datetime" field follows this pattern: "yyyy-mm-dd hh:mm:ss".
 //	@Tags			finance
 //	@Accept			json
 //	@Produce		json
 //	@Param			JSON	body		models.FinanceCreate	true	"Json request."
 //	@Success		201		{object}	models.FinanceList
-//	@Failure		409		{object}	models.HTTP
 //	@Failure		422		{object}	models.HTTP
 //	@Failure		500		{object}	models.HTTP
 //	@Router			/finance [post]
