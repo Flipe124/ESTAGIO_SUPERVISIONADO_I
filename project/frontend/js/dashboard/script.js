@@ -13,49 +13,8 @@ $('#box-dashboard-expense').on('click', function () {
     location.replace('./expense.php')
 });
 
-$(document).ready(function () {
-    var tabela = $('#table-account-balance').DataTable();
-
-    $('#table-account-balance_length').hide();
-    $('#table-account-balance_filter').hide();
-    $('#table-account-balance_info').hide();
-    $('#table-account-balance_paginate').hide();
-
-    tabela.on('order.dt', function () {
-        atualizarOrdenacaoSelecionada(tabela);
-    });
-
-    $('.order-by').click(function () {
-        $('.order-by').removeClass('selected');
-        $(this).addClass('selected');
-    });
-
-    function atualizarOrdenacaoSelecionada(tabela) {
-        var colunaOrdenada = tabela.order()[0][0];
-        $('.order-by').removeClass('selected');
-        $('.order-by').eq(colunaOrdenada).addClass('selected');
-
-        $('.order-by i').removeClass('fa-sort-up fa-sort-down').addClass('fa-sort');
-        var colunaSelecionada = $('.order-by').eq(colunaOrdenada);
-        var icon = colunaSelecionada.find('i');
-        if (tabela.order()[0][1] === 'desc') {
-            icon.removeClass('fa-sort').addClass('fa-sort-up');
-        } else if (tabela.order()[0][1] === 'asc') {
-            icon.removeClass('fa-sort').addClass('fa-sort-down');
-        }
-    }
-});
-
-function ordenarTabela(coluna) {
-    var tabela = $('#table-account-balance').DataTable();
-    tabela.order([coluna, tabela.order()[0][1]]).draw();
-}
-
 function fillTableAccount(id, bank, balance) {
-
-    console.log(id)
-    console.log(bank)
-    console.log(balance)
+    var result = document.querySelector('#table-account-balance');
 
     text_color = "";
 
@@ -63,45 +22,30 @@ function fillTableAccount(id, bank, balance) {
         text_color = "text-danger";
     }
 
-    register =
+    result.innerHTML +=
         `
         <tr class="result-table-account text-center">
             <td class="text-start ps-3">${bank}</td>
-            <td class="text-end ${text_color}">R$ ${formatValueNumber(balance)}</td>
+            <td class="text-end ${text_color}">${formatarMoeda(balance)}</td>
             <td class="text-center">
             </td>
         </tr>
         `
-
-    // $("#table-account-balancet tbody").append(register);
-    $("#table-account-balance tbody").append(register);
-
-    console.log("APOS")
-}
-
-function formatValueNumber(number) {
-    // Verifica se o número é um float
-    if (Number.isFinite(number) && Number(number) % 1 !== 0) {
-        // Formata o número de ponto flutuante como valor monetário
-        return number.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    }
-
-    // Converte o número em uma string
-    var stringNumber = number.toString();
-
-    // Verifica se o número já possui formatação com vírgula
-    if (stringNumber.indexOf('.') !== -1 || stringNumber.indexOf(',') !== -1) {
-        return stringNumber; // Retorna o número original
-    }
-
-    // Adiciona o separador de milhares e retorna a string formatada como valor monetário
-    return stringNumber.replace(/\B(?=(\d{3})+(?!\d))/g, '.').concat(',00');
 }
 
 function sumBalance(balance) {
-    saldo = formatValueNumber(balance);
+    saldo = formatarMoeda(balance);
 
     $(".saldo").text(`R$ ${saldo}`);
+}
+
+function formatarMoeda(valor) {
+    var formatter = new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    });
+
+    return formatter.format(valor);
 }
 
 // REQUEST
@@ -110,8 +54,6 @@ function requestListAccount() {
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
-
-    console.log(token); // Remover na versão final
 
     var connect_success = true;
 
