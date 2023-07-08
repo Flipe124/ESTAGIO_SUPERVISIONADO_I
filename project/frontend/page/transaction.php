@@ -9,7 +9,7 @@
         <div class="row">
             <div class="d-flex justify-content-between mt-2">
                 <div class="col-md">
-                    <div class="fs-3"><b>Transações</b></div>
+                    <div class="fs-3"><b>Transferências</b></div>
                 </div>
                 <div class="col-md d-flex justify-content-end">
                     <button class="btn btn-success btn-sm mt-1" id="button-new-transaction" type="button">
@@ -25,11 +25,8 @@
     </div>
 
     <div></div>
-    <?php include_once("../modal/modal-new-account.php") ?>
-    <?php include_once("../modal/modal-update-account.php") ?>
-    <?php include_once("../modal/modal-delete-account.php") ?>
+    <?php include_once("../modal/modal-new-transaction.php") ?>
     <?php require_once("../modal/modal-message.php"); ?>
-    
     <?php include_once("../includes/footer.php") ?>
     <script src="../js/transaction/script.js"></script>
 </body>
