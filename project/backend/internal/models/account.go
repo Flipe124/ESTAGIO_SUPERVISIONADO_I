@@ -27,11 +27,11 @@ type AccountList struct {
 // AccountCreate is the struct to bind create POST requests.
 type AccountCreate struct {
 	Name    *string  `json:"name" binding:"required,phrase"`
-	Balance *float64 `json:"balance" binding:"required,gt=-1"`
+	Balance *float64 `json:"balance" binding:"required,gte=0"`
 }
 
 // AccountUpdate is the struct to bind update PATCH requests.
 type AccountUpdate struct {
 	Name    *string  `json:"name,omitempty" binding:"omitempty,phrase"`
-	Balance *float64 `json:"balance,omitempty" binding:"omitempty,gt=-1"`
+	Balance *float64 `json:"balance,omitempty" binding:"omitempty,gte=0"`
 }
