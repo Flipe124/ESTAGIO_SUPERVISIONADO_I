@@ -1,9 +1,27 @@
-generateTableOperation();
-generateTableOperation();
-
 requestListRevenue();
 
 blockInsertDateManual();
+
+
+
+let select = document.querySelector("#update-input-category-operation");
+
+console.log(select)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // sumRevenueAndFormated();
 
@@ -13,19 +31,42 @@ $("#btn-open-modal-revenue").on("click", function () {
 
 $("#button-new-revenue").on("click", function () {
     modalAction("create", "show");
-    requestListCategory();
-    requestListAccount();
+    $(`#create-input-category-operation`).html("");
+    $(`#create-input-account-operation`).html("");
+
+    requestListCategory("create");
+    requestListAccount("create");
 
     var meuInput = document.getElementById('create-input-value-operation');
 
     formatValueInput(meuInput);
 });
 
-$(".result").on("click", function () {
+// $(".result").on("click", function () {
+
+//     console.log(".result")
+//     $("#form-update")[0].reset();
+//     modalAction("update", "show");
+//     fillModalUpdateRevenue($(this).data("id"), $(this).data("type"), $(this).data("value"), $(this).data("status"), $(this).data("date"), $(this).data("description"), $(this).data("category"), $(this).data("account"));
+// });
+
+
+$(document).on('click', '.result', function () {
+    console.log(".result")
     $("#form-update")[0].reset();
     modalAction("update", "show");
+
+    $(`#update-input-category-operation`).html("");
+    $(`#update-input-account-operation`).html("");
+
+
+    requestListCategory("update");
+    requestListAccount("update");
+
     fillModalUpdateRevenue($(this).data("id"), $(this).data("type"), $(this).data("value"), $(this).data("status"), $(this).data("date"), $(this).data("description"), $(this).data("category"), $(this).data("account"));
 });
+
+
 
 $("#button-delete-revenue").on("click", function () {
     console.log($(this).data("id"))
@@ -40,15 +81,15 @@ $('#button-cancel-delete').on('click', function () {
 
 $("#button-create").on("click", function () {
     if (validationField("create") == true) {
-        showModalMessage("bg-success", "NOVA RECEITA", `Receita cadastrada com sucesso!`, 0);
-        // resquestCreateRevenue();
+        // showModalMessage("bg-success", "NOVA RECEITA", `Receita cadastrada com sucesso!`, 0);
+        resquestCreateRevenue();
     }
 });
 
 $("#button-update-revenue").on("click", function () {
     if (validationField("update") == true) {
-        showModalMessage("bg-success", "EDITAR RECEITA", `Receita editada com sucesso!`, 0);
-        // resquestCreateRevenue();
+        // showModalMessage("bg-success", "EDITAR RECEITA", `Receita editada com sucesso!`, 0);
+        resquestUpdateRevenue();
     }
 });
 
@@ -166,21 +207,21 @@ function generateTableOperation(account_id, category_id, status_id, type_id, id,
 
     iconCategory = setIconCategory(2);
 
-    if (type == "receita") {
+    if (type == 1) {
         text_type_operation = "text-success";
 
     } else {
         text_type_operation = "text-danger";
     }
 
-    if (statusOp != "OK") {
-        text_type = "text-danger";
-    } else {
+    if (statusOp == 1) {
         text_type = "text-success"
+    } else {
+        text_type = "text-danger";
     }
 
     result.innerHTML +=
-        `<div class="result filter-preset-1" data-id="${id}" data-type="${type}" data-value="${value}" data-status="${statusOp}" data-date="${date}" data-description="${data}" data-category="${categoryName}" data-account="${account}" >
+        `<div class="result filter-preset-1" data-id="${id}" data-type="${type}" data-value="${value}" data-status="${statusOp}" data-date="${formatData(date)}" data-description="${data}" data-category="${categoryName}" data-account="${account}" >
             <span class="icon-category">
                 ${iconCategory}
             </span>
@@ -189,12 +230,12 @@ function generateTableOperation(account_id, category_id, status_id, type_id, id,
                     <b>${categoryName}</b>
                 </span>
                 <div class="data text-secondary">
-                    ${data} | ${account}
+                    ${data} |  ${account}
                 </div>
-                <span class="font-size-14 text-secondary">${date}</span>
+                <span class="font-size-14 text-secondary">${formatData(date)}</span>
             </span>
             <div class="value ${text_type_operation}">
-                <b class="text-value">${value}</b> <span class="status mb-1 ms-1"><i class="fas fa-check-circle ${text_type}"></i></span>
+                <b class="text-value">${formatValueMonetary(value)}</b> <span class="status mb-1 ms-1"><i class="fas fa-check-circle ${text_type}"></i></span>
             </div>
         </div>`
 
@@ -218,7 +259,7 @@ function setIconCategory(category) {
 
 }
 
-function sumRevenueAndExpenseAndFormat() {
+function sumRevenueAndExpenseAndFormat(valorFloat) {
     var sumRevenue = 0;
     var sumExpense = 0;
 
@@ -226,14 +267,26 @@ function sumRevenueAndExpenseAndFormat() {
         var value = parseFloat($(this).attr('data-value'));
         var type = $(this).attr('data-type');
 
+        console.log(value)
+        console.log(type)
+
         if (!isNaN(value)) {
-            if (type === 'revenue') {
+            if (type === "0") {
                 sumRevenue += value;
-            } else if (type === 'expense') {
+            } else if (type === "1") {
                 sumExpense += value;
             }
         }
     });
+
+    // Adicionar o parâmetro valorFloat aos cálculos
+    if (!isNaN(valorFloat)) {
+        if (sumRevenue > sumExpense) {
+            sumRevenue += valorFloat;
+        } else {
+            sumExpense += valorFloat;
+        }
+    }
 
     var sumRevenueFormatted = sumRevenue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     var sumExpenseFormatted = sumExpense.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -249,6 +302,7 @@ function sumRevenueAndExpenseAndFormat() {
         divSumExpense.innerHTML = sumExpenseFormatted;
     }
 }
+
 
 function formatValueInput(input) {
     var valor = input.value.replace(/\D/g, '');
@@ -297,24 +351,41 @@ function formatValueOniput(input) {
     input.value = 'R$ ' + value;
 }
 
-function formatValueNumber(number) {
-    // Verifica se o número é um float
-    if (Number.isFinite(number) && Number(number) % 1 !== 0) {
-        // Formata o número de ponto flutuante como valor monetário
-        return number.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+// function formatValueNumber(number) {
+//     if (typeof number !== 'number' || isNaN(number)) {
+//         return ''; // Retorna uma string vazia se o número não for válido
+//     }
+
+//     // Verifica se o número é um float
+//     if (Number.isFinite(number) && Number(number) % 1 !== 0) {
+//         // Formata o número de ponto flutuante com duas casas decimais e separador de milhares
+//         return number.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+//     }
+
+//     // Converte o número em uma string
+//     var stringNumber = number.toString();
+
+//     // Verifica se o número já possui formatação com vírgula
+//     if (stringNumber.indexOf('.') !== -1 || stringNumber.indexOf(',') !== -1) {
+//         return stringNumber; // Retorna o número original
+//     }
+
+//     // Adiciona o separador de milhares e retorna a string formatada como valor monetário com duas casas decimais
+//     return stringNumber.replace(/\B(?=(\d{3})+(?!\d))/g, '.').concat(',00');
+// }
+
+function formatValueMonetary(value) {
+    // Verifica se o valor é um número válido
+    if (typeof value !== 'number' || isNaN(value)) {
+        return ''; // Retorna uma string vazia se o valor não for válido
     }
 
-    // Converte o número em uma string
-    var stringNumber = number.toString();
-
-    // Verifica se o número já possui formatação com vírgula
-    if (stringNumber.indexOf('.') !== -1 || stringNumber.indexOf(',') !== -1) {
-        return stringNumber; // Retorna o número original
-    }
-
-    // Adiciona o separador de milhares e retorna a string formatada como valor monetário
-    return stringNumber.replace(/\B(?=(\d{3})+(?!\d))/g, '.').concat(',00');
+    // Formata o valor como valor monetário com separador de milhares e duas casas decimais
+    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
+
+
+
 
 function blockInsertDateManual() {
     document.getElementById("update-input-date-operation").addEventListener("keydown", function (event) {
@@ -335,13 +406,35 @@ function fillModalUpdateRevenue(id, type, value, status, date, description, cate
     $("#update-input-category-operation").val(category);
     $("#update-input-account-operation").val(account);
 
-    console.log(date)
+    console.log(status)
 
-    if (status == "OK") {
+    if (status == 1) {
+        console.log("TESTE")
         $("#update-input-status-operation").prop("checked", true);
     } else {
         $("#update-input-status-operation").prop("checked", false);
     }
+
+    selectCategory = document.getElementById('update-input-category-operation');
+    selectAccount = document.getElementById('update-input-account-operation');
+
+    console.log(category)
+    console.log(account)
+
+    // selecionarOpcaoPorValor(selectCategory, category);
+    // selecionarOpcaoPorValor(selectAccount, account);
+
+    selecionarOpcaoPorValor(category)
+
+
+
+
+    var select = $('#update-input-category-operation'); // Selecionar o elemento select pelo seu id
+    var valorString = category.toString(); // Converter o valor para string
+
+    select.val(valorString); // Definir o valor do select como o valor fornecid
+
+
 
     var meuInput = document.getElementById('update-input-value-operation');
 
@@ -444,41 +537,184 @@ function disabledButton(button, disabled) {
     button.prop("disabled", disabled);
 }
 
-function fillSelectCategory(id, name, icon) {
+function fillSelectCategory(id, name, icon, form) {
 
     categoria =
         `
         <option value="${id}">${name}</option>
         `
 
-    $("#create-input-category-operation").append(categoria);
+    $(`#${form}-input-category-operation`).append(categoria);
 }
 
-function fillSelectAccount(id, bank, balance) {
+function fillSelectAccount(id, bank, balance, form) {
 
     conta =
         `
         <option value="${id}">${bank}</option>
         `
 
-    $("#create-input-account-operation").append(conta);
+    $(`#${form}-input-account-operation`).append(conta);
 }
+
+function formatData(data) {
+    // Verifica se a data é uma string válida
+    if (typeof data !== 'string' || !/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-\d{2}:\d{2}/.test(data)) {
+        return ''; // Retorna uma string vazia se a data não for válida
+    }
+
+    // Converte a data para o objeto Date
+    var dateObj = new Date(data);
+
+    // Extrai os componentes da data
+    var dia = dateObj.getDate();
+    var mes = dateObj.getMonth() + 1; // O valor do mês começa em zero
+    var ano = dateObj.getFullYear();
+
+    // Formata a data no padrão dd/mm/aaaa
+    var dataFormatada = padZero(dia) + '/' + padZero(mes) + '/' + ano;
+
+    return dataFormatada;
+}
+
+// Função auxiliar para adicionar um zero à esquerda de números menores que 10
+function padZero(numero) {
+    return numero < 10 ? '0' + numero : numero;
+}
+
+// function formatDataReverse(data) {
+//     // Verifica se a data é uma string válida no formato aaaa-mm-dd
+//     if (typeof data !== 'string' || !/\d{4}-\d{2}-\d{2}/.test(data)) {
+//         return ''; // Retorna uma string vazia se a data não for válida
+//     }
+
+//     // Obtém a data atual no formato dd/mm/aaaa
+//     var dataAtual = new Date().toLocaleDateString('pt-BR').split('/');
+//     var diaAtual = dataAtual[0];
+//     var mesAtual = dataAtual[1];
+//     var anoAtual = dataAtual[2];
+
+//     // Extrai os componentes da data
+//     var partes = data.split('-');
+//     var ano = partes[0];
+//     var mes = partes[1];
+//     var dia = partes[2];
+
+//     // Verifica se a data é no futuro
+//     if (ano > anoAtual || (ano == anoAtual && mes > mesAtual) || (ano == anoAtual && mes == mesAtual && dia > diaAtual)) {
+//         return ''; // Retorna uma string vazia se a data for no futuro
+//     }
+
+//     // Obtém a hora atual no formato hh:mm:ss
+//     var horaAtual = new Date().toLocaleTimeString('pt-BR', { hour12: false });
+
+//     // Formata a data no padrão aaaa-mm-ddT21:03:30-03:00
+//     var dataFormatada = ano + '-' + mes + '-' + dia + 'T' + horaAtual + '-03:00';
+
+//     return dataFormatada;
+// }
+
+function formatDataReverse(data) {
+    // Verifica se a data é uma string válida no formato aaaa-mm-dd
+    if (typeof data !== 'string' || !/\d{4}-\d{2}-\d{2}/.test(data)) {
+        return ''; // Retorna uma string vazia se a data não for válida
+    }
+
+    // Obtém a data atual no formato dd/mm/aaaa
+    var dataAtual = new Date().toLocaleDateString('pt-BR').split('/');
+    var diaAtual = dataAtual[0];
+    var mesAtual = dataAtual[1];
+    var anoAtual = dataAtual[2];
+
+    // Extrai os componentes da data
+    var partes = data.split('-');
+    var ano = partes[0];
+    var mes = partes[1];
+    var dia = partes[2];
+
+    // Verifica se a data é no futuro
+    if (ano > anoAtual || (ano == anoAtual && mes > mesAtual) || (ano == anoAtual && mes == mesAtual && dia > diaAtual)) {
+        return ''; // Retorna uma string vazia se a data for no futuro
+    }
+
+    // Obtém a hora atual no formato hh:mm:ss
+    var horaAtual = new Date().toLocaleTimeString('pt-BR', { hour12: false });
+
+    // Formata a data no padrão aaaa-mm-dd hh:mm:ss
+    var dataFormatada = ano + '-' + mes + '-' + dia + ' ' + horaAtual;
+
+    return dataFormatada;
+}
+
+
+function checkStatus(status) {
+    if (status == "on") {
+        return 1
+    }
+    return 0
+}
+
+
+function selecionarOpcaoPorValor(valor) {
+    var select = $('#update-input-category-operation'); // Selecionar o elemento select pelo seu id
+    var valorString = valor.toString(); // Converter o valor para string
+
+    select.val(valorString); // Definir o valor do select como o valor fornecido
+
+    var opcaoEncontrada = select.find('option[value="' + valorString + '"]');
+    if (opcaoEncontrada.length > 0) {
+        console.log("Valor encontrado: " + opcaoEncontrada.text());
+    } else {
+        console.log("Valor não encontrado.");
+    }
+}
+
+
+
+
+
+
+
+
 
 // REQUEST
 
 function resquestCreateRevenue() {
-    disabledButton($('#button-create'), true);
+    // disabledButton($('#button-create'), true);
 
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
 
     var value = $("#create-input-value-operation").val();
-    var status = $("#create-input-status-operation").val();
-    var date = $("#create-input-date-operation").val();
+
+    value = value.replace(/[^0-9]/g, "");
+
+    value = parseFloat((parseFloat(value) / 100).toFixed(2));
+
+    var account_id = parseInt($("#create-input-account-operation").val());
+    var category_id = parseInt($("#create-input-category-operation").val());
+    // var date = $("#create-input-date-operation").val();
+    var date = formatDataReverse($("#create-input-date-operation").val());
+    console.log($("#create-input-date-operation").val())
     var description = $("#create-input-description-operation").val();
-    var category = $("#create-input-category-operation").val();
-    var account = $("#create-input-account-operation").val();
+
+    // if()
+    // var status_id = $("#create-input-status-operation").val();
+    var status_id = checkStatus($("#create-input-status-operation").val())
+    var type_id = 0;
+    // var value = $("#create-input-value-operation").val();
+
+    // console.log("DATA: " + date);
+
+
+    console.log(account_id);
+    console.log(category_id);
+    console.log(date);
+    console.log(description);
+    console.log(status_id);
+    console.log(type_id);
+    console.log(value);
 
     var connect_success = true;
 
@@ -489,33 +725,44 @@ function resquestCreateRevenue() {
     xhr.setRequestHeader('Token', `Bearer ${token}`);
 
     xhr.onload = function () {
-        if (xhr.status === 200 || xhr.status === 201) {
-            disabledButton($('#button-create'), false);
+        if (xhr.status === 200 || xhr.status === 201 || xhr.status === 204) {
+            // disabledButton($('#button-create'), false);
 
             showModalMessage("bg-success", "NOVA RECEITA", `Receita cadastrada com sucesso!`, 0);
 
         } else {
-            disabledButton($('#button-create'), false);
+            // disabledButton($('#button-create'), false);
 
             connect_success = false;
 
-            var objMessage = JSON.parse(xhr.responseText);
+            var objMessage;
 
-            var code = objMessage.code;
-            var msg = objMessage.error;
+            if (xhr.responseText) {
+                objMessage = JSON.parse(xhr.responseText);
+                var code = objMessage.code;
+                var msg = objMessage.error;
 
-            showModalMessage("bg-danger", "ERROR", msg, code);
+                showModalMessage("bg-danger", "ERROR", msg, code);
+
+            } else {
+                showModalMessage("bg-danger", "ERROR", "Ocorreu um erro desconhecido.", "");
+            }
 
             return connect_success
         }
     };
 
-    var data = { // ALTERAR
-        "email": email,
-        "name": name,
-        "password": password,
-        "username": username
+    var data = {
+        "account_id": account_id,
+        "category_id": category_id,
+        "datetime": date,
+        "description": description,
+        "status_code": status_id,
+        "type_code": type_id,
+        "value": value
     }
+
+    console.log(data);
 
     var json = JSON.stringify(data);
 
@@ -525,54 +772,84 @@ function resquestCreateRevenue() {
 };
 
 function resquestUpdateRevenue() {
-    disabledButton($('#button-update-revenue'), true);
+    // disabledButton($('#button-update-revenue'), true);
 
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
 
-    var value = $("#create-input-value-operation").val();
-    var status = $("#create-input-status-operation").val();
-    var date = $("#create-input-date-operation").val();
-    var description = $("#create-input-description-operation").val();
-    var category = $("#create-input-category-operation").val();
-    var account = $("#create-input-account-operation").val();
+    id = parseInt($("#update-id").val());
+
+    console
+
+    var value = $("#update-input-value-operation").val();
+
+    value = value.replace(/[^0-9]/g, "");
+
+    value = parseFloat((parseFloat(value) / 100).toFixed(2));
+
+    var status_id = $("#update-input-status-operation").val();
+    // var date = $("#update-input-date-operation").val();
+    var date = formatDataReverse($("#update-input-date-operation").val());
+    var description = $("#update-input-description-operation").val();
+    var category_id = $("#update-input-category-operation").val();
+    var account_id = $("#update-input-account-operation").val();
+
+    var type_id = 0;
 
     var connect_success = true;
 
+
+    console.log("---------------")
+    console.log(account_id);
+    console.log(category_id);
+    console.log(date);
+    console.log(description);
+    console.log(status_id);
+    console.log(type_id);
+    console.log(value);
+
     var xhr = new XMLHttpRequest();
 
-    xhr.open('PATCH', 'http://localhost:9999/api/v0/user/');// ALTERAR
+    xhr.open('PATCH', `http://localhost:9999/api/v0/user/${id}`);// ALTERAR
 
     xhr.setRequestHeader('Token', `Bearer ${token}`);
 
     xhr.onload = function () {
-        if (xhr.status === 200 || xhr.status === 201) {
-            disabledButton($('#button-update-revenue'), false);
+        if (xhr.status === 200 || xhr.status === 201 || xhr.status === 204) {
+            // disabledButton($('#button-update-revenue'), false);
 
             showModalMessage("bg-success", "EDITAR RECEITA", `Receita editada com sucesso!`, 0);
 
         } else {
-            disabledButton($('#button-update-revenue'), false);
+            // disabledButton($('#button-update-revenue'), false);
 
             connect_success = false;
+            var objMessage;
 
-            var objMessage = JSON.parse(xhr.responseText);
+            if (xhr.responseText) {
+                objMessage = JSON.parse(xhr.responseText);
+                var code = objMessage.code;
+                var msg = objMessage.error;
 
-            var code = objMessage.code;
-            var msg = objMessage.error;
+                showModalMessage("bg-danger", "ERROR", msg, code);
 
-            showModalMessage("bg-danger", "ERROR", msg, code);
+            } else {
+                showModalMessage("bg-danger", "ERROR", "Ocorreu um erro desconhecido.", "");
+            }
 
             return connect_success
         }
     };
 
-    var data = { // ALTERAR
-        "email": email,
-        "name": name,
-        "password": password,
-        "username": username
+    var data = {
+        "account_id": account_id,
+        "category_id": category_id,
+        "datetime": date,
+        "description": description,
+        "status_code": status_id,
+        "type_code": type_id,
+        "value": value
     }
 
     var json = JSON.stringify(data);
@@ -651,12 +928,10 @@ function requestListRevenue() {
         if (xhr.status === 200) {
             console.log("Status OK");
             var resposta = JSON.parse(xhr.responseText);
-            console.log("RESPOSTA -> " + resposta);
 
             for (var i = 0; i < resposta.length; i++) {
                 console.log("RESPOSTA -> " + resposta);
-                // tableUserResults(resposta[i].id, resposta[i].name, resposta[i].username, resposta[i].email, true);// ALTERAR
-                generateTableOperation(resposta[i].account_id, resposta[i].category_id, resposta[i].status_id, resposta[i].type_id, resposta[i].id, resposta[i].datetime, resposta[i].description, resposta[i].value)
+                generateTableOperation(resposta[i].account_id, resposta[i].category_id, resposta[i].status_code, resposta[i].type_code, resposta[i].id, resposta[i].datetime, resposta[i].description, resposta[i].value)
 
             }
 
@@ -680,7 +955,7 @@ function requestListRevenue() {
     xhr.send();
 };
 
-function requestListCategory() {
+function requestListCategory(form) {
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
@@ -700,7 +975,7 @@ function requestListCategory() {
             var resposta = JSON.parse(xhr.responseText);
 
             for (var i = 0; i < resposta.length; i++) {
-                fillSelectCategory(resposta[i].id, resposta[i].name, resposta[i].icon)
+                fillSelectCategory(resposta[i].id, resposta[i].name, resposta[i].icon, form)
             }
 
         } else if (xhr.status === 204) {
@@ -723,7 +998,7 @@ function requestListCategory() {
     xhr.send();
 };
 
-function requestListAccount() {
+function requestListAccount(form) {
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
@@ -743,7 +1018,7 @@ function requestListAccount() {
             var resposta = JSON.parse(xhr.responseText);
 
             for (var i = 0; i < resposta.length; i++) {
-                fillSelectAccount(resposta[i].id, resposta[i].name, resposta[i].balance)
+                fillSelectAccount(resposta[i].id, resposta[i].name, resposta[i].balance, form)
             }
 
         } else if (xhr.status === 204) {
@@ -765,3 +1040,103 @@ function requestListAccount() {
 
     xhr.send();
 };
+
+function requestNameCategory(id) {
+
+    console.log("ID: " + id)
+
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    console.log(token); // Remover na versão final
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', `http://localhost:9999/api/v0/category/${id}`);
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var resposta = JSON.parse(xhr.responseText);
+
+            for (var i = 0; i < resposta.length; i++) {
+                // fillSelectCategory(resposta[i].id, resposta[i].name, resposta[i].icon, form)
+                name = resposta[i].name
+
+
+                return name
+            }
+
+        } else if (xhr.status === 204) {
+            console.log("vazio");
+
+        } else {
+            connect_success = false;
+
+            // var objMessage = JSON.parse(xhr.responseText);
+
+            // var code = objMessage.code;
+            // var msg = objMessage.error;
+
+            // showModalMessage("bg-danger", "ERRO", msg, code);
+
+            return connect_success
+        }
+    };
+
+    xhr.send();
+}
+
+function requestNameAccount(id) {
+
+    console.log("ID: " + id)
+
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    console.log(token); // Remover na versão final
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', `http://localhost:9999/api/v0/account/${id}`);
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var resposta = JSON.parse(xhr.responseText);
+
+            for (var i = 0; i < resposta.length; i++) {
+                // fillSelectCategory(resposta[i].id, resposta[i].name, resposta[i].icon, form)
+                name = resposta[i].name
+
+
+                return name
+            }
+
+        } else if (xhr.status === 204) {
+            console.log("vazio");
+
+        } else {
+            connect_success = false;
+
+            // var objMessage = JSON.parse(xhr.responseText);
+
+            // var code = objMessage.code;
+            // var msg = objMessage.error;
+
+            // showModalMessage("bg-danger", "ERRO", msg, code);
+
+            return connect_success
+        }
+    };
+
+    xhr.send();
+}
