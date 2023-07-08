@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 mt-2">
+            <!-- <div class="col-md-12 mt-2">
                 <div class="mt-2 text-center">
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <button type="button" class="btn btn-success"><i class="fas fa-arrow-left"></i></button>
@@ -38,7 +38,7 @@
                         <button type="button" class="btn btn-success"><i class="fas fa-arrow-right"></i></button>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="col-md-12">
                 <?php include_once("../table/transaction-table.php") ?>
             </div>
