@@ -26,12 +26,12 @@ type CategoryList struct {
 
 // CategoryCreate is the struct to bind create POST requests.
 type CategoryCreate struct {
-	Name *string `json:"name" binding:"required,alpha"`
+	Name *string `json:"name" binding:"required,phrase"`
 	Icon *[]byte `json:"icon,omitempty" binding:"-"`
 }
 
 // CategoryUpdate is the struct to bind update PATCH requests.
 type CategoryUpdate struct {
-	Name *string `json:"name,omitempty" binding:"omitempty,alpha"`
+	Name *string `json:"name,omitempty" binding:"omitempty,phrase"`
 	Icon *[]byte `json:"icon,omitempty" binding:"-"`
 }

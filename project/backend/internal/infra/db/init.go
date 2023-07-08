@@ -2,11 +2,11 @@ package db
 
 import (
 	"fmt"
-	"os"
 
 	"backend/internal/consts"
 	"backend/internal/models"
 	"backend/pkg/helpers/logger"
+	"backend/pkg/utils/db"
 
 	// <user>:<password>@<protocol>(<host>:<port>)/<database>[?param=value&param=value]
 	// root:root@tcp(localhost:3306)/test
@@ -36,6 +36,10 @@ func init() {
 		logger.Log.Fatal("can't establish database connection!")
 	}
 
+	if err := db.FileExec(Tx, "scripts/db/pre-migration.sql"); err != nil {
+		logger.Log.Fatal("error in pre migration:", err.Error())
+	}
+
 	if Tx.AutoMigrate(
 		&models.Type{},
 		&models.Status{},
@@ -48,10 +52,8 @@ func init() {
 		logger.Log.Fatal("can't database auto migration!")
 	}
 
-	if postMigration, err := os.ReadFile("scripts/db/post-migration.sql"); err != nil {
-		logger.Log.Warn("error on read post migration file:", err.Error())
-	} else if err := Tx.Exec(string(postMigration)).Error; err != nil {
-		logger.Log.Warn("error on execute post migration script:", err.Error())
+	if err := db.FileExec(Tx, "scripts/db/post-migration.sql"); err != nil {
+		logger.Log.Fatal("error in post migration:", err.Error())
 	}
 
 }
