@@ -1,4 +1,4 @@
-requestListCategory();
+requestListAccount();
 
 // BUTTONS
 $('#button-new-category').on('click', function () {
@@ -18,6 +18,24 @@ $(document).on('click', '.button-update-category', function () {
 
 $(document).on('click', '.button-delete-category', function () {
     buttonOpenDeleteCategoryModal("delete-category", $(this).data("id"), $(this).data("name"), $(this).data("icon"));
+});
+
+// BUTTONS DO MODAL
+
+$('#button-create-category').on('click', function () {
+    if (validationFormCategory("create") == true) {
+        resquestCreateCategory();
+    }
+});
+
+// $('#button-update-account').on('click', function () {
+//     if (validationFormAccount("update") == true) {
+//         resquestUpdateAccount();
+//     }
+// });
+
+$('#button-confirm-delete-category').on('click', function () {
+    requestDeleteCategory();
 });
 
 // OPEN MODAL
@@ -42,6 +60,114 @@ function buttonOpenDeleteCategoryModal(modal, id, name, icon) {
     $(`#text-name-category`).text(name);
     $(`#text-icon-category`).text(icon);
 
+};
+
+// VALIDATION
+
+function validationFormCategory(form) {
+    const MAX_LENGTH_NAME = 30;
+    const SPECIAL_CHARACTERS_REGEX = /[!@#$%^&*(),.?":{}|<>]/g;
+    const WHITESPACE_REGEX = /\s/g;
+
+    const ERROR_EMPTY_NAME = "Informe o nome da categoria!";
+    const ERROR_MAX_LENGTH_NAME = `Nome pode conter até ${MAX_LENGTH_NAME} caracteres!`;
+    const ERROR_SPECIAL_CHARACTERS_NAME = "Nome não pode conter caracteres especiais!";
+    const ERROR_WHITESPACE_NAME = "Nome não pode conter espaços em branco!";
+
+    let name = $(`#form-${form}-category #${form}-input-name-category`).val();
+
+    let isValid = true;
+
+    if (name.trim() === "") {
+        $(`#form-${form}-category .error-name-category`).text(ERROR_EMPTY_NAME);
+        isValid = false;
+
+    } else if (name.trim().length > MAX_LENGTH_NAME) {
+        $(`#form-${form}-category .error-name-category`).text(ERROR_MAX_LENGTH_NAME);
+        isValid = false;
+
+    } else if (SPECIAL_CHARACTERS_REGEX.test(name)) {
+        $(`#form-${form}-category .error-name-category`).text(ERROR_SPECIAL_CHARACTERS_NAME);
+        isValid = false;
+
+    } else if (WHITESPACE_REGEX.test(name)) {
+        $(`#form-${form}-category .error-name-category`).text(ERROR_WHITESPACE_NAME);
+        isValid = false;
+
+    } else {
+        $(`#form-${form}-category .error-name-category`).text("");
+    }
+
+    return isValid;
+}
+
+
+
+
+// SHOW MESSAGE 
+
+function showModalMessage(backgroundTitle, title, message, code) {
+    if (code != 409) {
+        $(".modal").modal("hide");
+        $("#modal-message").modal("show");
+    }
+
+    const ERROR_BAD_REQUEST = `Requisição inválida, se o erro persistir contate o suporte!`;
+    const ERROR_UNAUTHORIZED = `Seu token de acesso expirou, faça o login novamente!`;
+    const ERROR_UNPROCESSABLE_ENTITY = `Erro de entidade improcessável, se o erro persisitir contate o suporte!`;
+    const ERROR_INTERNAL_SERVER = `Erro interno do servidor, se o erro persistir contate o suporte!`;
+
+    const ERROR_CONFLIT = `Nome de categoria já utilizado!`;
+
+    // code = 400
+
+    if (code == 400) {
+        $(".modal-header").addClass(backgroundTitle);
+        $("#modal-message .modal-title").text(title);
+        $("#modal-message .message").text(ERROR_BAD_REQUEST);
+
+        $("#modal-message .btn-success").on("click", function () {
+            location.reload();
+        })
+    }
+    else if (code == 401 && message == "Unauthorized") {
+        $(".modal-header").addClass(backgroundTitle);
+        $("#modal-message .modal-title").text(title);
+        $("#modal-message .message").text(ERROR_UNAUTHORIZED);
+
+        $("#modal-message .btn-success").on("click", function () {
+            location.replace("../login");
+        })
+
+    } else if (code == 409) {
+        $(".error-name-account").text(ERROR_CONFLIT);
+
+    } else if (code == 422) {
+        $(".modal-header").addClass(backgroundTitle);
+        $("#modal-message .modal-title").text(title);
+        $("#modal-message .message").text(ERROR_UNPROCESSABLE_ENTITY);
+
+        $("#modal-message .btn-success").on("click", function () {
+            location.reload();
+        })
+    } else if (code == 500) {
+        $(".modal-header").addClass(backgroundTitle);
+        $("#modal-message .modal-title").text(title);
+        $("#modal-message .message").text(ERROR_INTERNAL_SERVER);
+
+        $("#modal-message .btn-success").on("click", function () {
+            location.reload();
+        })
+
+    } else {
+        $(".modal-header").addClass(backgroundTitle);
+        $("#modal-message .modal-title").text(title);
+        $("#modal-message .message").text(message);
+
+        $("#modal-message .btn-success").on("click", function () {
+            location.reload();
+        })
+    }
 };
 
 // FUNCTION
@@ -107,7 +233,112 @@ $(document).ready(function () {
 
 // REQUEST
 
-function requestListCategory() {
+function resquestCreateCategory() {
+    // disabledButton($('#button-create'), true);
+
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+
+    token = objeto.token;
+
+    
+    var name = $("#create-input-name-category").val();
+    
+    // var balance = $("#create-input-icon-category").val();
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('POST', 'http://localhost:9999/api/v0/category/');// ALTERAR
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200 || xhr.status === 201) {
+            // disabledButton($('#button-create'), false);
+
+            showModalMessage("bg-success", "NOVA CATEGORIA", `Categoria cadastrada com sucesso!`, 0);
+
+        } else {
+            // disabledButton($('#button-create'), false);
+
+            connect_success = false;
+
+            var objMessage = JSON.parse(xhr.responseText);
+
+            var code = objMessage.code;
+            var msg = objMessage.error;
+
+            showModalMessage("bg-danger", "ERROR", msg, code);
+
+            return connect_success
+        }
+    };
+
+    var data = {
+        "name": name,
+        "icon": ""
+    }
+
+    var json = JSON.stringify(data);
+
+    xhr.send(json);
+
+    return connect_success
+};
+
+function requestDeleteCategory() {
+    // disabledButton($('#button-confirm-delete'), true);
+
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    var id = $('#delete-id-category').val();
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('DELETE', `http://localhost:9999/api/v0/category/${id}`);
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200 || xhr.status === 204) {
+            // disabledButton($('#button-confirm-delete'), false);
+
+            showModalMessage("bg-success", "EXCLUIR CATEGORIA", `Categoria excluida com sucesso!`, 0);
+
+        } else {
+            // disabledButton($('#button-confirm-delete'), false);
+
+            connect_success = false;
+
+            var objMessage = JSON.parse(xhr.responseText);
+
+            var code = objMessage.code;
+            var msg = objMessage.error;
+
+            showModalMessage("bg-danger", "ERROR", msg, code);
+
+            return connect_success
+        }
+    };
+
+    var data = {
+        "id": id,
+    }
+
+    var json = JSON.stringify(data);
+
+    xhr.send(json);
+
+    return connect_success
+};
+
+function requestListAccount() {
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
