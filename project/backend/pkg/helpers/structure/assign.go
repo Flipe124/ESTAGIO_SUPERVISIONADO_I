@@ -53,6 +53,9 @@ func Assign(object, target any, skips ...string) {
 					case reflect.TypeOf((*bool)(nil)):
 						targetStructField.SetBool(objectStructFieldInterface.(bool))
 					case reflect.TypeOf(&time.Time{}):
+						if nil == objectStructFieldInterface.(*any) {
+							continue
+						}
 						datetime, _ := time.Parse("2006-01-02 15:04:05", (*(objectStructFieldInterface.(*any))).(string))
 						targetStructField.Set(reflect.ValueOf(any(&datetime)))
 					default:

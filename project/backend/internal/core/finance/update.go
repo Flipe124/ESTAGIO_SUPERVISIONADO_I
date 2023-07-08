@@ -3,6 +3,8 @@ package finance
 import (
 	"net/http"
 
+	"backend/internal/behavior/status"
+	"backend/internal/behavior/typet"
 	"backend/internal/infra/db"
 	"backend/internal/models"
 	"backend/pkg/helpers/structure"
@@ -28,6 +30,7 @@ func update(ctx *gin.Context) {
 
 	var (
 		financeUpdate *models.FinanceUpdate
+		finance       *models.Finance
 		err           error
 	)
 
@@ -40,8 +43,8 @@ func update(ctx *gin.Context) {
 		)
 		return
 	}
-	err = db.Tx.Model(&models.Finance{}).Where("id", ctx.Param("finance")).Updates(structure.Map(&financeUpdate)).Error
 
+	err = db.Tx.Model(&models.Finance{}).Where("id", ctx.Param("finance")).Updates(structure.Map(&financeUpdate)).Error
 	if err != nil {
 		api.LogReturn(
 			ctx,
@@ -50,6 +53,24 @@ func update(ctx *gin.Context) {
 			err.Error(),
 		)
 		return
+	}
+
+	db.Tx.First(&finance, ctx.Param("finance"))
+	if byte(status.Completed) == *finance.StatusCode {
+		var balance float64
+		db.Tx.Table("accounts").Select("balance").Where("id", &finance.AccountID).Scan(&balance)
+		if byte(typet.Input) == *finance.TypeCode {
+			balance += *finance.Value
+		} else if byte(typet.Output) == *finance.TypeCode {
+			balance -= *finance.Value
+		} else {
+			api.Return(
+				ctx,
+				http.StatusBadRequest,
+				"wrong account type",
+			)
+		}
+		db.Tx.Model(&models.Account{}).Where("id", &finance.AccountID).Update("balance", &balance)
 	}
 
 	ctx.Status(http.StatusNoContent)
