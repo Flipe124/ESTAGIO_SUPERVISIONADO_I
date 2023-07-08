@@ -16,7 +16,6 @@ $("#button-create-transaction").on("click", function () {
     }
 });
 
-
 // PREENCHER ELEMENTO
 
 function createTableTransaction(beneficiary_id, beneficiary_name, emitter_id, emitter_name, id, value) {
@@ -46,8 +45,10 @@ function createTableTransaction(beneficiary_id, beneficiary_name, emitter_id, em
 
 function validationTransation() {
     const ERROR_EMPTY_VALUE = "Informe o valor da tranferência!";
+    const ERROR_EMPTY_EMITTER = "Informe a conta emissora!";
+    const ERROR_EMPTY_BENEFICIARY = "Informe a conta receptora!";
 
-    const ERROR_CONFLIT_ACCOUNT = "Conta emissora e repitora devem ser diferente!";
+    const ERROR_CONFLIT_ACCOUNT = "Conta emissora e receptora devem ser diferente!";
 
     value = $("#create-input-value-transaction").val();
     emitter = $("#create-input-emitter-transaction").val();
@@ -55,14 +56,29 @@ function validationTransation() {
 
     let isValid = true;
 
-    if(value == "" || value == "R$ 0,00") {
+    if (value == "" || value == "R$ 0,00") {
         $(".error-msg-value-transaction").text(ERROR_EMPTY_VALUE);
         isValid = false;
     } else {
         $(".error-msg-value-transaction").text("")
     }
 
-    if(emitter == beneficiary) {
+    if (emitter == "") {
+        $(".error-msg-emitter-transaction").text(ERROR_EMPTY_EMITTER)
+        isValid = false;
+    } else {
+        $(".error-msg-emitter-transaction").text("")
+    }
+
+    if (beneficiary == "") {
+        $(".error-msg-beneficiary-transaction").text(ERROR_EMPTY_BENEFICIARY)
+        isValid = false;
+
+    } else {
+        $(".error-msg-beneficiary-transaction").text("")
+    }
+
+    if (emitter == beneficiary) {
         $(".error-msg-beneficiary-transaction").text(ERROR_CONFLIT_ACCOUNT)
         isValid = false;
     } else {
@@ -281,17 +297,20 @@ function requestListAccountAndFillSelect() {
         if (xhr.status === 200) {
             var resposta = JSON.parse(xhr.responseText);
 
+            var result = document.querySelector('#create-input-emitter-transaction');
+
+            var resultBenificiary = document.querySelector('#create-input-beneficiary-transaction');
+
+            result.innerHTML = "";
+            resultBenificiary.innerHTML = "";
+
             for (var i = 0; i < resposta.length; i++) {
                 selected = "";
 
-                var result = document.querySelector('#create-input-emitter-transaction');
-
-                var resultBenificiary = document.querySelector('#create-input-beneficiary-transaction');
-
                 result.innerHTML +=
                     `
-                <option value="${resposta[i].id}">${resposta[i].name}</option>
-                `
+                    <option value="${resposta[i].id}">${resposta[i].name}</option>
+                    `
 
                 if (i == 1) {
                     selected = "selected";
@@ -299,8 +318,8 @@ function requestListAccountAndFillSelect() {
 
                 resultBenificiary.innerHTML +=
                     `
-                <option value="${resposta[i].id}" ${selected}>${resposta[i].name}</option>
-                `
+                    <option value="${resposta[i].id}" ${selected}>${resposta[i].name}</option>
+                    `
 
             }
 
