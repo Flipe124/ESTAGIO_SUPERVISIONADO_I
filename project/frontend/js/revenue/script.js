@@ -2,8 +2,6 @@ requestListRevenue();
 
 blockInsertDateManual();
 
-requestNameCategory(1);
-
 let select = document.querySelector("#update-input-category-operation");
 
 console.log(select)
@@ -67,7 +65,6 @@ $("#button-confirm-delete").on("click", function () {
     showModalMessage("bg-success", "EXCLUIR RECEITA", `Receita excluida com sucesso!`, 0);
 
 });
-
 
 //------------------ Funções ------------------
 
@@ -144,66 +141,55 @@ function validationField(operationType) {
 function generateTableOperation(account_id, category_id, status_id, type_id, id, datetime, description, revenue) {
     var result = document.querySelector('.revenue-table');
 
-    // id = 1;
     type = type_id;
     value = revenue;
     statusOp = status_id;
     date = datetime;
     data = description;
-    categoryName = category_id;
     account = account_id;
-
-    console.log("----------------")
-    console.log(id)
-    console.log(value)
-    console.log(type)
-    console.log(statusOp)
-    console.log(date)
-    console.log(data)
-    console.log("CATEGORY " + categoryName)
-    console.log(account)
 
     text_type = "";
     text_type_operation = "";
 
-    iconCategory = setIconCategory(2);
+    // Chama a função requestNameCategory e passa uma função de callback para receber o nome da categoria
+    requestNameCategory(category_id, function (categoryName) {
+        iconCategory = setIconCategory(2);
 
-    if (type == '0') {
-        text_type_operation = "text-success";
+        if (type == '0') {
+            text_type_operation = "text-success";
+        } else {
+            text_type_operation = "text-danger";
+        }
 
-    } else {
-        text_type_operation = "text-danger";
-    }
+        if (statusOp == 1) {
+            text_type = "text-success";
+        } else {
+            text_type = "text-danger";
+        }
 
-    if (statusOp == 1) {
-        text_type = "text-success"
-    } else {
-        text_type = "text-danger";
-    }
-
-    result.innerHTML +=
-        `<div class="result filter-preset-1" data-id="${id}" data-type="${type}" data-value="${value}" data-status="${statusOp}" data-date="${formatData(date)}" data-description="${data}" data-category="${categoryName}" data-account="${account}" >
-            <span class="icon-category">
-                ${iconCategory}
-            </span>
-            <span class="description">
-                <span class="category">
-                    <b>${categoryName}</b>
+        result.innerHTML +=
+            `<div class="result filter-preset-1" data-id="${id}" data-type="${type}" data-value="${value}" data-status="${statusOp}" data-date="${formatData(date)}" data-description="${data}" data-category="${categoryName}" data-account="${account}" >
+                <span class="icon-category">
+                    ${iconCategory}
                 </span>
-                <div class="data text-secondary">
-                    ${data} |  ${account}
+                <span class="description">
+                    <span class="category">
+                        <b>${categoryName}</b>
+                    </span>
+                    <div class="data text-secondary">
+                        ${data} |  ${account}
+                    </div>
+                    <span class="font-size-14 text-secondary">${formatData(date)}</span>
+                </span>
+                <div class="value ${text_type_operation}">
+                    <b class="text-value">${formatValueMonetary(value)}</b> <span class="status mb-1 ms-1"><i class="fas fa-check-circle ${text_type}"></i></span>
                 </div>
-                <span class="font-size-14 text-secondary">${formatData(date)}</span>
-            </span>
-            <div class="value ${text_type_operation}">
-                <b class="text-value">${formatValueMonetary(value)}</b> <span class="status mb-1 ms-1"><i class="fas fa-check-circle ${text_type}"></i></span>
-            </div>
-        </div>`
+            </div>`
 
-    console.log("NAME -> " + requestNameCategory(category_id))
-
-    sumRevenueAndExpenseAndFormat();
+        sumRevenueAndExpenseAndFormat();
+    });
 }
+
 
 function setIconCategory(category) {
     const iconSalary = `<i class="fab fa-sellcast text-success"></i>`;
@@ -533,11 +519,11 @@ function selecionarOpcaoPorValor(valor) {
     select.val(valorString);
 
     var opcaoEncontrada = select.find('option[value="' + valorString + '"]');
-    if (opcaoEncontrada.length > 0) {
-        console.log("Valor encontrado: " + opcaoEncontrada.text());
-    } else {
-        console.log("Valor não encontrado.");
-    }
+    // if (opcaoEncontrada.length > 0) {
+    //     console.log("Valor encontrado: " + opcaoEncontrada.text());
+    // } else {
+    //     console.log("Valor não encontrado.");
+    // }
 }
 
 function formatarData(data) {
@@ -779,7 +765,6 @@ function requestListRevenue() {
             var resposta = JSON.parse(xhr.responseText);
 
             for (var i = 0; i < resposta.length; i++) {
-                console.log("RESPOSTA -> " + resposta);
                 if (resposta[i].type_code == 0) {// 0 entrada
                     generateTableOperation(resposta[i].account_id, resposta[i].category_id, resposta[i].status_code, resposta[i].type_code, resposta[i].id, resposta[i].datetime, resposta[i].description, resposta[i].value)
                 }
@@ -891,7 +876,7 @@ function requestListAccount(form) {
     xhr.send();
 };
 
-function requestNameCategory(id) {
+function requestNameCategory(id, callback) {
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
@@ -907,21 +892,24 @@ function requestNameCategory(id) {
     xhr.onload = function () {
         if (xhr.status === 200 || xhr.status === 201 || xhr.status === 204) {
             var resposta = JSON.parse(xhr.responseText);
+            var name = resposta.name;
 
-            console.log("RESPONSE: " + resposta.name)
-            return resposta.name
+            callback(name); // Chama o callback com o valor desejado
 
         } else if (xhr.status === 204) {
             console.log("vazio");
+            callback(null); // Chama o callback com valor nulo
 
         } else {
             connect_success = false;
-            return connect_success
+            callback(connect_success); // Chama o callback com o valor de connect_success
         }
     };
 
     xhr.send();
 }
+
+
 
 function requestNameAccount(id) {
 
