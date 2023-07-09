@@ -2,28 +2,11 @@ requestListRevenue();
 
 blockInsertDateManual();
 
-
+requestNameCategory(1);
 
 let select = document.querySelector("#update-input-category-operation");
 
 console.log(select)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// sumRevenueAndFormated();
 
 $("#btn-open-modal-revenue").on("click", function () {
     modalAction("new-revenue", "show")
@@ -42,15 +25,6 @@ $("#button-new-revenue").on("click", function () {
     formatValueInput(meuInput);
 });
 
-// $(".result").on("click", function () {
-
-//     console.log(".result")
-//     $("#form-update")[0].reset();
-//     modalAction("update", "show");
-//     fillModalUpdateRevenue($(this).data("id"), $(this).data("type"), $(this).data("value"), $(this).data("status"), $(this).data("date"), $(this).data("description"), $(this).data("category"), $(this).data("account"));
-// });
-
-
 $(document).on('click', '.result', function () {
     console.log(".result")
     $("#form-update")[0].reset();
@@ -59,13 +33,11 @@ $(document).on('click', '.result', function () {
     $(`#update-input-category-operation`).html("");
     $(`#update-input-account-operation`).html("");
 
-
     requestListCategory("update");
     requestListAccount("update");
 
     fillModalUpdateRevenue($(this).data("id"), $(this).data("type"), $(this).data("value"), $(this).data("status"), $(this).data("date"), $(this).data("description"), $(this).data("category"), $(this).data("account"));
 });
-
 
 
 $("#button-delete-revenue").on("click", function () {
@@ -78,17 +50,14 @@ $('#button-cancel-delete').on('click', function () {
     modalAction("update", "show");
 });
 
-
 $("#button-create").on("click", function () {
     if (validationField("create") == true) {
-        // showModalMessage("bg-success", "NOVA RECEITA", `Receita cadastrada com sucesso!`, 0);
         resquestCreateRevenue();
     }
 });
 
 $("#button-update-revenue").on("click", function () {
     if (validationField("update") == true) {
-        // showModalMessage("bg-success", "EDITAR RECEITA", `Receita editada com sucesso!`, 0);
         resquestUpdateRevenue();
     }
 });
@@ -136,14 +105,6 @@ function validationField(operationType) {
     } else {
         $(".error-msg-value-operation").text();
     }
-
-    // if (status != "" || status != PAY_STATUS) {
-    //     $(".error-msg-status-operation").text(ERROR_EMPTY_STATUS);
-    //     isValid = false;
-
-    // } else {
-    //     $(".error-msg-status-operation").text();
-    // }
 
     if (description == "") {
         $(".error-msg-description-operation").text(ERROR_EMPTY_DESCRIPTION);
@@ -239,7 +200,7 @@ function generateTableOperation(account_id, category_id, status_id, type_id, id,
             </div>
         </div>`
 
-    console.log("NAME " + requestNameCategory(category_id))
+    console.log("NAME -> " + requestNameCategory(category_id))
 
     sumRevenueAndExpenseAndFormat();
 }
@@ -268,10 +229,6 @@ function sumRevenueAndExpenseAndFormat(valorFloat) {
     $('.result').each(function () {
         var value = parseFloat($(this).attr('data-value'));
         var type = $(this).attr('data-type');
-
-        console.log(value)
-        console.log(type)
-
         if (!isNaN(value)) {
             if (type === "0") {
                 sumRevenue += value;
@@ -281,7 +238,6 @@ function sumRevenueAndExpenseAndFormat(valorFloat) {
         }
     });
 
-    // Adicionar o parâmetro valorFloat aos cálculos
     if (!isNaN(valorFloat)) {
         if (sumRevenue > sumExpense) {
             sumRevenue += valorFloat;
@@ -304,7 +260,6 @@ function sumRevenueAndExpenseAndFormat(valorFloat) {
         divSumExpense.innerHTML = sumExpenseFormatted;
     }
 }
-
 
 function formatValueInput(input) {
     var valor = input.value.replace(/\D/g, '');
@@ -353,41 +308,12 @@ function formatValueOniput(input) {
     input.value = 'R$ ' + value;
 }
 
-// function formatValueNumber(number) {
-//     if (typeof number !== 'number' || isNaN(number)) {
-//         return ''; // Retorna uma string vazia se o número não for válido
-//     }
-
-//     // Verifica se o número é um float
-//     if (Number.isFinite(number) && Number(number) % 1 !== 0) {
-//         // Formata o número de ponto flutuante com duas casas decimais e separador de milhares
-//         return number.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-//     }
-
-//     // Converte o número em uma string
-//     var stringNumber = number.toString();
-
-//     // Verifica se o número já possui formatação com vírgula
-//     if (stringNumber.indexOf('.') !== -1 || stringNumber.indexOf(',') !== -1) {
-//         return stringNumber; // Retorna o número original
-//     }
-
-//     // Adiciona o separador de milhares e retorna a string formatada como valor monetário com duas casas decimais
-//     return stringNumber.replace(/\B(?=(\d{3})+(?!\d))/g, '.').concat(',00');
-// }
-
 function formatValueMonetary(value) {
-    // Verifica se o valor é um número válido
     if (typeof value !== 'number' || isNaN(value)) {
-        return ''; // Retorna uma string vazia se o valor não for válido
     }
 
-    // Formata o valor como valor monetário com separador de milhares e duas casas decimais
     return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
-
-
-
 
 function blockInsertDateManual() {
     document.getElementById("update-input-date-operation").addEventListener("keydown", function (event) {
@@ -408,10 +334,7 @@ function fillModalUpdateRevenue(id, type, value, status, date, description, cate
     $("#update-input-category-operation").val(category);
     $("#update-input-account-operation").val(account);
 
-    console.log(status)
-
     if (status == 1) {
-        console.log("TESTE")
         $("#update-input-status-operation").prop("checked", true);
     } else {
         $("#update-input-status-operation").prop("checked", false);
@@ -420,23 +343,15 @@ function fillModalUpdateRevenue(id, type, value, status, date, description, cate
     selectCategory = document.getElementById('update-input-category-operation');
     selectAccount = document.getElementById('update-input-account-operation');
 
-    console.log(category)
-    console.log(account)
-
     // selecionarOpcaoPorValor(selectCategory, category);
     // selecionarOpcaoPorValor(selectAccount, account);
 
     selecionarOpcaoPorValor(category)
 
-
-
-
     var select = $('#update-input-category-operation'); // Selecionar o elemento select pelo seu id
     var valorString = category.toString(); // Converter o valor para string
 
     select.val(valorString); // Definir o valor do select como o valor fornecid
-
-
 
     var meuInput = document.getElementById('update-input-value-operation');
 
@@ -550,7 +465,6 @@ function fillSelectCategory(id, name, icon, form) {
 }
 
 function fillSelectAccount(id, bank, balance, form) {
-
     conta =
         `
         <option value="${id}">${bank}</option>
@@ -560,94 +474,50 @@ function fillSelectAccount(id, bank, balance, form) {
 }
 
 function formatData(data) {
-    // Verifica se a data é uma string válida
     if (typeof data !== 'string' || !/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-\d{2}:\d{2}/.test(data)) {
-        return ''; // Retorna uma string vazia se a data não for válida
+        return '';
     }
 
-    // Converte a data para o objeto Date
     var dateObj = new Date(data);
 
-    // Extrai os componentes da data
     var dia = dateObj.getDate();
-    var mes = dateObj.getMonth() + 1; // O valor do mês começa em zero
+    var mes = dateObj.getMonth() + 1;
     var ano = dateObj.getFullYear();
 
-    // Formata a data no padrão dd/mm/aaaa
     var dataFormatada = padZero(dia) + '/' + padZero(mes) + '/' + ano;
 
     return dataFormatada;
 }
 
-// Função auxiliar para adicionar um zero à esquerda de números menores que 10
 function padZero(numero) {
     return numero < 10 ? '0' + numero : numero;
 }
 
-// function formatDataReverse(data) {
-//     // Verifica se a data é uma string válida no formato aaaa-mm-dd
-//     if (typeof data !== 'string' || !/\d{4}-\d{2}-\d{2}/.test(data)) {
-//         return ''; // Retorna uma string vazia se a data não for válida
-//     }
-
-//     // Obtém a data atual no formato dd/mm/aaaa
-//     var dataAtual = new Date().toLocaleDateString('pt-BR').split('/');
-//     var diaAtual = dataAtual[0];
-//     var mesAtual = dataAtual[1];
-//     var anoAtual = dataAtual[2];
-
-//     // Extrai os componentes da data
-//     var partes = data.split('-');
-//     var ano = partes[0];
-//     var mes = partes[1];
-//     var dia = partes[2];
-
-//     // Verifica se a data é no futuro
-//     if (ano > anoAtual || (ano == anoAtual && mes > mesAtual) || (ano == anoAtual && mes == mesAtual && dia > diaAtual)) {
-//         return ''; // Retorna uma string vazia se a data for no futuro
-//     }
-
-//     // Obtém a hora atual no formato hh:mm:ss
-//     var horaAtual = new Date().toLocaleTimeString('pt-BR', { hour12: false });
-
-//     // Formata a data no padrão aaaa-mm-ddT21:03:30-03:00
-//     var dataFormatada = ano + '-' + mes + '-' + dia + 'T' + horaAtual + '-03:00';
-
-//     return dataFormatada;
-// }
-
 function formatDataReverse(data) {
-    // Verifica se a data é uma string válida no formato aaaa-mm-dd
     if (typeof data !== 'string' || !/\d{4}-\d{2}-\d{2}/.test(data)) {
-        return ''; // Retorna uma string vazia se a data não for válida
+        return '';
     }
 
-    // Obtém a data atual no formato dd/mm/aaaa
     var dataAtual = new Date().toLocaleDateString('pt-BR').split('/');
     var diaAtual = dataAtual[0];
     var mesAtual = dataAtual[1];
     var anoAtual = dataAtual[2];
 
-    // Extrai os componentes da data
     var partes = data.split('-');
     var ano = partes[0];
     var mes = partes[1];
     var dia = partes[2];
 
-    // Verifica se a data é no futuro
     if (ano > anoAtual || (ano == anoAtual && mes > mesAtual) || (ano == anoAtual && mes == mesAtual && dia > diaAtual)) {
-        return ''; // Retorna uma string vazia se a data for no futuro
+        return '';
     }
 
-    // Obtém a hora atual no formato hh:mm:ss
     var horaAtual = new Date().toLocaleTimeString('pt-BR', { hour12: false });
 
-    // Formata a data no padrão aaaa-mm-dd hh:mm:ss
     var dataFormatada = ano + '-' + mes + '-' + dia + ' ' + horaAtual;
 
     return dataFormatada;
 }
-
 
 function checkStatus(status) {
     if (status == "on") {
@@ -656,12 +526,11 @@ function checkStatus(status) {
     return 0
 }
 
-
 function selecionarOpcaoPorValor(valor) {
-    var select = $('#update-input-category-operation'); // Selecionar o elemento select pelo seu id
-    var valorString = valor.toString(); // Converter o valor para string
+    var select = $('#update-input-category-operation');
+    var valorString = valor.toString();
 
-    select.val(valorString); // Definir o valor do select como o valor fornecido
+    select.val(valorString);
 
     var opcaoEncontrada = select.find('option[value="' + valorString + '"]');
     if (opcaoEncontrada.length > 0) {
@@ -671,52 +540,32 @@ function selecionarOpcaoPorValor(valor) {
     }
 }
 
+function formatarData(data) {
+    var dataFormatada = data + " 23:59:59";
+    return dataFormatada;
+}
 
-
-
-
-
-
-
+function formatarValor(valor) {
+    var valorFormatado = valor.replace(/[^0-9]/g, "");
+    valorFormatado = parseFloat((parseFloat(valorFormatado) / 100).toFixed(2));
+    return valorFormatado;
+}
 
 // REQUEST
 
 function resquestCreateRevenue() {
     // disabledButton($('#button-create'), true);
-
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
 
-    var value = $("#create-input-value-operation").val();
-
-    value = value.replace(/[^0-9]/g, "");
-
-    value = parseFloat((parseFloat(value) / 100).toFixed(2));
-
+    var value = formatarValor($("#create-input-value-operation").val())
     var account_id = parseInt($("#create-input-account-operation").val());
     var category_id = parseInt($("#create-input-category-operation").val());
-    // var date = $("#create-input-date-operation").val();
-    var date = formatDataReverse($("#create-input-date-operation").val());
-    console.log($("#create-input-date-operation").val())
+    var date = formatarData($("#create-input-date-operation").val());
     var description = $("#create-input-description-operation").val();
-
-    // if()
-    // var status_id = $("#create-input-status-operation").val();
     var status_id = checkStatus($("#create-input-status-operation").val())
     var type_id = 0;
-    // var value = $("#create-input-value-operation").val();
-
-    // console.log("DATA: " + date);
-
-
-    console.log(account_id);
-    console.log(category_id);
-    console.log(date);
-    console.log(description);
-    console.log(status_id);
-    console.log(type_id);
-    console.log(value);
 
     var connect_success = true;
 
@@ -916,13 +765,11 @@ function requestListRevenue() {
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
 
-    console.log(token); // Remover na versão final
-
     var connect_success = true;
 
     var xhr = new XMLHttpRequest();
 
-    xhr.open('GET', 'http://localhost:9999/api/v0/finance/'); // ALTERAR
+    xhr.open('GET', 'http://localhost:9999/api/v0/finance/');
 
     xhr.setRequestHeader('Token', `Bearer ${token}`);
 
@@ -1045,14 +892,9 @@ function requestListAccount(form) {
 };
 
 function requestNameCategory(id) {
-
-    console.log("ID: " + id)
-
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
-
-    console.log(token); // Remover na versão final
 
     var connect_success = true;
 
@@ -1066,28 +908,14 @@ function requestNameCategory(id) {
         if (xhr.status === 200 || xhr.status === 201 || xhr.status === 204) {
             var resposta = JSON.parse(xhr.responseText);
 
-            for (var i = 0; i < resposta.length; i++) {
-                // fillSelectCategory(resposta[i].id, resposta[i].name, resposta[i].icon, form)
-                name = resposta[i].name
-
-                console.log("NAME " + name)
-
-                return name
-            }
+            console.log("RESPONSE: " + resposta.name)
+            return resposta.name
 
         } else if (xhr.status === 204) {
             console.log("vazio");
 
         } else {
             connect_success = false;
-
-            // var objMessage = JSON.parse(xhr.responseText);
-
-            // var code = objMessage.code;
-            // var msg = objMessage.error;
-
-            // showModalMessage("bg-danger", "ERRO", msg, code);
-
             return connect_success
         }
     };
