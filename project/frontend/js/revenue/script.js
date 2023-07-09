@@ -4,12 +4,6 @@ blockInsertDateManual();
 
 let select = document.querySelector("#update-input-category-operation");
 
-// console.log(select)
-
-$("#btn-open-modal-revenue").on("click", function () {
-    modalAction("new-revenue", "show")
-})
-
 $("#button-new-revenue").on("click", function () {
     modalAction("create", "show");
     $(`#create-input-category-operation`).html("");
@@ -24,22 +18,19 @@ $("#button-new-revenue").on("click", function () {
 });
 
 $(document).on('click', '.result', function () {
-    console.log(".result")
     $("#form-update")[0].reset();
     modalAction("update", "show");
 
     $(`#update-input-category-operation`).html("");
     $(`#update-input-account-operation`).html("");
 
-    requestListCategory("update");
-    requestListAccount("update");
+    requestListCategory("update", $(this).data("category-id"));
+    requestListAccount("update", $(this).data("account-id"));
 
     fillModalUpdateRevenue($(this).data("id"), $(this).data("type"), $(this).data("value"), $(this).data("status"), $(this).data("date"), $(this).data("description"), $(this).data("category"), $(this).data("account"));
 });
 
-
 $("#button-delete-revenue").on("click", function () {
-    console.log($(this).data("id"))
     modalAction("update", "hide")
     modalAction("delete", "show")
 });
@@ -61,9 +52,7 @@ $("#button-update-revenue").on("click", function () {
 });
 
 $("#button-confirm-delete").on("click", function () {
-    // resquestDeleteRevenue();
-    showModalMessage("bg-success", "EXCLUIR RECEITA", `Receita excluida com sucesso!`, 0);
-
+    requestDeleteRevenue();
 });
 
 //------------------ Funções ------------------
@@ -141,38 +130,33 @@ function validationField(operationType) {
 function generateTableOperation(account_id, category_id, status_id, type_id, id, datetime, description, revenue) {
     var result = document.querySelector('.revenue-table');
 
-    type = type_id;
-    value = revenue;
-    statusOp = status_id;
-    date = datetime;
-    data = description;
-    account = account_id;
+    var id = id;
+    var type = type_id;
+    var value = revenue;
+    var statusOp = status_id;
+    var date = datetime;
+    var data = description;
+    var account = account_id;
 
-    text_type = "";
-    text_type_operation = "";
+    var text_type = "text-success";
+    var text_type_operation = "";
 
-    iconCategory = setIconCategory(2);
+    var iconCategory = setIconCategory(category_id);
+
     if (type == '0') {
         text_type_operation = "text-success";
     } else {
         text_type_operation = "text-danger";
     }
 
-    console.log(status_id)
-
-    if (status_id == 1) {
-        text_type = "text-success";
-    } else {
+    if (status_id != 1) {
         text_type = "text-danger";
     }
 
-
-
-    // Chama a função requestNameCategory e passa uma função de callback para receber o nome da categoria
     requestNameCategory(category_id, function (categoryName) {
         requestNameAccount(account_id, function (accountName) {
             result.innerHTML +=
-                `<div class="result filter-preset-1" data-id="${id}" data-type="${type}" data-value="${value}" data-status="${statusOp}" data-date="${formatData(datetime)}" data-description="${description}" data-category="${categoryName}" data-account="${account}" >
+                `<div class="result filter-preset-1" data-id="${id}" data-type="${type}" data-value="${value}" data-status="${statusOp}" data-date="${formatData(datetime)}" data-description="${description}" data-category="${categoryName}" data-category-id=${category_id} data-account="${account}" data-account-id=${account_id} >
                 <span class="icon-category">
                     ${iconCategory}
                 </span>
@@ -189,68 +173,47 @@ function generateTableOperation(account_id, category_id, status_id, type_id, id,
                     <b class="text-value">${formatValueMonetary(revenue)}</b> <span class="status mb-1 ms-1"><i class="fas fa-check-circle ${text_type}"></i></span>
                 </div>
             </div>`
-
-            // sumRevenueAndExpenseAndFormat();
         });
     });
 }
 
-
-
 function setIconCategory(category) {
-    const iconSalary = `<i class="fab fa-sellcast text-success"></i>`;
-    const iconCoins = `<i class="fas fa-coins text-warning"></i>`;
-    const iconError = `<i class="fas fa-times text-danger"></i>`;
+    const iconBook = `<i class="fa-solid fa-book" style="color: #964b00"></i>`;
+    const iconLeisure = `<i class="fa-solid fa-umbrella-beach text-primary"></i>`;
+    const iconFood = `<i class="fa-solid fa-pizza-slice text-warning"></i>`;
+    const iconHealth = `<i class="fa-solid fa-house-medical text-danger"></i>`;
+    const iconOuther = `<i class="fa-solid fa-question"></i>`;
+    const iconError = `<i class="fa-solid fa-bars"></i>`;
 
     if (category == 1) {
-        return iconSalary;
-
+        return iconBook
     } else if (category == 2) {
-        return iconCoins;
-
+        return iconLeisure
+    } else if (category == 3) {
+        return iconFood
+    } else if (category == 4) {
+        return iconHealth
+    } else if (category == 5) {
+        return iconOuther
     } else {
         return iconError;
     }
-
 }
 
-function sumRevenueAndExpenseAndFormat(valorFloat) {
-    var sumRevenue = 0;
-    var sumExpense = 0;
+function formatarValorReceita(value) {
+    var elemento = document.querySelector('.sum-revenue');
 
-    $('.result').each(function () {
-        var value = parseFloat($(this).attr('data-value'));
-        var type = $(this).attr('data-type');
-        if (!isNaN(value)) {
-            if (type === "0") {
-                sumRevenue += value;
-            } else if (type === "1") {
-                sumExpense += value;
-            }
-        }
-    });
-
-    if (!isNaN(valorFloat)) {
-        if (sumRevenue > sumExpense) {
-            sumRevenue += valorFloat;
-        } else {
-            sumExpense += valorFloat;
-        }
+    if (typeof value !== 'number') {
+        return '';
     }
 
-    var sumRevenueFormatted = sumRevenue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    var sumExpenseFormatted = sumExpense.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    var parts = value.toFixed(2).split('.');
+    var integerPart = parts[0];
+    var decimalPart = parts[1];
 
-    var divSumRevenue = document.querySelector('.sum-revenue');
-    var divSumExpense = document.querySelector('.sum-expense');
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
-    if (divSumRevenue) {
-        divSumRevenue.innerHTML = sumRevenueFormatted;
-    }
-
-    if (divSumExpense) {
-        divSumExpense.innerHTML = sumExpenseFormatted;
-    }
+    elemento.textContent = 'R$ ' + integerPart + ',' + decimalPart;
 }
 
 function formatValueInput(input) {
@@ -320,7 +283,6 @@ function fillModalUpdateRevenue(id, type, value, status, date, description, cate
     $("#update-id").val(id);
     $("#update-input-type-operation").val(type);
     $("#update-input-value-operation").val(value);
-    // $("#update-input-status-operation").val(status);
     $("#update-input-date-operation").val(converterFormatoData(date));
     $("#update-input-description-operation").val(description);
     $("#update-input-category-operation").val(category);
@@ -332,24 +294,13 @@ function fillModalUpdateRevenue(id, type, value, status, date, description, cate
         $("#update-input-status-operation").prop("checked", false);
     }
 
-    selectCategory = document.getElementById('update-input-category-operation');
-    selectAccount = document.getElementById('update-input-account-operation');
-
-    // selecionarOpcaoPorValor(selectCategory, category);
-    // selecionarOpcaoPorValor(selectAccount, account);
-
-    selecionarOpcaoPorValor(category)
-
-    var select = $('#update-input-category-operation'); // Selecionar o elemento select pelo seu id
-    var valorString = category.toString(); // Converter o valor para string
-
-    select.val(valorString); // Definir o valor do select como o valor fornecid
-
     var meuInput = document.getElementById('update-input-value-operation');
 
     formatValueInput(meuInput);
 
     selecionarCheckbox(status)
+
+    $("#delete-id").val(id)
 
 }
 
@@ -358,7 +309,6 @@ function converterFormatoData(date) {
     var dia = partes[0];
     var mes = partes[1];
     var ano = partes[2];
-
     var dataFormatada = ano + '-' + mes + '-' + dia;
 
     return dataFormatada;
@@ -366,7 +316,6 @@ function converterFormatoData(date) {
 
 function selecionarCheckbox(value) {
     var checkbox = document.getElementById('update-input-status-operation');
-
     if (value === 'OK' && checkbox) {
         checkbox.checked = true;
     }
@@ -381,8 +330,6 @@ function showModalMessage(backgroundTitle, title, message, code) {
     const ERROR_CONFLIT = `Erro de conflito, registro já existente!`;
     const ERROR_UNPROCESSABLE_ENTITY = `Erro de entidade improcessável, se o erro persisitir contate o suporte!`;
     const ERROR_INTERNAL_SERVER = `Erro interno do servidor, se o erro persistir contate o suporte!`;
-
-    // code = 400
 
     if (code == 400) {
         $(".modal-header").addClass(backgroundTitle);
@@ -440,14 +387,11 @@ function showModalMessage(backgroundTitle, title, message, code) {
 };
 
 function disabledButton(button, disabled) {
-
     button.text("Carregando...");
-
     button.prop("disabled", disabled);
 }
 
 function fillSelectCategory(id, name, icon, form) {
-
     categoria =
         `
         <option value="${id}">${name}</option>
@@ -485,32 +429,6 @@ function padZero(numero) {
     return numero < 10 ? '0' + numero : numero;
 }
 
-function formatDataReverse(data) {
-    if (typeof data !== 'string' || !/\d{4}-\d{2}-\d{2}/.test(data)) {
-        return '';
-    }
-
-    var dataAtual = new Date().toLocaleDateString('pt-BR').split('/');
-    var diaAtual = dataAtual[0];
-    var mesAtual = dataAtual[1];
-    var anoAtual = dataAtual[2];
-
-    var partes = data.split('-');
-    var ano = partes[0];
-    var mes = partes[1];
-    var dia = partes[2];
-
-    if (ano > anoAtual || (ano == anoAtual && mes > mesAtual) || (ano == anoAtual && mes == mesAtual && dia > diaAtual)) {
-        return '';
-    }
-
-    var horaAtual = new Date().toLocaleTimeString('pt-BR', { hour12: false });
-
-    var dataFormatada = ano + '-' + mes + '-' + dia + ' ' + horaAtual;
-
-    return dataFormatada;
-}
-
 function checkStatus(status) {
     if (status == "on") {
         return 1
@@ -518,30 +436,15 @@ function checkStatus(status) {
     return 0
 }
 
-function selecionarOpcaoPorValor(valor) {
-    var select = $('#update-input-category-operation');
-    var valorString = valor.toString();
-
-    select.val(valorString);
-
-    var opcaoEncontrada = select.find('option[value="' + valorString + '"]');
-    // if (opcaoEncontrada.length > 0) {
-    //     console.log("Valor encontrado: " + opcaoEncontrada.text());
-    // } else {
-    //     console.log("Valor não encontrado.");
-    // }
-}
-
 function verificarCheckboxAtivo(checkboxId) {
     var checkbox = document.getElementById(checkboxId);
-    
+
     if (checkbox.checked) {
         return 1; // Está marcado (ativo)
     } else {
         return 0; // Não está marcado (inativo)
     }
 }
-
 
 function formatarData(data) {
     var dataFormatada = data + " 23:59:59";
@@ -616,8 +519,6 @@ function resquestCreateRevenue() {
         "value": value
     }
 
-    console.log(data);
-
     var json = JSON.stringify(data);
 
     xhr.send(json);
@@ -632,29 +533,21 @@ function resquestUpdateRevenue() {
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
 
-    id = parseInt($("#update-id").val());
+    console.log(token)
 
-    console
-
-    var value = $("#update-input-value-operation").val();
-
-    value = value.replace(/[^0-9]/g, "");
-
-    value = parseFloat((parseFloat(value) / 100).toFixed(2));
-
-    var status_id = $("#update-input-status-operation").val();
-    // var date = $("#update-input-date-operation").val();
-    var date = formatDataReverse($("#update-input-date-operation").val());
+    var id = parseInt($("#update-id").val());
+    var value = formatarValor($("#update-input-value-operation").val());
+    var account_id = parseInt($("#update-input-account-operation").val());
+    var category_id = parseInt($("#update-input-category-operation").val());
+    var date = formatarData($("#update-input-date-operation").val());
+    var status_id = verificarCheckboxAtivo("update-input-status-operation");
     var description = $("#update-input-description-operation").val();
-    var category_id = $("#update-input-category-operation").val();
-    var account_id = $("#update-input-account-operation").val();
-
     var type_id = 0;
 
     var connect_success = true;
 
-
     console.log("---------------")
+    console.log(id);
     console.log(account_id);
     console.log(category_id);
     console.log(date);
@@ -665,7 +558,7 @@ function resquestUpdateRevenue() {
 
     var xhr = new XMLHttpRequest();
 
-    xhr.open('PATCH', `http://localhost:9999/api/v0/user/${id}`);// ALTERAR
+    xhr.open('PATCH', `http://localhost:9999/api/v0/finance/${id}`);// ALTERAR
 
     xhr.setRequestHeader('Token', `Bearer ${token}`);
 
@@ -726,7 +619,7 @@ function requestDeleteRevenue() {
 
     var xhr = new XMLHttpRequest();
 
-    xhr.open('DELETE', `http://localhost:9999/api/v0/user/${id}`); // ALTERAR
+    xhr.open('DELETE', `http://localhost:9999/api/v0/finance/${id}`);
 
     xhr.setRequestHeader('Token', `Bearer ${token}`);
 
@@ -779,12 +672,17 @@ function requestListRevenue() {
     xhr.onload = function () {
         if (xhr.status === 200) {
             var resposta = JSON.parse(xhr.responseText);
+            var somaReceita = 0.00;
 
             for (var i = 0; i < resposta.length; i++) {
                 if (resposta[i].type_code == 0) {// 0 entrada
                     generateTableOperation(resposta[i].account_id, resposta[i].category_id, resposta[i].status_code, resposta[i].type_code, resposta[i].id, resposta[i].datetime, resposta[i].description, resposta[i].value)
                 }
+                if (resposta[i].type_code == 0 && resposta[i].status_code == 1) {
+                    somaReceita += parseFloat(resposta[i].value.toFixed(2));
+                }
             }
+            formatarValorReceita(somaReceita);
 
         } else if (xhr.status === 204) {
             console.log("Sem receitas registradas!");
@@ -806,12 +704,10 @@ function requestListRevenue() {
     xhr.send();
 };
 
-function requestListCategory(form) {
+function requestListCategory(form, category) {
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
-
-    console.log(token); // Remover na versão final
 
     var connect_success = true;
 
@@ -827,6 +723,7 @@ function requestListCategory(form) {
 
             for (var i = 0; i < resposta.length; i++) {
                 fillSelectCategory(resposta[i].id, resposta[i].name, resposta[i].icon, form)
+                $("#update-input-category-operation").val(category);
             }
 
         } else if (xhr.status === 204) {
@@ -849,12 +746,10 @@ function requestListCategory(form) {
     xhr.send();
 };
 
-function requestListAccount(form) {
+function requestListAccount(form, account) {
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
-
-    console.log(token); // Remover na versão final
 
     var connect_success = true;
 
@@ -870,6 +765,7 @@ function requestListAccount(form) {
 
             for (var i = 0; i < resposta.length; i++) {
                 fillSelectAccount(resposta[i].id, resposta[i].name, resposta[i].balance, form)
+                $("#update-input-account-operation").val(account);
             }
 
         } else if (xhr.status === 204) {
