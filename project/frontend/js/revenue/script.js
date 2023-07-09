@@ -4,7 +4,7 @@ blockInsertDateManual();
 
 let select = document.querySelector("#update-input-category-operation");
 
-console.log(select)
+// console.log(select)
 
 $("#btn-open-modal-revenue").on("click", function () {
     modalAction("new-revenue", "show")
@@ -151,24 +151,28 @@ function generateTableOperation(account_id, category_id, status_id, type_id, id,
     text_type = "";
     text_type_operation = "";
 
+    iconCategory = setIconCategory(2);
+    if (type == '0') {
+        text_type_operation = "text-success";
+    } else {
+        text_type_operation = "text-danger";
+    }
+
+    console.log(status_id)
+
+    if (status_id == 1) {
+        text_type = "text-success";
+    } else {
+        text_type = "text-danger";
+    }
+
+
+
     // Chama a função requestNameCategory e passa uma função de callback para receber o nome da categoria
     requestNameCategory(category_id, function (categoryName) {
-        iconCategory = setIconCategory(2);
-
-        if (type == '0') {
-            text_type_operation = "text-success";
-        } else {
-            text_type_operation = "text-danger";
-        }
-
-        if (statusOp == 1) {
-            text_type = "text-success";
-        } else {
-            text_type = "text-danger";
-        }
-
-        result.innerHTML +=
-            `<div class="result filter-preset-1" data-id="${id}" data-type="${type}" data-value="${value}" data-status="${statusOp}" data-date="${formatData(date)}" data-description="${data}" data-category="${categoryName}" data-account="${account}" >
+        requestNameAccount(account_id, function (accountName) {
+            result.innerHTML +=
+                `<div class="result filter-preset-1" data-id="${id}" data-type="${type}" data-value="${value}" data-status="${statusOp}" data-date="${formatData(datetime)}" data-description="${description}" data-category="${categoryName}" data-account="${account}" >
                 <span class="icon-category">
                     ${iconCategory}
                 </span>
@@ -177,18 +181,20 @@ function generateTableOperation(account_id, category_id, status_id, type_id, id,
                         <b>${categoryName}</b>
                     </span>
                     <div class="data text-secondary">
-                        ${data} |  ${account}
+                        ${description} |  ${accountName}
                     </div>
-                    <span class="font-size-14 text-secondary">${formatData(date)}</span>
+                    <span class="font-size-14 text-secondary">${formatData(datetime)}</span>
                 </span>
                 <div class="value ${text_type_operation}">
-                    <b class="text-value">${formatValueMonetary(value)}</b> <span class="status mb-1 ms-1"><i class="fas fa-check-circle ${text_type}"></i></span>
+                    <b class="text-value">${formatValueMonetary(revenue)}</b> <span class="status mb-1 ms-1"><i class="fas fa-check-circle ${text_type}"></i></span>
                 </div>
             </div>`
 
-        sumRevenueAndExpenseAndFormat();
+            // sumRevenueAndExpenseAndFormat();
+        });
     });
 }
+
 
 
 function setIconCategory(category) {
@@ -526,6 +532,17 @@ function selecionarOpcaoPorValor(valor) {
     // }
 }
 
+function verificarCheckboxAtivo(checkboxId) {
+    var checkbox = document.getElementById(checkboxId);
+    
+    if (checkbox.checked) {
+        return 1; // Está marcado (ativo)
+    } else {
+        return 0; // Não está marcado (inativo)
+    }
+}
+
+
 function formatarData(data) {
     var dataFormatada = data + " 23:59:59";
     return dataFormatada;
@@ -550,7 +567,7 @@ function resquestCreateRevenue() {
     var category_id = parseInt($("#create-input-category-operation").val());
     var date = formatarData($("#create-input-date-operation").val());
     var description = $("#create-input-description-operation").val();
-    var status_id = checkStatus($("#create-input-status-operation").val())
+    var status_id = verificarCheckboxAtivo("create-input-status-operation") // checkStatus($("#create-input-status-operation").val())
     var type_id = 0;
 
     var connect_success = true;
@@ -761,7 +778,6 @@ function requestListRevenue() {
 
     xhr.onload = function () {
         if (xhr.status === 200) {
-            console.log("Status OK");
             var resposta = JSON.parse(xhr.responseText);
 
             for (var i = 0; i < resposta.length; i++) {
@@ -890,36 +906,29 @@ function requestNameCategory(id, callback) {
     xhr.setRequestHeader('Token', `Bearer ${token}`);
 
     xhr.onload = function () {
-        if (xhr.status === 200 || xhr.status === 201 || xhr.status === 204) {
+        if (xhr.status === 200 || xhr.status === 201) {
             var resposta = JSON.parse(xhr.responseText);
             var name = resposta.name;
 
-            callback(name); // Chama o callback com o valor desejado
+            callback(name);
 
         } else if (xhr.status === 204) {
             console.log("vazio");
-            callback(null); // Chama o callback com valor nulo
+            callback(null);
 
         } else {
             connect_success = false;
-            callback(connect_success); // Chama o callback com o valor de connect_success
+            callback(connect_success);
         }
     };
 
     xhr.send();
 }
 
-
-
-function requestNameAccount(id) {
-
-    console.log("ID: " + id)
-
+function requestNameAccount(id, callback) {
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
-
-    console.log(token); // Remover na versão final
 
     var connect_success = true;
 
@@ -932,29 +941,17 @@ function requestNameAccount(id) {
     xhr.onload = function () {
         if (xhr.status === 200 || xhr.status === 201) {
             var resposta = JSON.parse(xhr.responseText);
-            var name = resposta.name
+            var name = resposta.name;
 
-            for (var i = 0; i < resposta.length; i++) {
-                // fillSelectCategory(resposta[i].id, resposta[i].name, resposta[i].icon, form)
-
-
-            }
-            return name
+            callback(name);
 
         } else if (xhr.status === 204) {
             console.log("vazio");
+            callback(null);
 
         } else {
             connect_success = false;
-
-            // var objMessage = JSON.parse(xhr.responseText);
-
-            // var code = objMessage.code;
-            // var msg = objMessage.error;
-
-            // showModalMessage("bg-danger", "ERRO", msg, code);
-
-            return connect_success
+            callback(connect_success);
         }
     };
 
