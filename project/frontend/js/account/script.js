@@ -192,7 +192,7 @@ function validationFormAccount(form) {
         $(`#form-${form}-account .error-name-account`).text("");
     }
 
-    if (balance == "R$ 0,00" || balance == "") {
+    if (balance == "") {
         $(`#form-${form}-account .error-balance-account`).text(ERROR_EMPTY_BALANCE);
         isValid = false;
 
