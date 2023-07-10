@@ -22,12 +22,10 @@ type Transaction struct {
 
 // TransactionList is the struct to bind list GET requests.
 type TransactionList struct {
-	ID              *uint    `json:"id,omitempty"`
-	EmitterID       *uint    `json:"emitter_id,omitempty"`
-	EmitterName     *string  `json:"emitter_name,omitempty"`
-	BeneficiaryID   *uint    `json:"beneficiary_id,omitempty"`
-	BeneficiaryName *string  `json:"beneficiary_name,omitempty"`
-	Value           *float64 `json:"value,omitempty"`
+	ID            *uint    `json:"id,omitempty"`
+	EmitterID     *uint    `json:"emitter_id,omitempty"`
+	BeneficiaryID *uint    `json:"beneficiary_id,omitempty"`
+	Value         *float64 `json:"value,omitempty"`
 }
 
 // TransactionCreate is the struct to bind create POST requests.

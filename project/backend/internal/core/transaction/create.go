@@ -67,14 +67,6 @@ func create(ctx *gin.Context) {
 	BeneficiaryValue += *transaction.Value
 	db.Tx.Model(&models.Account{}).Where("id", &transaction.BeneficiaryID).Update("balance", &BeneficiaryValue)
 
-	db.Tx.Table("accounts").
-		Select("name").
-		Where("id", &transactionList.EmitterID).
-		Scan(&transactionList.EmitterName)
-	db.Tx.Table("accounts").
-		Select("name").
-		Where("id", &transactionList.BeneficiaryID).
-		Scan(&transactionList.BeneficiaryName)
 	ctx.JSON(http.StatusCreated, transactionList)
 
 }

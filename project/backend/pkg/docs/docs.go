@@ -37,6 +37,16 @@ const docTemplate = `{
                         "name": "TOKEN",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Account ID's.",
+                        "name": "accounts",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -1241,7 +1251,7 @@ const docTemplate = `{
                     "type": "integer",
                     "minimum": 0
                 },
-                "datetime": {},
+                "date_time": {},
                 "description": {
                     "type": "string"
                 },
@@ -1268,7 +1278,7 @@ const docTemplate = `{
                 "category_id": {
                     "type": "integer"
                 },
-                "datetime": {
+                "date_time": {
                     "type": "string"
                 },
                 "description": {
@@ -1299,7 +1309,7 @@ const docTemplate = `{
                     "type": "integer",
                     "minimum": 0
                 },
-                "datetime": {},
+                "date_time": {},
                 "description": {
                     "type": "string"
                 },
@@ -1381,14 +1391,8 @@ const docTemplate = `{
                 "beneficiary_id": {
                     "type": "integer"
                 },
-                "beneficiary_name": {
-                    "type": "string"
-                },
                 "emitter_id": {
                     "type": "integer"
-                },
-                "emitter_name": {
-                    "type": "string"
                 },
                 "id": {
                     "type": "integer"

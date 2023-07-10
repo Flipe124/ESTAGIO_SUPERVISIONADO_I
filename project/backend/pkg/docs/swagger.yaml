@@ -80,7 +80,7 @@ definitions:
       category_id:
         minimum: 0
         type: integer
-      datetime: {}
+      date_time: {}
       description:
         type: string
       status_code:
@@ -104,7 +104,7 @@ definitions:
         type: integer
       category_id:
         type: integer
-      datetime:
+      date_time:
         type: string
       description:
         type: string
@@ -125,7 +125,7 @@ definitions:
       category_id:
         minimum: 0
         type: integer
-      datetime: {}
+      date_time: {}
       description:
         type: string
       status_code:
@@ -181,12 +181,8 @@ definitions:
     properties:
       beneficiary_id:
         type: integer
-      beneficiary_name:
-        type: string
       emitter_id:
         type: integer
-      emitter_name:
-        type: string
       id:
         type: integer
       value:
@@ -255,6 +251,13 @@ paths:
         name: TOKEN
         required: true
         type: string
+      - collectionFormat: csv
+        description: Account ID's.
+        in: query
+        items:
+          type: integer
+        name: accounts
+        type: array
       produces:
       - application/json
       responses:
