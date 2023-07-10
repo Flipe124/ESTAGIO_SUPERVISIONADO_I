@@ -63,23 +63,26 @@ function generateBalanceReportPDF() {
                     body: [
                         [
                             { text: 'Nome da Conta', style: 'tableHeader' },
-                            { text: 'Saldo', style: 'tableHeader' },
-                            { text: 'Porcentagem', style: 'tableHeader' }
+                            { text: 'Porcentagem', style: 'tableHeader', alignment: 'center' },
+                            { text: 'Saldo', style: 'tableHeader', alignment: 'center' }
                         ],
                         ...tableData.map(row => {
-                            return row.map(column => {
-                                return { text: column, style: 'tableCell' };
-                            });
-                        })
+                            return [
+                                { text: row[0], style: 'tableCell', alignment: 'left' },
+                                { text: row[2], style: 'tableCell', alignment: 'right' },
+                                { text: row[1], style: 'tableCell', alignment: 'right' }
+                            ];
+                        }),
+                        [
+                            { text: 'Saldo Total:', style: 'totalBalance', colSpan: 2, alignment: 'right' },
+                            {},
+                            { text: formatarMoeda(totalBalance), style: 'totalBalance', alignment: 'right' }
+                        ]
                     ]
                 }
             };
 
             content.push(table);
-
-            content.push(
-                { text: 'Saldo Total: ' + formatarMoeda(totalBalance), style: 'totalBalance', alignment: 'right' }
-            );
 
             var footer = {
                 text: 'Gerado por OPENFINANCE',
@@ -99,8 +102,8 @@ function generateBalanceReportPDF() {
                     table: { margin: [0, 10, 0, 0] },
                     tableHeader: { bold: true, fillColor: '#343a40', color: '#ffffff', margin: [0, 2] },
                     tableCell: { margin: [0, 2] },
-                    totalBalance: { bold: true, margin: [0, 10, 0, 0] },
-                    footer: { fontSize: 10, margin: [0, 20] }
+                    totalBalance: { bold: true, margin: [0, 0, 0, 0] },
+                    footer: { fontSize: 10, margin: [0, 10, 0, 0] }
                 },
                 defaultStyle: {
                     columnGap: 10
@@ -120,6 +123,8 @@ function generateBalanceReportPDF() {
 
     xhr.send();
 }
+
+
 
 function generateTransferReportPDF() {
     var accessToken = sessionStorage.getItem('accessToken');
