@@ -26,7 +26,7 @@
                         <i class="fas fa-chevron-circle-up"></i> Receitas
                     </div>
                     <div class="pt-2 ps-2 fs-6 text-start">
-                        <b>R$ 1.600,55</b>
+                        <b class="receita">R$ 0,00</b>
                     </div>
                 </div>
                 <div class="box-dashboard mt-1 bg-danger filter-preset-1" id="box-dashboard-expense">
@@ -34,7 +34,7 @@
                         <i class="fas fa-chevron-circle-down"></i> Despesas
                     </div>
                     <div class="pt-2 ps-2 fs-6 text-start">
-                        <b>R$ 101.600,55</b>
+                        <b class="despesa">R$ 0,00</b>
                     </div>
                 </div>
             </div>
@@ -53,14 +53,14 @@
                         <div class="revenue">
                             <span class="fs-6">Receita:
                                 <span class="text-success">
-                                    <b class="amount">R$ 3.780,59</b>
+                                    <b class="amount receita">R$ 0,00</b>
                                 </span>
                             </span>
                         </div>
                         <div class="expense">
                             <span class="">Despesa:
                                 <span class="text-danger">
-                                    <b class="amount">R$ 975,00</b>
+                                    <b class="amount despesa">R$ 0,00</b>
                                 </span>
                             </span>
                         </div>
