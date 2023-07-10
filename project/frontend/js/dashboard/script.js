@@ -1,6 +1,5 @@
 requestListAccount();
 
-
 $('#box-dashboard-balance').on('click', function () {
     location.replace('./account.php')
 });
@@ -75,7 +74,6 @@ function requestListAccount() {
                 saldo += resposta[i].balance;
             }
 
-            console.log(saldo)
             sumBalance(saldo)
 
         } else if (xhr.status === 204) {
@@ -97,5 +95,3 @@ function requestListAccount() {
 
     xhr.send();
 };
-
-
