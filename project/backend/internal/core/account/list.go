@@ -32,8 +32,8 @@ func list(ctx *gin.Context) {
 		tx       = db.Tx
 	)
 
-	if ids := strings.Split(ctx.Query("accounts"), ","); len(ids) > 0 {
-		tx = tx.Where(&ids)
+	if "" != ctx.Query("accounts") {
+		tx = tx.Where(strings.Split(ctx.Query("accounts"), ","))
 	}
 	err = tx.Where("user_id", ctx.GetUint("id")).Find(&accounts).Error
 	if err != nil {

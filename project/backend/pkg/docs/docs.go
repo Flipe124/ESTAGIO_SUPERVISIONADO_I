@@ -916,6 +916,50 @@ const docTemplate = `{
                 }
             }
         },
+        "/transaction/accounts": {
+            "get": {
+                "description": "List all transactions.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "transaction"
+                ],
+                "summary": "LIST",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.TransactionList"
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    }
+                }
+            }
+        },
         "/type": {
             "get": {
                 "description": "List all available type to use.",
@@ -1388,8 +1432,14 @@ const docTemplate = `{
         "models.TransactionList": {
             "type": "object",
             "properties": {
+                "beneficiary": {
+                    "$ref": "#/definitions/models.AccountList"
+                },
                 "beneficiary_id": {
                     "type": "integer"
+                },
+                "emitter": {
+                    "$ref": "#/definitions/models.AccountList"
                 },
                 "emitter_id": {
                     "type": "integer"

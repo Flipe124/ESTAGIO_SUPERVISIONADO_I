@@ -57,7 +57,7 @@ func create(ctx *gin.Context) {
 		)
 		return
 	}
-	structure.Assign(transaction, transactionList)
+	structure.Assign(transaction, transactionList, "Emitter", "Beneficiary")
 
 	db.Tx.Table("accounts").Select("balance").Where("id", &transaction.EmitterID).Scan(&EmitterValue)
 	EmitterValue -= *transaction.Value

@@ -9,6 +9,10 @@ func init() {
 	transaction := api.V2.Group("/transaction", middlewares.Auth)
 	{
 		transaction.GET(
+			"/accounts/",
+			listAccounts,
+		)
+		transaction.GET(
 			"/",
 			list,
 		)
