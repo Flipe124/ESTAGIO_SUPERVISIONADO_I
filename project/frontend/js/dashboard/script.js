@@ -35,7 +35,7 @@ function fillTableAccount(id, bank, balance) {
 function sumBalance(balance) {
     saldo = formatarMoeda(balance);
 
-    $(".saldo").text(`R$ ${saldo}`);
+    $(".saldo").text(`${saldo}`);
 }
 
 function formatarMoeda(valor) {
