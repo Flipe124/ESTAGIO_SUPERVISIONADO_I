@@ -57,7 +57,7 @@ function fillTableAccount(id, bank, balance) {
         `
         <tr class="result-table-account text-center">
             <td class="text-start ps-3">${bank}</td>
-            <td class="text-end ${text_color}">R$ ${formatValueNumber(balance)}</td>
+            <td class="text-end ${text_color}">${formatValueNumber(balance)}</td>
             <td class="text-center">
                 <button class="btn btn-danger button-delete-account" type="button" data-id="${id}" data-name-account="${bank}" data-balance-account="${formatValueNumber(balance)}"><i class="fa-solid fa-trash"></i></button>
                 <button class="btn btn-primary button-update-account" type="button" data-id="${id}" data-name-account="${bank}" data-balance-account="${formatValueNumber(balance)}"><i class="fa-solid fa-pen"></i></button>
@@ -117,21 +117,16 @@ function formatValueFromData(value) {
 }
 
 function formatValueNumber(number) {
-    // Verifica se o número é um float
     if (Number.isFinite(number) && Number(number) % 1 !== 0) {
-        // Formata o número de ponto flutuante como valor monetário
         return number.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     }
 
-    // Converte o número em uma string
     var stringNumber = number.toString();
 
-    // Verifica se o número já possui formatação com vírgula
     if (stringNumber.indexOf('.') !== -1 || stringNumber.indexOf(',') !== -1) {
-        return stringNumber; // Retorna o número original
+        return stringNumber;
     }
 
-    // Adiciona o separador de milhares e retorna a string formatada como valor monetário
     return stringNumber.replace(/\B(?=(\d{3})+(?!\d))/g, '.').concat(',00');
 }
 
@@ -246,11 +241,9 @@ function ordenarTabela(coluna) {
     tabela.order([coluna, tabela.order()[0][1]]).draw();
 }
 
-
 function sumBalance(balance) {
     saldo = formatValueNumber(balance);
-
-    $(".saldo").text(`R$ ${saldo}`);
+    $(".saldo").text(`${saldo}`);
 }
 
 function showModalMessage(backgroundTitle, title, message, code) {
@@ -265,8 +258,6 @@ function showModalMessage(backgroundTitle, title, message, code) {
     const ERROR_INTERNAL_SERVER = `Erro interno do servidor, se o erro persistir contate o suporte!`;
 
     const ERROR_CONFLIT = `Nome de conta já utilizado!`;
-
-    // code = 400
 
     if (code == 400) {
         $(".modal-header").addClass(backgroundTitle);
