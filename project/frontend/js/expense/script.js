@@ -37,8 +37,6 @@ $('#button-cancel-delete').on('click', function () {
     modalAction("update", "show");
 });
 
-
-
 $("#button-confirm-delete").on("click", function () {
     requestDeleteExpense();
 });
@@ -47,7 +45,13 @@ $("#button-confirm-delete").on("click", function () {
 
 $("#button-create").on("click", function () {
     if (validationField("create") == true) {
-        resquestCreateRevenue();
+        resquestCreateExpense();
+    }
+});
+
+$("#button-update-expense").on("click", function () {
+    if (validationField("update") == true) {
+        resquestUpdateExpense();
     }
 });
 
@@ -439,7 +443,7 @@ function disabledButton(button, disabled) {
 
 // REQUEST
 
-function resquestCreateRevenue() {
+function resquestCreateExpense() {
     // disabledButton($('#button-create'), true);
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
@@ -492,7 +496,75 @@ function resquestCreateRevenue() {
     var data = {
         "account_id": account_id,
         "category_id": category_id,
-        "datetime": date,
+        "date_time": date,
+        "description": description,
+        "status_code": status_id,
+        "type_code": type_id,
+        "value": value
+    }
+
+    var json = JSON.stringify(data);
+
+    xhr.send(json);
+
+    return connect_success
+};
+
+function resquestUpdateExpense() {
+    // disabledButton($('#button-update-revenue'), true);
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    var id = parseInt($("#update-id").val());
+    var value = formatarValor($("#update-input-value-operation").val());
+    var account_id = parseInt($("#update-input-account-operation").val());
+    var category_id = parseInt($("#update-input-category-operation").val());
+    var date = formatarData($("#update-input-date-operation").val());
+    var status_id = verificarCheckboxAtivo("update-input-status-operation");
+    var description = $("#update-input-description-operation").val();
+    var type_id = 1;
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('PATCH', `http://localhost:9999/api/v0/finance/${id}`);// ALTERAR
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200 || xhr.status === 201 || xhr.status === 204) {
+            // disabledButton($('#button-update-revenue'), false);
+
+            showModalMessage("bg-success", "EDITAR DESPESA", `Despesa editada com sucesso!`, 0);
+
+        } else {
+            // disabledButton($('#button-update-revenue'), false);
+
+            connect_success = false;
+
+            var objMessage;
+
+            if (xhr.responseText) {
+                objMessage = JSON.parse(xhr.responseText);
+                var code = objMessage.code;
+                var msg = objMessage.error;
+
+                showModalMessage("bg-danger", "ERROR", msg, code);
+
+            } else {
+                showModalMessage("bg-danger", "ERROR", "Ocorreu um erro desconhecido.", "");
+            }
+
+            return connect_success
+        }
+    };
+
+    var data = {
+        "account_id": account_id,
+        "category_id": category_id,
+        "date_time": date,
         "description": description,
         "status_code": status_id,
         "type_code": type_id,
@@ -571,13 +643,12 @@ function requestListExpense() {
 
     xhr.onload = function () {
         if (xhr.status === 200) {
-            console.log("Status OK");
             var resposta = JSON.parse(xhr.responseText);
             var somaDepesas = 0.00;
 
             for (var i = 0; i < resposta.length; i++) {
                 if (resposta[i].type_code == 1) {// 0 entrada
-                    generateTableOperation(resposta[i].account_id, resposta[i].category_id, resposta[i].status_code, resposta[i].type_code, resposta[i].id, resposta[i].datetime, resposta[i].description, resposta[i].value)
+                    generateTableOperation(resposta[i].account_id, resposta[i].category_id, resposta[i].status_code, resposta[i].type_code, resposta[i].id, resposta[i].date_time, resposta[i].description, resposta[i].value)
                 }
                 if (resposta[i].type_code == 1 && resposta[i].status_code == 1) {
                     somaDepesas += parseFloat(resposta[i].value.toFixed(2));
