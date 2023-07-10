@@ -1,41 +1,27 @@
-//------------------ MODAL ------------------
-//Botão "nova despesa", abre o modal nova despesa.
-$("#btn-open-modal-expense").on("click", function () {
-    modalAction("new-expense", "show")
-})
+requestListExpense();
 
-// Botão "lixeira", abre o modal de exclusão de despesa.
-$(".btn-delete-expense").on("click", function () {
-    modalAction("delete-expense", "show")
-})
+blockInsertDateManual()
 
-// Botão "Lápis", abre o modal de edição de despesa.
-$(".btn-update-expense").on("click", function () {
-    modalAction("update-expense", "show")
-})
+$("#button-new-expense").on("click", function () {
+    modalAction("create-expense", "show");
+    $(`#create-input-category-operation`).html("");
+    $(`#create-input-account-operation`).html("");
 
-//------------------ BTN FECHAR ------------------
-//Botão "fechar", fecha o modal nova despesa.
-$(".btn-close-modal-expense").on("click", function () {
-    modalAction("new-expense", "hide")
-})
+    requestListCategory("create");
+    requestListAccount("create");
 
-//Botão "fechar", fecha o modal excluir despesa.
-$(".btn-close-modal-delete-expense").on("click", function () {
-    modalAction("delete-expense", "hide")
-})
+    var meuInput = document.getElementById('create-input-value-operation');
 
-//Botão "fechar", fecha o modal excluir despesa.
-$(".btn-close-modal-update-expense").on("click", function () {
-    modalAction("update-expense", "hide")
-})
+    formatValueInput(meuInput);
+});
 
-//----------------- BTN SALVAR ----------------
+// BOTÕES MODAL
 
-$("#btn-save-new-expense").on("click", function () {
-    // window.location.reload();
-})
-
+$("#button-create").on("click", function () {
+    if (validationField("create") == true) {
+        resquestCreateRevenue();
+    }
+});
 
 //------------------ Funções ------------------
 
@@ -52,29 +38,409 @@ function modalAction(modalName, action) {
     $("#modal-" + modalName).modal(action)
 }
 
-// Select2
-$(document).ready(function () {
-    $('#select-category').select2();
-    $('#select-category-update').select2();
-});
+// VALIDAÇÕES
 
+function validationField(operationType) {
+    const ERROR_EMPTY_VALUE = "Informe o valor da despesa!";
+    const ERROR_EMPTY_STATUS = "Informe o status da despesa!";
+    const ERROR_EMPTY_DESCRIPTION = "Informe a descrição!";
+    const ERROR_EMPTY_DATE = "Informe a data!";
+    const ERROR_EMPTY_CATEGORY = "Informe a categoria!";
+    const ERROR_EMPTY_ACCOUNT = "Informe a conta!";
 
+    value = $(`#${operationType}-input-value-operation`).val();
+    status = $(`#${operationType}-input-status-operation`).val();
+    description = $(`#${operationType}-input-description-operation`).val();
+    date = $(`#${operationType}-input-date-operation`).val();
+    category = $(`#${operationType}-input-category-operation`).val();
+    account = $(`#${operationType}-input-account-operation`).val();
 
+    isValid = true;
 
-// request 
+    if (value == "" || value == "R$ - 0,00") {
+        $(".error-msg-value-operation").text(ERROR_EMPTY_VALUE);
+        isValid = false;
+
+    } else {
+        $(".error-msg-value-operation").text("");
+    }
+
+    if (description == "") {
+        $(".error-msg-description-operation").text(ERROR_EMPTY_DESCRIPTION);
+        isValid = false;
+
+    } else {
+        $(".error-msg-description-operation").text("");
+    }
+
+    if (date == "") {
+        $(".error-msg-date-operation").text(ERROR_EMPTY_DATE);
+        isValid = false;
+
+    } else {
+        $(".error-msg-date-operation").text("");
+    }
+
+    if (category == "") {
+        $(".error-msg-category-operation").text(ERROR_EMPTY_CATEGORY);
+        isValid = false;
+
+    } else {
+        $(".error-msg-category-operation").text("");
+    }
+
+    if (account == "") {
+        $(".error-msg-account-operation").text(ERROR_EMPTY_ACCOUNT);
+        isValid = false;
+
+    } else {
+        $(".error-msg-account-operation").text("");
+    }
+
+    return isValid
+}
+
+// FORMATAR
+
+function formatarData(data) {
+    var dataFormatada = data + " 23:59:59";
+    return dataFormatada;
+}
+
+function formatData(data) {
+    if (typeof data !== 'string' || !/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-\d{2}:\d{2}/.test(data)) {
+        return '';
+    }
+
+    var dateObj = new Date(data);
+
+    var dia = dateObj.getDate();
+    var mes = dateObj.getMonth() + 1;
+    var ano = dateObj.getFullYear();
+
+    var dataFormatada = padZero(dia) + '/' + padZero(mes) + '/' + ano;
+
+    return dataFormatada;
+}
+
+function padZero(numero) {
+    return numero < 10 ? '0' + numero : numero;
+}
+
+function formatValueMonetary(value) {
+    if (typeof value !== 'number' || isNaN(value)) {
+    }
+
+    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+function formatarValor(valor) {
+    var valorFormatado = valor.replace(/[^0-9]/g, "");
+    valorFormatado = parseFloat((parseFloat(valorFormatado) / 100).toFixed(2));
+    return valorFormatado;
+}
+
+function formatValueInput(input) {
+    var valor = input.value.replace(/\D/g, '');
+
+    valor = (valor / 100).toFixed(2);
+
+    var partes = valor.split('.');
+    var parteInteira = partes[0];
+    var parteDecimal = partes[1];
+
+    parteInteira = parteInteira.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+    if (parteDecimal === '00') {
+        parteDecimal = '00';
+    }
+
+    input.value = 'R$ - ' + parteInteira + ',' + parteDecimal;
+}
+
+function formatValueOniput(input) {
+    var value = input.value.replace(/\D/g, '');
+
+    value = (value / 100).toFixed(2);
+
+    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    value = value.replace('.', ',');
+
+    input.value = 'R$ - ' + value;
+}
+
+function formatarValorDespesa(value) {
+    var elemento = document.querySelector('.sum-revenue');
+
+    if (typeof value !== 'number') {
+        return '';
+    }
+
+    var parts = value.toFixed(2).split('.');
+    var integerPart = parts[0];
+    var decimalPart = parts[1];
+
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+    elemento.textContent = 'R$ ' + integerPart + ',' + decimalPart;
+}
+
+function blockInsertDateManual() {
+    document.getElementById("update-input-date-operation").addEventListener("keydown", function (event) {
+        event.preventDefault();
+    });
+    document.getElementById("create-input-date-operation").addEventListener("keydown", function (event) {
+        event.preventDefault();
+    });
+}
+
+function verificarCheckboxAtivo(checkboxId) {
+    var checkbox = document.getElementById(checkboxId);
+
+    if (checkbox.checked) {
+        return 1; // Está marcado (ativo)
+    } else {
+        return 0; // Não está marcado (inativo)
+    }
+}
+
+// PREENCHER
+
+function generateTableOperation(account_id, category_id, status_id, type_id, id, datetime, description, revenue) {
+    var result = document.querySelector('.expense-table');
+
+    var id = id;
+    var type = type_id;
+    var value = revenue;
+    var statusOp = status_id;
+    var date = datetime;
+    var data = description;
+    var account = account_id;
+
+    var text_type = "text-success";
+    var text_type_operation = "";
+
+    var iconCategory = setIconCategory(category_id);
+
+    if (type == '0') {
+        text_type_operation = "text-success";
+    } else {
+        text_type_operation = "text-danger";
+    }
+
+    if (status_id != 1) {
+        text_type = "text-danger";
+    }
+
+    requestNameCategory(category_id, function (categoryName) {
+        requestNameAccount(account_id, function (accountName) {
+            result.innerHTML +=
+                `<div class="result filter-preset-1" data-id="${id}" data-type="${type}" data-value="${value}" data-status="${statusOp}" data-date="${formatData(datetime)}" data-description="${description}" data-category="${categoryName}" data-category-id=${category_id} data-account="${account}" data-account-id=${account_id} >
+                <span class="icon-category">
+                    ${iconCategory}
+                </span>
+                <span class="description">
+                    <span class="category">
+                        <b>${categoryName}</b>
+                    </span>
+                    <div class="data text-secondary">
+                        ${description} |  ${accountName}
+                    </div>
+                    <span class="font-size-14 text-secondary">${formatData(datetime)}</span>
+                </span>
+                <div class="value ${text_type_operation}">
+                    <b class="text-value">${formatValueMonetary(revenue)}</b> <span class="status mb-1 ms-1"><i class="fas fa-check-circle ${text_type}"></i></span>
+                </div>
+            </div>`
+        });
+    });
+}
+
+function showModalMessage(backgroundTitle, title, message, code) {
+    $(".modal").modal("hide");
+    $("#modal-message").modal("show");
+
+    const ERROR_BAD_REQUEST = `Requisição inválida, se o erro persistir contate o suporte!`;
+    const ERROR_UNAUTHORIZED = `Seu token de acesso expirou, faça o login novamente!`;
+    const ERROR_CONFLIT = `Erro de conflito, registro já existente!`;
+    const ERROR_UNPROCESSABLE_ENTITY = `Erro de entidade improcessável, se o erro persisitir contate o suporte!`;
+    const ERROR_INTERNAL_SERVER = `Erro interno do servidor, se o erro persistir contate o suporte!`;
+
+    if (code == 400) {
+        $(".modal-header").addClass(backgroundTitle);
+        $("#modal-message .modal-title").text(title);
+        $("#modal-message .message").text(ERROR_BAD_REQUEST);
+
+        $("#modal-message .btn-success").on("click", function () {
+            location.reload();
+        })
+    }
+    else if (code == 401 && message == "Unauthorized") {
+        $(".modal-header").addClass(backgroundTitle);
+        $("#modal-message .modal-title").text(title);
+        $("#modal-message .message").text(ERROR_UNAUTHORIZED);
+
+        $("#modal-message .btn-success").on("click", function () {
+            location.replace("../login");
+        })
+
+    } else if (code == 409) {
+        $(".modal-header").addClass(backgroundTitle);
+        $("#modal-message .modal-title").text(title);
+        $("#modal-message .message").text(ERROR_CONFLIT);
+
+        $("#modal-message .btn-success").on("click", function () {
+            location.reload();
+        })
+
+    } else if (code == 422) {
+        $(".modal-header").addClass(backgroundTitle);
+        $("#modal-message .modal-title").text(title);
+        $("#modal-message .message").text(ERROR_UNPROCESSABLE_ENTITY);
+
+        $("#modal-message .btn-success").on("click", function () {
+            location.reload();
+        })
+    } else if (code == 500) {
+        $(".modal-header").addClass(backgroundTitle);
+        $("#modal-message .modal-title").text(title);
+        $("#modal-message .message").text(ERROR_INTERNAL_SERVER);
+
+        $("#modal-message .btn-success").on("click", function () {
+            location.reload();
+        })
+
+    } else {
+        $(".modal-header").addClass(backgroundTitle);
+        $("#modal-message .modal-title").text(title);
+        $("#modal-message .message").text(message);
+
+        $("#modal-message .btn-success").on("click", function () {
+            location.reload();
+        })
+    }
+};
+
+function fillSelectCategory(id, name, icon, form) {
+    categoria =
+        `
+        <option value="${id}">${name}</option>
+        `
+
+    $(`#${form}-input-category-operation`).append(categoria);
+}
+
+function fillSelectAccount(id, bank, balance, form) {
+    conta =
+        `
+        <option value="${id}">${bank}</option>
+        `
+
+    $(`#${form}-input-account-operation`).append(conta);
+}
+
+function setIconCategory(category) {
+    const iconBook = `<i class="fa-solid fa-book" style="color: #964b00"></i>`;
+    const iconLeisure = `<i class="fa-solid fa-umbrella-beach text-primary"></i>`;
+    const iconFood = `<i class="fa-solid fa-pizza-slice text-warning"></i>`;
+    const iconHealth = `<i class="fa-solid fa-house-medical text-danger"></i>`;
+    const iconOuther = `<i class="fa-solid fa-question"></i>`;
+    const iconError = `<i class="fa-solid fa-bars"></i>`;
+
+    if (category == 1) {
+        return iconBook
+    } else if (category == 2) {
+        return iconLeisure
+    } else if (category == 3) {
+        return iconFood
+    } else if (category == 4) {
+        return iconHealth
+    } else if (category == 5) {
+        return iconOuther
+    } else {
+        return iconError;
+    }
+}
+
+// REQUEST
+
+function resquestCreateRevenue() {
+    // disabledButton($('#button-create'), true);
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    var value = formatarValor($("#create-input-value-operation").val())
+    var account_id = parseInt($("#create-input-account-operation").val());
+    var category_id = parseInt($("#create-input-category-operation").val());
+    var date = formatarData($("#create-input-date-operation").val());
+    var description = $("#create-input-description-operation").val();
+    var status_id = verificarCheckboxAtivo("create-input-status-operation") // checkStatus($("#create-input-status-operation").val())
+    var type_id = 1;
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('POST', 'http://localhost:9999/api/v0/finance/');// ALTERAR
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200 || xhr.status === 201 || xhr.status === 204) {
+            // disabledButton($('#button-create'), false);
+
+            showModalMessage("bg-success", "NOVA DESPESA", `Despesa cadastrada com sucesso!`, 0);
+
+        } else {
+            // disabledButton($('#button-create'), false);
+
+            connect_success = false;
+
+            var objMessage;
+
+            if (xhr.responseText) {
+                objMessage = JSON.parse(xhr.responseText);
+                var code = objMessage.code;
+                var msg = objMessage.error;
+
+                showModalMessage("bg-danger", "ERROR", msg, code);
+
+            } else {
+                showModalMessage("bg-danger", "ERROR", "Ocorreu um erro desconhecido.", "");
+            }
+
+            return connect_success
+        }
+    };
+
+    var data = {
+        "account_id": account_id,
+        "category_id": category_id,
+        "datetime": date,
+        "description": description,
+        "status_code": status_id,
+        "type_code": type_id,
+        "value": value
+    }
+
+    var json = JSON.stringify(data);
+
+    xhr.send(json);
+
+    return connect_success
+};
 
 function requestListExpense() {
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
 
-    console.log(token); // Remover na versão final
-
     var connect_success = true;
 
     var xhr = new XMLHttpRequest();
 
-    xhr.open('GET', 'http://localhost:9999/api/v0/finance/'); // ALTERAR
+    xhr.open('GET', 'http://localhost:9999/api/v0/finance/');
 
     xhr.setRequestHeader('Token', `Bearer ${token}`);
 
@@ -82,15 +448,16 @@ function requestListExpense() {
         if (xhr.status === 200) {
             console.log("Status OK");
             var resposta = JSON.parse(xhr.responseText);
+            var somaDepesas = 0.00;
 
             for (var i = 0; i < resposta.length; i++) {
-                console.log("RESPOSTA -> " + resposta);
-
-                if(resposta[i].type_code == "1") {// 1 saida
-                    console.log("IMPRIMI")
+                if (resposta[i].type_code == 1) {// 0 entrada
                     generateTableOperation(resposta[i].account_id, resposta[i].category_id, resposta[i].status_code, resposta[i].type_code, resposta[i].id, resposta[i].datetime, resposta[i].description, resposta[i].value)
                 }
-
+                if (resposta[i].type_code == 1 && resposta[i].status_code == 1) {
+                    somaDepesas += parseFloat(resposta[i].value.toFixed(2));
+                }
+                formatarValorDespesa(somaDepesas);
             }
 
         } else if (xhr.status === 204) {
@@ -112,3 +479,153 @@ function requestListExpense() {
 
     xhr.send();
 };
+
+function requestListCategory(form, category) {
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', 'http://localhost:9999/api/v0/category/');
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var resposta = JSON.parse(xhr.responseText);
+
+            for (var i = 0; i < resposta.length; i++) {
+                fillSelectCategory(resposta[i].id, resposta[i].name, resposta[i].icon, form)
+                $("#update-input-category-operation").val(category);
+            }
+
+        }else if (xhr.status === 204) {
+            console.log("Sem categorias registradas!");
+
+        } else {
+            connect_success = false;
+
+            var objMessage = JSON.parse(xhr.responseText);
+
+            var code = objMessage.code;
+            var msg = objMessage.error;
+
+            showModalMessage("bg-danger", "ERRO", msg, code);
+
+            return connect_success
+        }
+    };
+
+    xhr.send();
+};
+
+function requestListAccount(form, account) {
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', 'http://localhost:9999/api/v0/account/');
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var resposta = JSON.parse(xhr.responseText);
+
+            for (var i = 0; i < resposta.length; i++) {
+                fillSelectAccount(resposta[i].id, resposta[i].name, resposta[i].balance, form)
+                $("#update-input-account-operation").val(account);
+            }
+
+        } else if (xhr.status === 204) {
+            console.log("Sem contas registradas!");
+
+        } else {
+            connect_success = false;
+
+            var objMessage = JSON.parse(xhr.responseText);
+
+            var code = objMessage.code;
+            var msg = objMessage.error;
+
+            showModalMessage("bg-danger", "ERRO", msg, code);
+
+            return connect_success
+        }
+    };
+
+    xhr.send();
+};
+
+function requestNameCategory(id, callback) {
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', `http://localhost:9999/api/v0/category/${id}`);
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200 || xhr.status === 201) {
+            var resposta = JSON.parse(xhr.responseText);
+            var name = resposta.name;
+
+            callback(name);
+
+        } else if (xhr.status === 204) {
+            console.log("vazio");
+            callback(null);
+
+        } else {
+            connect_success = false;
+            callback(connect_success);
+        }
+    };
+
+    xhr.send();
+}
+
+function requestNameAccount(id, callback) {
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', `http://localhost:9999/api/v0/account/${id}`);
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200 || xhr.status === 201) {
+            var resposta = JSON.parse(xhr.responseText);
+            var name = resposta.name;
+
+            callback(name);
+
+        } else if (xhr.status === 204) {
+            console.log("vazio");
+            callback(null);
+
+        } else {
+            connect_success = false;
+            callback(connect_success);
+        }
+    };
+
+    xhr.send();
+}
