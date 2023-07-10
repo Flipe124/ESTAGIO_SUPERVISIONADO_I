@@ -33,7 +33,7 @@ type FinanceList struct {
 	CategoryID  *uint      `json:"category_id,omitempty"`
 	Value       *float64   `json:"value,omitempty"`
 	Description *string    `json:"description,omitempty"`
-	DateTime    *time.Time `json:"datetime"`
+	DateTime    *time.Time `json:"date_time"`
 }
 
 // FinanceCreate is the struct to bind create POST requests.
@@ -44,7 +44,7 @@ type FinanceCreate struct {
 	CategoryID  *uint    `json:"category_id,omitempty" binding:"omitempty,gte=0"`
 	Value       *float64 `json:"value" binding:"required,gte=0"`
 	Description *string  `json:"description,omitempty" binding:"omitempty"`
-	DateTime    *any     `json:"datetime,omitempty" binding:"omitempty,datetime"`
+	DateTime    *any     `json:"date_time,omitempty" binding:"omitempty,datetime"`
 }
 
 // FinanceUpdate is the struct to bind update PATCH requests.
@@ -55,5 +55,5 @@ type FinanceUpdate struct {
 	CategoryID  *uint    `json:"category_id,omitempty" binding:"omitempty,gte=0"`
 	Value       *float64 `json:"value,omitempty" binding:"omitempty,gte=0"`
 	Description *string  `json:"description,omitempty" binding:"omitempty"`
-	DateTime    *any     `json:"datetime,omitempty" binding:"omitempty,datetime"`
+	DateTime    *any     `json:"date_time,omitempty" binding:"omitempty,datetime"`
 }
