@@ -44,8 +44,8 @@
             <!-- </div> -->
         </div>
         <?php require_once("../modal/modal-new-expense.php"); ?>
-        <?php require_once("../modal/modal-update.php"); ?>
-        <?php require_once("../modal/modal-delete.php"); ?>
+        <?php require_once("../modal/modal-update-expense.php"); ?>
+        <?php require_once("../modal/modal-delete-expense.php"); ?>
         <?php require_once("../modal/modal-message.php"); ?>
     </div>
 
