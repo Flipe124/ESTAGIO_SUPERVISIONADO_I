@@ -12,9 +12,12 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <button class="btn btn-primary mt-1" id="button-generate-report-balance">Gerar relatório de saldo</button>
-                <button class="btn btn-primary mt-1">Relatório de saldo</button>
-                <button class="btn btn-primary mt-1">Relatório de saldo</button>
+                <button class="btn btn-primary mt-1" id="button-generate-report-balance" style="width: 315px">Gerar relatório de saldo</button>
+                <button class="btn btn-secondary mt-1" id="button-generate-report-transfer" style="width: 315px">Gerar relatório de tranferências</button>
+                <button class="btn btn-success mt-1" style="width: 315px">Gerar relatório de receita</button>
+                <button class="btn btn-success mt-1" style="width: 315px">Gerar relatório de receitas por categoria</button>
+                <button class="btn btn-danger mt-1" style="width: 315px">Gerar relatório de despesas</button>
+                <button class="btn btn-danger mt-1" style="width: 315px">Gerar relatório de despesa por categoria</button>
             </div>
         </div>
     </div>
