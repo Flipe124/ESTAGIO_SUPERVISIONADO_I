@@ -22,7 +22,7 @@
                 <div class="col-md-12 text-center">
                     <div class="box-dashboard-unic mt-1 bg-success text-light filter-preset-1">
                         <div class="pt-2 ps-2 text-start">
-                            <i class="fas fa-chevron-circle-up"></i> Receitas
+                            <i class="fas fa-chevron-circle-up fa-lg"></i> Receitas
                         </div>
                         <div class="pt-2 ps-2 fs-6 text-start">
                             <b class="sum-revenue"></b>

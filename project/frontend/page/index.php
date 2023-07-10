@@ -15,7 +15,7 @@
             <div class="col-md-12 text-center text-light">
                 <div class="box-dashboard mt-1 bg-primary filter-preset-1" id="box-dashboard-balance">
                     <div class="pt-2 ps-2 text-start">
-                        <i class="fa-solid fa-building-columns"></i> Saldo
+                        <i class="fa-solid fa-building-columns fa-lg"></i> Saldo
                     </div>
                     <div class="pt-2 ps-2 fs-6 text-start">
                         <b class="saldo">R$ 0,00</b>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="box-dashboard mt-1 bg-success filter-preset-1" id="box-dashboard-revenue">
                     <div class="pt-2 ps-2 text-start">
-                        <i class="fas fa-chevron-circle-up"></i> Receitas
+                        <i class="fas fa-chevron-circle-up fa-lg"></i> Receitas
                     </div>
                     <div class="pt-2 ps-2 fs-6 text-start">
                         <b class="receita">R$ 0,00</b>
@@ -31,7 +31,7 @@
                 </div>
                 <div class="box-dashboard mt-1 bg-danger filter-preset-1" id="box-dashboard-expense">
                     <div class="pt-2 ps-2 text-start">
-                        <i class="fas fa-chevron-circle-down"></i> Despesas
+                        <i class="fas fa-chevron-circle-down fa-lg"></i> Despesas
                     </div>
                     <div class="pt-2 ps-2 fs-6 text-start">
                         <b class="despesa">R$ 0,00</b>
