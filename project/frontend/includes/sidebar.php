@@ -43,13 +43,6 @@
                 </span>
                 <span class="navbar-text">
                     <ul class="list-group list-group-horizontal generico">
-                        <!-- <button id="button-notify" type="button" class="btn btn-light position-relative me-2">
-                            <i id="icon-notify" class="fa-sharp fa-solid fa-bell"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                0
-                                <span class="visually-hidden">unread messages</span>
-                            </span>
-                        </button> -->
                         <li class="li-group">
                             <button class="dropdown-button"><img class="user-avatar" src="../img/user.png"></button>
                         </li>
