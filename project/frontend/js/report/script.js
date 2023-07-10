@@ -274,14 +274,12 @@ function generateRevenueReportPDF() {
             var content = [];
 
             for (var i = 0; i < resposta.length; i++) {
-                if (resposta[i].type_code === 0) { // 0 entrada
+                if (resposta[i].type_code === 0 && resposta[i].status_code === 1) { // 0 entrada
                     var date = resposta[i].date_time;
                     var description = resposta[i].description;
                     var value = resposta[i].value;
 
-                    if (resposta[i].status_code === 1) {
-                        somaReceita += parseFloat(value.toFixed(2));
-                    }
+                    somaReceita += parseFloat(value.toFixed(2));
 
                     content.push({
                         date: formatDate(date),
