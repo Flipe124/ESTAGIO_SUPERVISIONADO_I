@@ -57,7 +57,7 @@ function fillTableAccount(id, bank, balance) {
         `
         <tr class="result-table-account text-center">
             <td class="text-start ps-3">${bank}</td>
-            <td class="text-end ${text_color}">${formatValueNumber(balance)}</td>
+            <td class="text-end ${text_color}">${formatarMoeda(balance)}</td>
             <td class="text-center">
                 <button class="btn btn-danger button-delete-account" type="button" data-id="${id}" data-name-account="${bank}" data-balance-account="${formatValueNumber(balance)}"><i class="fa-solid fa-trash"></i></button>
                 <button class="btn btn-primary button-update-account" type="button" data-id="${id}" data-name-account="${bank}" data-balance-account="${formatValueNumber(balance)}"><i class="fa-solid fa-pen"></i></button>
@@ -159,6 +159,14 @@ function formatValueInput(input) {
     input.value = 'R$ ' + parteInteira + ',' + parteDecimal;
 }
 
+function formatarMoeda(valor) {
+    var formatter = new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    });
+
+    return formatter.format(valor);
+}
 
 function validationFormAccount(form) {
     const MAX_LENGHT_NAME = 30;
