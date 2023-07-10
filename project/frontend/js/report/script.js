@@ -6,6 +6,12 @@ $("#button-generate-report-transfer").on("click", function () {
     generateTransferReportPDF();
 });
 
+$("#button-generate-report-revenue").on('click', function () {
+    generateRevenueReportPDF();
+
+});
+
+
 // RELATÓRIOS
 
 function generateBalanceReportPDF() {
@@ -246,10 +252,153 @@ function generateTransferReportPDF() {
     xhr.send();
 }
 
+
+function generateRevenueReportPDF() {
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', 'http://localhost:9999/api/v0/finance/');
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var resposta = JSON.parse(xhr.responseText);
+            var somaReceita = 0.00;
+
+            var content = [];
+
+            for (var i = 0; i < resposta.length; i++) {
+                if (resposta[i].type_code === 0) { // 0 entrada
+                    var date = resposta[i].date_time;
+                    var description = resposta[i].description;
+                    var value = resposta[i].value;
+
+                    if (resposta[i].status_code === 1) {
+                        somaReceita += parseFloat(value.toFixed(2));
+                    }
+
+                    content.push({
+                        date: formatDate(date),
+                        description: description,
+                        value: value
+                    });
+                }
+            }
+
+            content.sort(function (a, b) {
+                return b.value - a.value;
+            });
+
+            var tableHeader = [
+                { text: 'Data', style: 'tableHeader' },
+                { text: 'Descrição', style: 'tableHeader' },
+                { text: 'Valor', style: 'tableHeader', alignment: 'right' }
+            ];
+
+            var tableData = content.map(function (item) {
+                return [
+                    { text: item.date, style: 'tableData' },
+                    { text: item.description, style: 'tableData' },
+                    { text: formatarMoeda(item.value), style: 'tableData', alignment: 'right' }
+                ];
+            });
+
+            var totalRow = [
+                { text: 'Total de Receitas:', style: 'tableData', colSpan: 2, alignment: 'right', bold: true },
+                {},
+                { text: formatarMoeda(somaReceita), style: 'tableData', alignment: 'right', bold: true }
+            ];
+            tableData.push(totalRow);
+
+            var documentDefinition = {
+                content: [
+                    { text: 'Relatório de Receitas', style: 'header' },
+                    { text: 'Data: ' + new Date().toLocaleDateString(), style: 'date' },
+                    { text: 'Horário: ' + new Date().toLocaleTimeString(), style: 'time' },
+                    '',
+                    {
+                        style: 'table',
+                        table: {
+                            widths: ['auto', '*', 'auto'],
+                            headerRows: 1,
+                            body: [
+                                tableHeader,
+                                ...tableData
+                            ]
+                        }
+                    },
+                    '',
+                    { text: 'Gerado por OPENFINANCE', style: 'footer', alignment: 'center' }
+                ],
+                styles: {
+                    header: { fontSize: 18, bold: true, margin: [0, 0, 0, 10] },
+                    date: { fontSize: 12, italics: true, margin: [0, 0, 0, 5] },
+                    time: { fontSize: 12, italics: true, margin: [0, 0, 0, 10] },
+                    table: { margin: [0, 0, 0, 0] },
+                    tableHeader: { bold: true, fillColor: '#343a40', color: '#ffffff', margin: [0, 2] },
+                    tableData: { fontSize: 12, margin: [0, 2] },
+                    footer: { fontSize: 10, margin: [0, 10] }
+                }
+            };
+
+            pdfMake.createPdf(documentDefinition).download('relatorio_receitas.pdf');
+
+            console.log("Relatório de receitas gerado com sucesso!");
+
+        } else if (xhr.status === 204) {
+            console.log("Sem receitas registradas!");
+
+        } else {
+            connect_success = false;
+
+            var objMessage = JSON.parse(xhr.responseText);
+
+            var code = objMessage.code;
+            var msg = objMessage.error;
+
+            showModalMessage("bg-danger", "ERRO", msg, code);
+
+            return connect_success;
+        }
+    };
+
+    xhr.send();
+}
+
+
+
+
+
 function formatarMoeda(valor) {
     var formatter = new Intl.NumberFormat('pt-BR', {
         style: 'currency',
         currency: 'BRL'
     });
     return formatter.format(valor);
+}
+
+function formatDate(data) {
+    if (typeof data !== 'string' || !/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-\d{2}:\d{2}/.test(data)) {
+        return '';
+    }
+
+    var dateObj = new Date(data);
+
+    var dia = dateObj.getDate();
+    var mes = dateObj.getMonth() + 1;
+    var ano = dateObj.getFullYear();
+
+    var dataFormatada = padZero(dia) + '/' + padZero(mes) + '/' + ano;
+
+    return dataFormatada;
+}
+
+function padZero(numero) {
+    return numero < 10 ? '0' + numero : numero;
 }
