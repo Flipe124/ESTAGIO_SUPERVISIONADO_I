@@ -512,7 +512,7 @@ function resquestCreateRevenue() {
     var data = {
         "account_id": account_id,
         "category_id": category_id,
-        "datetime": date,
+        "date_time": date,
         "description": description,
         "status_code": status_id,
         "type_code": type_id,
@@ -592,7 +592,7 @@ function resquestUpdateRevenue() {
     var data = {
         "account_id": account_id,
         "category_id": category_id,
-        "datetime": date,
+        "date_time": date,
         "description": description,
         "status_code": status_id,
         "type_code": type_id,
@@ -676,7 +676,7 @@ function requestListRevenue() {
 
             for (var i = 0; i < resposta.length; i++) {
                 if (resposta[i].type_code == 0) {// 0 entrada
-                    generateTableOperation(resposta[i].account_id, resposta[i].category_id, resposta[i].status_code, resposta[i].type_code, resposta[i].id, resposta[i].datetime, resposta[i].description, resposta[i].value)
+                    generateTableOperation(resposta[i].account_id, resposta[i].category_id, resposta[i].status_code, resposta[i].type_code, resposta[i].id, resposta[i].date_time, resposta[i].description, resposta[i].value)
                 }
                 if (resposta[i].type_code == 0 && resposta[i].status_code == 1) {
                     somaReceita += parseFloat(resposta[i].value.toFixed(2));
