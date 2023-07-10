@@ -39,11 +39,11 @@
                     </div>
                 </div> -->
                 <div class="col-md-12">
-                    <?php include_once("../table/revenue-table.php") ?>
+                    <?php include_once("../table/expense-table.php") ?>
                 </div>
             <!-- </div> -->
         </div>
-        <?php require_once("../modal/modal-new.php"); ?>
+        <?php require_once("../modal/modal-new-expense.php"); ?>
         <?php require_once("../modal/modal-update.php"); ?>
         <?php require_once("../modal/modal-delete.php"); ?>
         <?php require_once("../modal/modal-message.php"); ?>
@@ -51,7 +51,7 @@
 
     <div></div>
     <?php include_once("../includes/footer.php") ?>
-    <script src="../js/revenue/script.js"></script>
+    <script src="../js/expense/script.js"></script>
 </body>
 
 
