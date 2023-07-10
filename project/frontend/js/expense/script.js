@@ -15,6 +15,34 @@ $("#button-new-expense").on("click", function () {
     formatValueInput(meuInput);
 });
 
+$(document).on('click', '.result', function () {
+    $("#form-update")[0].reset();
+    modalAction("update", "show");
+
+    $(`#update-input-category-operation`).html("");
+    $(`#update-input-account-operation`).html("");
+
+    requestListCategory("update", $(this).data("category-id"));
+    requestListAccount("update", $(this).data("account-id"));
+
+    fillModalUpdateRevenue($(this).data("id"), $(this).data("type"), $(this).data("value"), $(this).data("status"), $(this).data("date"), $(this).data("description"), $(this).data("category"), $(this).data("account"));
+});
+
+$("#button-delete-expense").on("click", function () {
+    modalAction("update", "hide")
+    modalAction("delete", "show")
+});
+
+$('#button-cancel-delete').on('click', function () {
+    modalAction("update", "show");
+});
+
+
+
+$("#button-confirm-delete").on("click", function () {
+    requestDeleteExpense();
+});
+
 // BOTÕES MODAL
 
 $("#button-create").on("click", function () {
@@ -102,6 +130,13 @@ function validationField(operationType) {
 
 // FORMATAR
 
+function selecionarCheckbox(value) {
+    var checkbox = document.getElementById('update-input-status-operation');
+    if (value === 'OK' && checkbox) {
+        checkbox.checked = true;
+    }
+}
+
 function formatarData(data) {
     var dataFormatada = data + " 23:59:59";
     return dataFormatada;
@@ -125,6 +160,16 @@ function formatData(data) {
 
 function padZero(numero) {
     return numero < 10 ? '0' + numero : numero;
+}
+
+function converterFormatoData(date) {
+    var partes = date.split('/');
+    var dia = partes[0];
+    var mes = partes[1];
+    var ano = partes[2];
+    var dataFormatada = ano + '-' + mes + '-' + dia;
+
+    return dataFormatada;
 }
 
 function formatValueMonetary(value) {
@@ -256,6 +301,31 @@ function generateTableOperation(account_id, category_id, status_id, type_id, id,
     });
 }
 
+function fillModalUpdateRevenue(id, type, value, status, date, description, category, account) {
+    $("#update-id").val(id);
+    $("#update-input-type-operation").val(type);
+    $("#update-input-value-operation").val(value);
+    $("#update-input-date-operation").val(converterFormatoData(date));
+    $("#update-input-description-operation").val(description);
+    $("#update-input-category-operation").val(category);
+    $("#update-input-account-operation").val(account);
+
+    if (status == 1) {
+        $("#update-input-status-operation").prop("checked", true);
+    } else {
+        $("#update-input-status-operation").prop("checked", false);
+    }
+
+    var meuInput = document.getElementById('update-input-value-operation');
+
+    formatValueInput(meuInput);
+
+    selecionarCheckbox(status)
+
+    $("#delete-id").val(id)
+
+}
+
 function showModalMessage(backgroundTitle, title, message, code) {
     $(".modal").modal("hide");
     $("#modal-message").modal("show");
@@ -362,6 +432,11 @@ function setIconCategory(category) {
     }
 }
 
+function disabledButton(button, disabled) {
+    button.text("Carregando...");
+    button.prop("disabled", disabled);
+}
+
 // REQUEST
 
 function resquestCreateRevenue() {
@@ -422,6 +497,56 @@ function resquestCreateRevenue() {
         "status_code": status_id,
         "type_code": type_id,
         "value": value
+    }
+
+    var json = JSON.stringify(data);
+
+    xhr.send(json);
+
+    return connect_success
+};
+
+function requestDeleteExpense() {
+    disabledButton($('#button-confirm-delete'), true);
+
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    var id = $('#delete-id').val();
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('DELETE', `http://localhost:9999/api/v0/finance/${id}`);
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200 || xhr.status === 204) {
+            disabledButton($('#button-confirm-delete'), false);
+
+            showModalMessage("bg-success", "EXCLUIR DESPESA", `Despesa excluida com sucesso!`, 0);
+
+        } else {
+            disabledButton($('#button-confirm-delete'), false);
+
+            connect_success = false;
+
+            var objMessage = JSON.parse(xhr.responseText);
+
+            var code = objMessage.code;
+            var msg = objMessage.error;
+
+            showModalMessage("bg-danger", "ERROR", msg, code);
+
+            return connect_success
+        }
+    };
+
+    var data = {
+        "id": id,
     }
 
     var json = JSON.stringify(data);
@@ -502,7 +627,7 @@ function requestListCategory(form, category) {
                 $("#update-input-category-operation").val(category);
             }
 
-        }else if (xhr.status === 204) {
+        } else if (xhr.status === 204) {
             console.log("Sem categorias registradas!");
 
         } else {
