@@ -847,7 +847,7 @@ paths:
       - transaction
   /transaction/accounts:
     get:
-      description: List all transactions.
+      description: List all transactions with all related accounts.
       parameters:
       - description: Bearer token.
         in: header

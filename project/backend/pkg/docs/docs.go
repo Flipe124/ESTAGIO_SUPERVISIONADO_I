@@ -918,7 +918,7 @@ const docTemplate = `{
         },
         "/transaction/accounts": {
             "get": {
-                "description": "List all transactions.",
+                "description": "List all transactions with all related accounts.",
                 "produces": [
                     "application/json"
                 ],
