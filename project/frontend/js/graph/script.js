@@ -1,4 +1,4 @@
-createGraphBar();
+requestListAccount() 
 
 requestListRevenue(function (somaReceita) {
     requestListExpense(function (somaDespesas) {
@@ -33,14 +33,14 @@ function createGraphPie(revenue, expense) {
     });
 }
 
-function createGraphBar() {
+function createGraphBar(contas, saldos) {
     var ctx = document.getElementById('graph-bar').getContext('2d');
 
     var data = {
-        labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'],
+        labels: contas,
         datasets: [{
-            label: 'Evolução do saldo',
-            data: [1200.00, 1880.00, 1600.00, 2200.00, 2300.50, 2750.20],
+            label: 'Saldo em conta',
+            data: saldos,
             backgroundColor: '#0D6EFD'
         }]
     };
@@ -163,4 +163,55 @@ function requestListExpense(callback) {
 
     xhr.send();
 };
+
+function requestListAccount() {
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', 'http://localhost:9999/api/v0/account/');
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var resposta = JSON.parse(xhr.responseText);
+            var contas = [];
+            var saldos = [];
+            var saldoTotal = 0;
+
+            for (var i = 0; i < resposta.length; i++) {
+                var conta = resposta[i];
+                contas.push(conta.name);
+                saldos.push(conta.balance);
+                saldoTotal += conta.balance;
+            }
+
+            sumBalance(saldoTotal);
+
+            createGraphBar(contas, saldos);
+
+        } else if (xhr.status === 204) {
+            console.log("Sem contas registradas!");
+
+        } else {
+            connect_success = false;
+
+            var objMessage = JSON.parse(xhr.responseText);
+
+            var code = objMessage.code;
+            var msg = objMessage.error;
+
+            showModalMessage("bg-danger", "ERRO", msg, code);
+
+            return connect_success;
+        }
+    };
+
+    xhr.send();
+}
 
