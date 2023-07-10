@@ -46,8 +46,6 @@ function buttonOpenUpdateCategoryModal(modalForm, id, name, icon) {
 
     $('#update-input-id-category').val(id);
 
-    // console.log($('#update-input-id-category').val())
-
     $(`#form-${modalForm}-category #${modalForm}-input-name-category`).val(name);
     $(`#form-${modalForm}-category #${modalForm}-input-icon-category`).val(icon);
 
@@ -181,11 +179,6 @@ function ordenarTabela(coluna) {
 }
 
 function fillTableCategory(id, name, icon) {
-
-    console.log(id)
-    console.log(name)
-    console.log(icon)
-
     category =
         `
         <tr class="result-table-category text-start">
@@ -405,8 +398,6 @@ function requestListAccount() {
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
-
-    console.log(token); // Remover na versão final
 
     var connect_success = true;
 

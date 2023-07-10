@@ -42,14 +42,9 @@ $('#button-confirm-delete-account').on('click', function () {
 // FUNCTIONS
 
 function fillTableAccount(id, bank, balance) {
-
-    console.log(id)
-    console.log(bank)
-    console.log(balance)
-
     text_color = "";
 
-    if(balance < 0) {
+    if (balance < 0) {
         text_color = "text-danger";
     }
 
@@ -73,8 +68,6 @@ function buttonOpenUpdateAccountModal(modalForm, id, name, value) {
     $(`#form-${modalForm}-account`)[0].reset();
 
     $('#update-input-id-account').val(id);
-
-    console.log($('#update-input-id-account').val())
 
     $(`#form-${modalForm}-account #${modalForm}-input-name-account`).val(name);
     $(`#form-${modalForm}-account #${modalForm}-input-balance-account`).val(formatValueFromData(value));
@@ -325,7 +318,7 @@ function resquestCreateAccount() {
     var objeto = JSON.parse(accessToken);
 
     token = objeto.token;
-    
+
     var balance = $("#create-input-balance-account").val();
 
     balance = balance.replace(/[^0-9]/g, "");
@@ -382,7 +375,7 @@ function resquestUpdateAccount() {
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
-    
+
     var balance = $("#update-input-balance-account").val();
 
     balance = balance.replace(/[^0-9]/g, "");
@@ -497,8 +490,6 @@ function requestListAccount() {
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
 
-    console.log(token); // Remover na versão final
-
     var connect_success = true;
 
     var xhr = new XMLHttpRequest();
@@ -511,16 +502,14 @@ function requestListAccount() {
         if (xhr.status === 200) {
             var resposta = JSON.parse(xhr.responseText);
 
-                var saldo = 0
+            var saldo = 0
 
             for (var i = 0; i < resposta.length; i++) {
                 fillTableAccount(resposta[i].id, resposta[i].name, resposta[i].balance);
 
                 saldo += resposta[i].balance;
             }
-
-                console.log(saldo)
-                sumBalance(saldo)
+            sumBalance(saldo)
 
         } else if (xhr.status === 204) {
             console.log("Sem contas registradas!");
