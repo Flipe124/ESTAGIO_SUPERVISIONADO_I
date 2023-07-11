@@ -22,7 +22,7 @@ import (
 //	@Router			/category/{category} [delete]
 func delete(ctx *gin.Context) {
 
-	if err := db.Tx.Unscoped().Delete(&models.Category{}, ctx.Param("category")).Error; err != nil {
+	if err := db.Tx.Unscoped().Where("user_id", ctx.GetUint("id")).Delete(&models.Category{}, ctx.Param("category")).Error; err != nil {
 		api.LogReturn(
 			ctx,
 			http.StatusInternalServerError,

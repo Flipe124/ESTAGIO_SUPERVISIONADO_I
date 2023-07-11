@@ -4,6 +4,7 @@ import (
 	"errors"
 	"net/http"
 
+	"backend/internal/core/user"
 	"backend/internal/infra/db"
 	"backend/internal/models"
 	"backend/pkg/helpers/structure"
@@ -30,9 +31,8 @@ func get(ctx *gin.Context) {
 	var category *models.Category
 
 	categoryList := &models.CategoryList{}
-	ID := ctx.Param("category")
 
-	if err := db.Tx.First(&category, &ID).Error; err != nil {
+	if err := db.Tx.Where("user_id", user.SystemUserID).Or("user_id", ctx.GetUint("id")).First(&category, ctx.Param("category")).Error; err != nil {
 
 		code := http.StatusInternalServerError
 		message := http.StatusText(http.StatusInternalServerError)

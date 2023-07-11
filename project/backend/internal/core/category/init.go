@@ -9,12 +9,12 @@ func init() {
 	category := api.V2.Group("/category", middlewares.Auth)
 	{
 		category.GET(
-			"/:category",
-			get,
-		)
-		category.GET(
 			"/",
 			list,
+		)
+		category.GET(
+			"/:category",
+			get,
 		)
 		category.POST(
 			"/",
