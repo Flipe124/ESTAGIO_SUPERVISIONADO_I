@@ -266,7 +266,6 @@ function requestListTransaction() {
                         createTableTransaction(id_beneficiary, accountNameBenificiary, id_emitter, accountNameEmitter, id, value);
                     });
                 });
-            
             }
 
         } else if (xhr.status === 204) {
