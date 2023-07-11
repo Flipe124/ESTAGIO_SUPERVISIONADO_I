@@ -1,6 +1,7 @@
 package transaction
 
 import (
+	"errors"
 	"net/http"
 
 	"backend/internal/infra/db"
@@ -9,6 +10,7 @@ import (
 	"backend/pkg/utils/api"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 // Swagger:
@@ -34,13 +36,23 @@ func get(ctx *gin.Context) {
 
 	err = db.Tx.Where("user_id", ctx.GetUint("id")).First(&transaction, ctx.Param("transaction")).Error
 	if err != nil {
+
+		code := http.StatusInternalServerError
+		message := http.StatusText(http.StatusInternalServerError)
+
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			code = http.StatusNotFound
+			message = "transaction not found"
+		}
+
 		api.LogReturn(
 			ctx,
-			http.StatusInternalServerError,
-			http.StatusText(http.StatusInternalServerError),
+			code,
+			message,
 			err.Error(),
 		)
 		return
+
 	}
 	structure.Assign(transaction, transactionList, "Emitter", "Beneficiary")
 
@@ -79,13 +91,23 @@ func getAccounts(ctx *gin.Context) {
 		First(&transaction, ctx.Param("transaction")).
 		Error
 	if err != nil {
+
+		code := http.StatusInternalServerError
+		message := http.StatusText(http.StatusInternalServerError)
+
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			code = http.StatusNotFound
+			message = "transaction not found"
+		}
+
 		api.LogReturn(
 			ctx,
-			http.StatusInternalServerError,
-			http.StatusText(http.StatusInternalServerError),
+			code,
+			message,
 			err.Error(),
 		)
 		return
+
 	}
 	structure.Assign(transaction, transactionList, "Emitter", "Beneficiary")
 	structure.Assign(transaction.Emitter, transactionList.Emitter)

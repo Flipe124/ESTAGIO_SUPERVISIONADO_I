@@ -12,6 +12,10 @@ func init() {
 			"/",
 			list,
 		)
+		finance.GET(
+			"/:finance",
+			get,
+		)
 		finance.POST(
 			"/",
 			create,
