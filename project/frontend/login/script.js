@@ -1,7 +1,7 @@
 const PASSWORD_MIN_LENGHT = 8;
 const REGEX_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const ERROR_EMPTY_EMAIL_USERNAME = "Informe seu e-mail ou apelido!";
+const ERROR_EMPTY_EMAIL_USERNAME = "Informe seu nome de usuário ou email!";
 const ERROR_EMPTY_PASSWORD = "Informe sua senha!";
 
 const ERROR_INVALID_EMAIL = "E-mail inválido!";
@@ -9,8 +9,6 @@ const ERROR_MIN_CHARACTER_PASSWORD = "Senha deve conter " + PASSWORD_MIN_LENGHT 
 
 var accessToken;
 var emailUser;
-
-document.getElementById("alert-error").style.display = "none"
 
 $('#button-eye').on('click', function () {
     showHidePassword("#button-eye i", "#password");
