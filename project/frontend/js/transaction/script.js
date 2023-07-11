@@ -175,7 +175,6 @@ function formatarMoeda(valor) {
     return formatter.format(valor);
 }
 
-
 // REQUEST 
 
 function resquestCreateTransaction() {
@@ -257,7 +256,17 @@ function requestListTransaction() {
             var resposta = JSON.parse(xhr.responseText);
 
             for (var i = 0; i < resposta.length; i++) {
-                createTableTransaction(resposta[i].beneficiary_id, resposta[i].beneficiary_name, resposta[i].emitter_id, resposta[i].emitter_name, resposta[i].id, resposta[i].value);
+                var id_emitter = resposta[i].emitter_id;
+                var id_beneficiary = resposta[i].beneficiary_id;
+                var id = resposta[i].id;
+                var value = resposta[i].value;
+                
+                requestNameAccount(id_emitter, function (accountNameEmitter) {
+                    requestNameAccount(id_beneficiary, function (accountNameBenificiary) {
+                        createTableTransaction(id_beneficiary, accountNameBenificiary, id_emitter, accountNameEmitter, id, value);
+                    });
+                });
+            
             }
 
         } else if (xhr.status === 204) {
@@ -342,3 +351,36 @@ function requestListAccountAndFillSelect() {
 
     xhr.send();
 };
+
+function requestNameAccount(id, callback) {
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', `http://localhost:9999/api/v0/account/${id}`);
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200 || xhr.status === 201) {
+            var resposta = JSON.parse(xhr.responseText);
+            var name = resposta.name;
+
+            callback(name);
+
+        } else if (xhr.status === 204) {
+            console.log("vazio");
+            callback(null);
+
+        } else {
+            connect_success = false;
+            callback(connect_success);
+        }
+    };
+
+    xhr.send();
+}
