@@ -38,7 +38,7 @@ func list(ctx *gin.Context) {
 	if query, values, paramsExists := query.Make(ctx, &models.TransactionList{}, "ID", "Emitter", "Beneficiary"); paramsExists {
 		tx = tx.Where(query, values...)
 	}
-	err = tx.Debug().Where("user_id", ctx.GetUint("id")).Find(&transactions).Error
+	err = tx.Where("user_id", ctx.GetUint("id")).Find(&transactions).Error
 	if err != nil {
 		api.LogReturn(
 			ctx,
