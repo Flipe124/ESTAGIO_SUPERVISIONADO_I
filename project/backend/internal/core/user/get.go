@@ -30,8 +30,7 @@ func get(ctx *gin.Context) {
 
 	userList := &models.UserList{}
 
-	id := ctx.GetUint("id")
-	if err := db.Tx.First(&user, &id).Error; err != nil {
+	if err := db.Tx.First(&user, ctx.GetUint("id")).Error; err != nil {
 
 		code := http.StatusInternalServerError
 		message := http.StatusText(http.StatusInternalServerError)

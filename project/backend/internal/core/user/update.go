@@ -31,7 +31,6 @@ func update(ctx *gin.Context) {
 		err        error
 	)
 
-	id := ctx.GetUint("id")
 	if err := ctx.ShouldBindJSON(&userUpdate); err != nil {
 		api.LogReturn(
 			ctx,
@@ -41,7 +40,7 @@ func update(ctx *gin.Context) {
 		)
 		return
 	}
-	err = db.Tx.Model(&models.User{}).Where("id", &id).Updates(structure.Map(&userUpdate)).Error
+	err = db.Tx.Model(&models.User{}).Where("id", ctx.GetUint("id")).Updates(structure.Map(&userUpdate)).Error
 
 	if err != nil {
 

@@ -21,8 +21,7 @@ import (
 //	@Router			/user [delete]
 func delete(ctx *gin.Context) {
 
-	id := ctx.GetUint("id")
-	if err := db.Tx.Unscoped().Delete(&models.User{}, &id).Error; err != nil {
+	if err := db.Tx.Unscoped().Delete(&models.User{}, ctx.GetUint("id")).Error; err != nil {
 		api.LogReturn(
 			ctx,
 			http.StatusInternalServerError,
