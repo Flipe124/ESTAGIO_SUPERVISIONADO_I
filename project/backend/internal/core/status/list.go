@@ -14,7 +14,7 @@ import (
 // Swagger:
 //
 //	@Summary		LIST
-//	@Description	List all available status to use.
+//	@Description	List all available statuses to use.
 //	@Tags			status
 //	@Produce		json
 //	@Param			TOKEN	header		string	true	"Bearer token."
