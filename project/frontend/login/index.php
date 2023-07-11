@@ -21,12 +21,9 @@
                     <img id="login-logo" src="../img/openfinance_white.png" alt="Logotipo Openfinance">
                 </div>
                 <form method="post" id="form-login" name="form_login">
-                    <div class="col-md-12 mt-4 alert alert-danger" id="alert-error">
-                        <i class="fa-solid fa-triangle-exclamation"></i> <span class="error error-execute"></span>
-                    </div>
                     <div class="col-md-12 mt-3">
-                        <label class="form-label">E-mail:</label>
-                        <input id="email" type="text" class="form-control" name="email" placeholder="E-mail ou apelido">
+                        <label class="form-label">Nome de usuário:</label>
+                        <input id="email" type="text" class="form-control" name="email" placeholder="Nome de usuário">
                     </div>
                     <div class="col-md-12">
                         <div class="text-danger" id="error-msg-email"></div>
@@ -49,8 +46,7 @@
                     </div>
                 </form>
                 <div class="col-md-12 mt-2">
-                    <a href="../register/index.php">Criar uma conta?</a>
-                    <a href="">Esqueceu a senha?</a>
+                    <p>Não possui uma conta? <a href="../register/index.php">Clique aqui</a></p>
                 </div>
                 <div class="col-md-3 mt-2">
                 </div>
