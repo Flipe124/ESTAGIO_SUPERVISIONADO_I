@@ -48,7 +48,7 @@
                         </li>
                     </ul>
                     <ul class="dropdown-menu">
-                        <li class="dropdown-item" id="user-email-SIDEBAR">TESTE</li>
+                        <li class="dropdown-item" id="user-email-sidebar"></li>
                         <li class="dropdown-item text-danger item-button-return-login"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sair</li>
                     </ul>
                 </span>
