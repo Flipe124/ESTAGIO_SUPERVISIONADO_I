@@ -1,6 +1,8 @@
 
 document.getElementById("alert-error").style.display = "none"
 
+// showModalMessage()
+
 $('#button-eye').on('click', function () {
     showHidePassword("#button-eye i", "#password");
 });
@@ -29,23 +31,23 @@ function validationField() {
     const MAX_LENGHT_USERNAME = 16;
     const MAX_LENGHT_EMAIL = 255;
 
-    const ERROR_EMPTY_NAME = "Informe o nome!";
-    const ERROR_EMPTY_USERNAME = "Informe o username!";
+    const ERROR_EMPTY_NAME = "Informe seu nome!";
+    const ERROR_EMPTY_USERNAME = "Informe o nome de usuário!";
     const ERROR_EMPTY_EMAIL = "Informe o email!";
     const ERROR_EMPTY_PASSWORD = "Informe a senha!";
     const ERROR_EMPTY_PASSWORD_REPEAT = "Informe a senha novamente!";
 
     const ERROR_MIN_LENGHT_NAME = `O nome deve conter ao menos ${MIN_LENGHT_NAME} caracteres!`;
-    const ERROR_MIN_LENGHT_USERNAME = `O username deve conter ao menos ${MIN_LENGHT_USERNAME} caracteres!`;
+    const ERROR_MIN_LENGHT_USERNAME = `O nome de usuário deve conter ao menos ${MIN_LENGHT_USERNAME} caracteres!`;
     const ERROR_MIN_LENGHT_PASSWORD = `A senha deve conter ao menos ${MIN_LENGHT_PASSWORD} caracteres!`;
 
     const ERROR_MAX_LENGHT_NAME = `O nome deve conter até ${MAX_LENGHT_NAME} caracteres!`;
-    const ERROR_MAX_LENGHT_USERNAME = `O username deve conter  até ${MAX_LENGHT_USERNAME} caracteres!`;
+    const ERROR_MAX_LENGHT_USERNAME = `O nome de usuário deve conter  até ${MAX_LENGHT_USERNAME} caracteres!`;
     const ERROR_MAX_LENGHT_EMAIL = `O email deve conter até ${MAX_LENGHT_EMAIL} caracteres!`;
     const ERROR_MAX_LENGHT_PASSWORD = `A senha deve conter até ${MIN_LENGHT_PASSWORD} caracteres!`;
 
     const ERROR_DIFFERENT_PASSWORD = "As senhas devem ser iguais!";
-    const ERROR_INVALID_USERNAME = "Username com caracteres inválido!"
+    const ERROR_INVALID_USERNAME = "Nome de usuário possui caracter inválido!"
     const ERROR_INVALID_EMAIL = "Email inválido!"
 
     name = $('#name').val();
@@ -201,7 +203,7 @@ function showModalMessage() {
 
     $(".modal-header").addClass("bg-success");
     $("#modal-message .modal-title").text("REGISTRAR");
-    $("#modal-message .message").text("Conta registrada com sucesso. Você será redirecionado para a tela de login!");
+    $("#modal-message .message").text("Sucesso! Você será redirecionado para a tela de login.");
 
     $("#modal-message .btn-success").on("click", function () {
         location.replace("../login/index.php");
@@ -210,7 +212,7 @@ function showModalMessage() {
 
 function showMessage(message, code) {
     const ERROR_ALREADY_EXISTS_EMAIL = "Email já  cadastrado!";
-    const ERROR_ALREADY_EXISTS_USERNAME = "Username já  cadastrado!";
+    const ERROR_ALREADY_EXISTS_USERNAME = "Nome de usuário já cadastrado!";
 
     isValid = true;
 
