@@ -604,6 +604,42 @@
                         "name": "TOKEN",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Finance Account ID.",
+                        "name": "account_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Finance Type CODE.",
+                        "name": "type_code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Finance Satus CODE.",
+                        "name": "status_code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Finance Category ID.",
+                        "name": "category_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "number",
+                        "description": "Finance value.",
+                        "name": "value",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Finance description.",
+                        "name": "description",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -778,7 +814,7 @@
         },
         "/status": {
             "get": {
-                "description": "List all available status to use.",
+                "description": "List all available statuses to use.",
                 "produces": [
                     "application/json"
                 ],

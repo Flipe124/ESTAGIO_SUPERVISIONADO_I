@@ -638,6 +638,30 @@ paths:
         name: TOKEN
         required: true
         type: string
+      - description: Finance Account ID.
+        in: query
+        name: account_id
+        type: integer
+      - description: Finance Type CODE.
+        in: query
+        name: type_code
+        type: integer
+      - description: Finance Satus CODE.
+        in: query
+        name: status_code
+        type: integer
+      - description: Finance Category ID.
+        in: query
+        name: category_id
+        type: integer
+      - description: Finance value.
+        in: query
+        name: value
+        type: number
+      - description: Finance description.
+        in: query
+        name: description
+        type: string
       produces:
       - application/json
       responses:
@@ -759,7 +783,7 @@ paths:
       - finance
   /status:
     get:
-      description: List all available status to use.
+      description: List all available statuses to use.
       parameters:
       - description: Bearer token.
         in: header

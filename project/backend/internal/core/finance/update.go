@@ -44,7 +44,7 @@ func update(ctx *gin.Context) {
 		return
 	}
 
-	err = db.Tx.Model(&models.Finance{}).Where("id", ctx.Param("finance")).Updates(structure.Map(&financeUpdate)).Error
+	err = db.Tx.Model(&models.Finance{}).Where("id = ? AND user_id = ?", ctx.Param("finance"), ctx.GetUint("id")).Updates(structure.Map(&financeUpdate)).Error
 	if err != nil {
 		api.LogReturn(
 			ctx,
