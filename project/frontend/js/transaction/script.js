@@ -256,21 +256,21 @@ function requestListTransaction() {
             var resposta = JSON.parse(xhr.responseText);
 
             for (var i = 0; i < resposta.length; i++) {
-                var id_emitter = resposta[i].emitter_id;
-                var id_beneficiary = resposta[i].beneficiary_id;
-                var id = resposta[i].id;
-                var value = resposta[i].value;
-                
-                requestNameAccount(id_emitter, function (accountNameEmitter) {
-                    requestNameAccount(id_beneficiary, function (accountNameBenificiary) {
-                        createTableTransaction(id_beneficiary, accountNameBenificiary, id_emitter, accountNameEmitter, id, value);
+                (function (transaction) {
+                    var id_emitter = transaction.emitter_id;
+                    var id_beneficiary = transaction.beneficiary_id;
+                    var id = transaction.id;
+                    var value = transaction.value;
+                    
+                    requestNameAccount(id_emitter, function (accountNameEmitter) {
+                        requestNameAccount(id_beneficiary, function (accountNameBeneficiary) {
+                            createTableTransaction(id_beneficiary, accountNameBeneficiary, id_emitter, accountNameEmitter, id, value);
+                        });
                     });
-                });
+                })(resposta[i]);
             }
-
         } else if (xhr.status === 204) {
             $(".text-empty-transaction").text("Sem transferências realizadas!");
-
         } else {
             connect_success = false;
 
@@ -281,12 +281,13 @@ function requestListTransaction() {
 
             showModalMessage("bg-danger", "ERRO", msg, code);
 
-            return connect_success
+            return connect_success;
         }
     };
 
     xhr.send();
-};
+}
+
 
 function requestListAccountAndFillSelect() {
     var accessToken = sessionStorage.getItem('accessToken');
