@@ -35,8 +35,8 @@
                     <span class="text-danger error error-msg-name"></span>
 
                     <div class="form-floating mt-3">
-                        <input type="text" class="form-control" id="username" placeholder="Username" maxlength="100">
-                        <label class="text-secondary" for="username">Username: <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="username" placeholder="Nome de usuário" maxlength="100">
+                        <label class="text-secondary" for="username">Nome de usuário: <span class="text-danger">*</span></label>
                     </div>
                     <span class="text-danger error error-msg-username"></span>
 
@@ -63,12 +63,12 @@
                         <label class="placeholder-text text-secondary" for="password-repeat">Confirme a senha: <span class="placeholder-red">*</span></label>
                     </div>
                     <span class="text-danger error error-msg-password-repeat"></span>
-
-
+                    <div class="col-md-12 mt-1">
+                        <span class="text-danger">Campos obrigatório *</span>
+                    </div>
                     <div class="col-md-12 mt-1">
                         <div class="text-danger" id="error-msg-authentication"></div>
                     </div>
-
                     <div class="col-md-12 mt-3 d-grid">
                         <button class="btn btn-success" id="button-register" type="button"><b>REGISTRAR</b></button>
                     </div>
