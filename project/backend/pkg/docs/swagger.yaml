@@ -80,7 +80,7 @@ definitions:
       category_id:
         minimum: 0
         type: integer
-      datetime: {}
+      date_time: {}
       description:
         type: string
       status_code:
@@ -104,7 +104,7 @@ definitions:
         type: integer
       category_id:
         type: integer
-      datetime:
+      date_time:
         type: string
       description:
         type: string
@@ -125,7 +125,7 @@ definitions:
       category_id:
         minimum: 0
         type: integer
-      datetime: {}
+      date_time: {}
       description:
         type: string
       status_code:
@@ -179,14 +179,14 @@ definitions:
     type: object
   models.TransactionList:
     properties:
+      beneficiary:
+        $ref: '#/definitions/models.AccountList'
       beneficiary_id:
         type: integer
-      beneficiary_name:
-        type: string
+      emitter:
+        $ref: '#/definitions/models.AccountList'
       emitter_id:
         type: integer
-      emitter_name:
-        type: string
       id:
         type: integer
       value:
@@ -255,6 +255,13 @@ paths:
         name: TOKEN
         required: true
         type: string
+      - collectionFormat: csv
+        description: Account ID's.
+        in: query
+        items:
+          type: integer
+        name: accounts
+        type: array
       produces:
       - application/json
       responses:
@@ -836,6 +843,35 @@ paths:
           schema:
             $ref: '#/definitions/models.HTTP'
       summary: CREATE
+      tags:
+      - transaction
+  /transaction/accounts:
+    get:
+      description: List all transactions with all related accounts.
+      parameters:
+      - description: Bearer token.
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.TransactionList'
+            type: array
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.HTTP'
+      summary: LIST
       tags:
       - transaction
   /type:

@@ -37,6 +37,16 @@ const docTemplate = `{
                         "name": "TOKEN",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Account ID's.",
+                        "name": "accounts",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -906,6 +916,50 @@ const docTemplate = `{
                 }
             }
         },
+        "/transaction/accounts": {
+            "get": {
+                "description": "List all transactions with all related accounts.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "transaction"
+                ],
+                "summary": "LIST",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.TransactionList"
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    }
+                }
+            }
+        },
         "/type": {
             "get": {
                 "description": "List all available type to use.",
@@ -1241,7 +1295,7 @@ const docTemplate = `{
                     "type": "integer",
                     "minimum": 0
                 },
-                "datetime": {},
+                "date_time": {},
                 "description": {
                     "type": "string"
                 },
@@ -1268,7 +1322,7 @@ const docTemplate = `{
                 "category_id": {
                     "type": "integer"
                 },
-                "datetime": {
+                "date_time": {
                     "type": "string"
                 },
                 "description": {
@@ -1299,7 +1353,7 @@ const docTemplate = `{
                     "type": "integer",
                     "minimum": 0
                 },
-                "datetime": {},
+                "date_time": {},
                 "description": {
                     "type": "string"
                 },
@@ -1378,17 +1432,17 @@ const docTemplate = `{
         "models.TransactionList": {
             "type": "object",
             "properties": {
+                "beneficiary": {
+                    "$ref": "#/definitions/models.AccountList"
+                },
                 "beneficiary_id": {
                     "type": "integer"
                 },
-                "beneficiary_name": {
-                    "type": "string"
+                "emitter": {
+                    "$ref": "#/definitions/models.AccountList"
                 },
                 "emitter_id": {
                     "type": "integer"
-                },
-                "emitter_name": {
-                    "type": "string"
                 },
                 "id": {
                     "type": "integer"

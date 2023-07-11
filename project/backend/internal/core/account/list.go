@@ -2,6 +2,7 @@ package account
 
 import (
 	"net/http"
+	"strings"
 
 	"backend/internal/infra/db"
 	"backend/internal/models"
@@ -17,19 +18,24 @@ import (
 //	@Description	List all accounts.
 //	@Tags			account
 //	@Produce		json
-//	@Param			TOKEN	header		string	true	"Bearer token."
-//	@Success		200		{array}		models.AccountList
-//	@Success		204		{string}	string	"No Content"
-//	@Failure		500		{object}	models.HTTP
+//	@Param			TOKEN		header		string	true	"Bearer token."
+//	@Param			accounts	query		[]int	false	"Account ID's."
+//	@Success		200			{array}		models.AccountList
+//	@Success		204			{string}	string	"No Content"
+//	@Failure		500			{object}	models.HTTP
 //	@Router			/account [get]
 func list(ctx *gin.Context) {
 
 	var (
 		accounts []*models.Account
 		err      error
+		tx       = db.Tx
 	)
 
-	err = db.Tx.Where("user_id", ctx.GetUint("id")).Find(&accounts).Error
+	if "" != ctx.Query("accounts") {
+		tx = tx.Where(strings.Split(ctx.Query("accounts"), ","))
+	}
+	err = tx.Where("user_id", ctx.GetUint("id")).Find(&accounts).Error
 	if err != nil {
 		api.LogReturn(
 			ctx,
