@@ -31,7 +31,7 @@ func get(ctx *gin.Context) {
 
 	accountList := &models.AccountList{}
 
-	if err := db.Tx.First(&account, ctx.Param("account")).Error; err != nil {
+	if err := db.Tx.Where("user_id", ctx.GetUint("id")).First(&account, ctx.Param("account")).Error; err != nil {
 
 		code := http.StatusInternalServerError
 		message := http.StatusText(http.StatusInternalServerError)

@@ -20,7 +20,7 @@ import (
 //	@Tags			category
 //	@Produce		json
 //	@Param			TOKEN	header		string	true	"Bearer token."
-//	@Param			name	query		string		false	"Category name."
+//	@Param			name	query		string	false	"Category name."
 //	@Success		200		{array}		models.CategoryList
 //	@Success		204		{string}	string	"No Content"
 //	@Failure		500		{object}	models.HTTP

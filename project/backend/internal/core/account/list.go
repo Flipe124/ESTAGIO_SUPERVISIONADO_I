@@ -6,6 +6,7 @@ import (
 
 	"backend/internal/infra/db"
 	"backend/internal/models"
+	"backend/pkg/helpers/query"
 	"backend/pkg/helpers/structure"
 	"backend/pkg/utils/api"
 
@@ -19,6 +20,8 @@ import (
 //	@Tags			account
 //	@Produce		json
 //	@Param			TOKEN		header		string	true	"Bearer token."
+//	@Param			name		query		string	false	"Account name."
+//	@Param			balance		query		float64	false	"Account balance."
 //	@Param			accounts	query		[]int	false	"Account ID's."
 //	@Success		200			{array}		models.AccountList
 //	@Success		204			{string}	string	"No Content"
@@ -29,11 +32,16 @@ func list(ctx *gin.Context) {
 	var (
 		accounts []*models.Account
 		err      error
-		tx       = db.Tx
 	)
 
+	tx := db.Tx
+
+	// add esse recurso nas outras rotas também?
 	if "" != ctx.Query("accounts") {
 		tx = tx.Where(strings.Split(ctx.Query("accounts"), ","))
+	}
+	if query, values, paramsExists := query.Make(ctx, &models.AccountList{}, "ID"); paramsExists {
+		tx = tx.Where(query, values...)
 	}
 	err = tx.Where("user_id", ctx.GetUint("id")).Find(&accounts).Error
 	if err != nil {

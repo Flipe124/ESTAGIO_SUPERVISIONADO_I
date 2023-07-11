@@ -40,8 +40,8 @@ func update(ctx *gin.Context) {
 		)
 		return
 	}
-	err = db.Tx.Model(&models.Account{}).Where("id", ctx.Param("account")).Updates(structure.Map(&accountUpdate)).Error
 
+	err = db.Tx.Model(&models.Account{}).Where("id = ? AND user_id = ?", ctx.Param("account"), ctx.GetUint("id")).Updates(structure.Map(&accountUpdate)).Error
 	if err != nil {
 		api.LogReturn(
 			ctx,
