@@ -19,7 +19,7 @@ $("#button-generate-report-expense").on('click', function () {
 });
 
 $("#button-generate-report-expense-for-category").on('click', function () {
-    generateRevenueForCategoryReportPDF();
+    generateExpenseForCategoryReportPDF();
 });
 
 
@@ -284,7 +284,6 @@ function generateTransferReportPDF() {
     xhr.send();
 }
 
-
 function generateRevenueReportPDF() {
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
@@ -535,12 +534,6 @@ function generateRevenueForCategoryReportPDF() {
     xhr.send();
 }
 
-
-
-
-
-
-
 function generateExpenseReportPDF() {
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
@@ -640,6 +633,139 @@ function generateExpenseReportPDF() {
         } else if (xhr.status === 204) {
             console.log("Sem receitas registradas!");
 
+        } else {
+            connect_success = false;
+
+            var objMessage = JSON.parse(xhr.responseText);
+
+            var code = objMessage.code;
+            var msg = objMessage.error;
+
+            showModalMessage("bg-danger", "ERRO", msg, code);
+
+            return connect_success;
+        }
+    };
+
+    xhr.send();
+}
+
+function generateExpenseForCategoryReportPDF() {
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', 'http://localhost:9999/api/v0/finance/');
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var resposta = JSON.parse(xhr.responseText);
+            var categoryData = {};
+
+            var processFinanceItem = function (index) {
+                if (index < resposta.length) {
+                    var financeItem = resposta[index];
+
+                    if (financeItem.type_code === 1 && financeItem.status_code === 1) {
+                        var value = financeItem.value;
+                        var category_id = financeItem.category_id;
+
+                        var categoryName = categoryData[category_id] ? categoryData[category_id].name : null;
+                        var categoryValue = categoryData[category_id] ? categoryData[category_id].value : 0.00;
+
+                        if (categoryName) {
+                            categoryData[category_id].value = categoryValue + parseFloat(value.toFixed(2));
+                            processFinanceItem(index + 1);
+                        } else {
+                            requestNameCategory(category_id, function (name) {
+                                categoryName = name || 'Categoria Desconhecida';
+                                categoryData[category_id] = {
+                                    name: categoryName,
+                                    value: categoryValue + parseFloat(value.toFixed(2))
+                                };
+                                processFinanceItem(index + 1);
+                            });
+                        }
+                    } else {
+                        processFinanceItem(index + 1);
+                    }
+                } else {
+                    var content = Object.values(categoryData);
+
+                    content.sort(function (a, b) {
+                        return b.value - a.value;
+                    });
+
+                    var tableHeader = [
+                        { text: 'Categoria', style: 'tableHeader' },
+                        { text: 'Valor', style: 'tableHeader', alignment: 'center' }
+                    ];
+
+                    var tableData = [];
+                    if (content.length > 0) {
+                        tableData.push(tableHeader);
+                        tableData.push(...content.map(function (item) {
+                            return [
+                                { text: item.name, style: 'tableData' },
+                                { text: formatarMoeda(item.value), style: 'tableData', alignment: 'right' }
+                            ];
+                        }));
+                        var totalValue = content.reduce(function (acc, item) {
+                            return acc + item.value;
+                        }, 0);
+                        tableData.push([
+                            { text: 'Total de Despesas:', style: 'tableData', colSpan: 1, alignment: 'right', bold: true },
+                            { text: formatarMoeda(totalValue), style: 'tableData', alignment: 'right', bold: true }
+                        ]);
+                    } else {
+                        tableData.push([
+                            { text: 'Nenhuma categoria encontrada', style: 'tableData', colSpan: 2, alignment: 'center' }
+                        ]);
+                    }
+
+                    var documentDefinition = {
+                        content: [
+                            { text: 'Relatório de Despesas por Categoria', style: 'header' },
+                            { text: 'Data: ' + new Date().toLocaleDateString(), style: 'date' },
+                            { text: 'Horário: ' + new Date().toLocaleTimeString(), style: 'time' },
+                            '',
+                            {
+                                style: 'table',
+                                table: {
+                                    widths: ['*', 'auto'],
+                                    headerRows: 1,
+                                    body: tableData
+                                }
+                            },
+                            '',
+                            { text: 'Gerado por OPENFINANCE', style: 'footer', alignment: 'center' }
+                        ],
+                        styles: {
+                            header: { fontSize: 18, bold: true, margin: [0, 0, 0, 10] },
+                            date: { fontSize: 12, italics: true, margin: [0, 0, 0, 5] },
+                            time: { fontSize: 12, italics: true, margin: [0, 0, 0, 10] },
+                            table: { margin: [0, 0, 0, 0] },
+                            tableHeader: { bold: true, fillColor: '#343a40', color: '#ffffff', margin: [0, 2] },
+                            tableData: { fontSize: 12, margin: [0, 2] },
+                            footer: { fontSize: 10, margin: [0, 10] }
+                        }
+                    };
+
+                    pdfMake.createPdf(documentDefinition).download('relatorio_despesas_categoria.pdf');
+
+                    console.log("Relatório de despesas por categoria gerado com sucesso!");
+                }
+            };
+
+            processFinanceItem(0);
+        } else if (xhr.status === 204) {
+            console.log("Sem despesas registradas!");
         } else {
             connect_success = false;
 
