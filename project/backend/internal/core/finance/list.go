@@ -2,6 +2,7 @@ package finance
 
 import (
 	"net/http"
+	"strings"
 
 	"backend/internal/infra/db"
 	"backend/internal/models"
@@ -26,6 +27,7 @@ import (
 //	@Param			value		query		float64		false	"Finance value."
 //	@Param			description	query		string		false	"Finance description."
 //	@Param			date_time	query		time.Time	false	"Finance date and time."
+//	@Param			finances	query		[]int		false	"Finance ID's."
 //	@Success		200			{array}		models.FinanceList
 //	@Success		204			{string}	string	"No Content"
 //	@Failure		500			{object}	models.HTTP
@@ -39,6 +41,9 @@ func list(ctx *gin.Context) {
 
 	tx := db.Tx
 
+	if "" != ctx.Query("finances") {
+		tx = tx.Where(strings.Split(ctx.Query("finances"), ","))
+	}
 	if query, values, paramsExists := query.Make(ctx, &models.FinanceList{}, "ID"); paramsExists {
 		tx = tx.Where(query, values...)
 	}

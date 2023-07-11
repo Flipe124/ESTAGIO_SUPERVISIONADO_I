@@ -394,6 +394,16 @@ const docTemplate = `{
                         "description": "Category name.",
                         "name": "name",
                         "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Category ID's.",
+                        "name": "categories",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -664,6 +674,16 @@ const docTemplate = `{
                         "type": "string",
                         "description": "Finance description.",
                         "name": "description",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Finance ID's.",
+                        "name": "finances",
                         "in": "query"
                     }
                 ],
@@ -956,6 +976,16 @@ const docTemplate = `{
                         "description": "Transaction Value.",
                         "name": "value",
                         "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Transaction ID's.",
+                        "name": "transactions",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -1068,6 +1098,16 @@ const docTemplate = `{
                         "type": "number",
                         "description": "Transaction Value.",
                         "name": "value",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Transaction ID's.",
+                        "name": "transactions",
                         "in": "query"
                     }
                 ],

@@ -2,6 +2,7 @@ package transaction
 
 import (
 	"net/http"
+	"strings"
 
 	"backend/internal/infra/db"
 	"backend/internal/models"
@@ -22,6 +23,7 @@ import (
 //	@Param			emitter_id		query		uint	false	"Transaction Emitter ID."
 //	@Param			beneficiary_id	query		uint	false	"Transaction Beneficiary ID."
 //	@Param			value			query		float64	false	"Transaction Value."
+//	@Param			transactions	query		[]int	false	"Transaction ID's."
 //	@Success		200				{array}		models.TransactionList
 //	@Success		204				{string}	string	"No Content"
 //	@Failure		500				{object}	models.HTTP
@@ -35,6 +37,9 @@ func list(ctx *gin.Context) {
 
 	tx := db.Tx
 
+	if "" != ctx.Query("transactions") {
+		tx = tx.Where(strings.Split(ctx.Query("transactions"), ","))
+	}
 	if query, values, paramsExists := query.Make(ctx, &models.TransactionList{}, "ID", "Emitter", "Beneficiary"); paramsExists {
 		tx = tx.Where(query, values...)
 	}
@@ -74,6 +79,7 @@ func list(ctx *gin.Context) {
 //	@Param			emitter_id		query		uint	false	"Transaction Emitter ID."
 //	@Param			beneficiary_id	query		uint	false	"Transaction Beneficiary ID."
 //	@Param			value			query		float64	false	"Transaction Value."
+//	@Param			transactions	query		[]int	false	"Transaction ID's."
 //	@Success		200				{array}		models.TransactionList
 //	@Success		204				{string}	string	"No Content"
 //	@Failure		500				{object}	models.HTTP
@@ -87,6 +93,9 @@ func listAccounts(ctx *gin.Context) {
 
 	tx := db.Tx
 
+	if "" != ctx.Query("transactions") {
+		tx = tx.Where(strings.Split(ctx.Query("transactions"), ","))
+	}
 	if query, values, paramsExists := query.Make(ctx, &models.TransactionList{}, "ID", "Emitter", "Beneficiary"); paramsExists {
 		tx = tx.Where(query, values...)
 	}

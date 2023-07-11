@@ -2,6 +2,7 @@ package category
 
 import (
 	"net/http"
+	"strings"
 
 	"backend/internal/core/user"
 	"backend/internal/infra/db"
@@ -19,11 +20,12 @@ import (
 //	@Description	List all categories.
 //	@Tags			category
 //	@Produce		json
-//	@Param			TOKEN	header		string	true	"Bearer token."
-//	@Param			name	query		string	false	"Category name."
-//	@Success		200		{array}		models.CategoryList
-//	@Success		204		{string}	string	"No Content"
-//	@Failure		500		{object}	models.HTTP
+//	@Param			TOKEN		header		string	true	"Bearer token."
+//	@Param			name		query		string	false	"Category name."
+//	@Param			categories	query		[]int	false	"Category ID's."
+//	@Success		200			{array}		models.CategoryList
+//	@Success		204			{string}	string	"No Content"
+//	@Failure		500			{object}	models.HTTP
 //	@Router			/category [get]
 func list(ctx *gin.Context) {
 
@@ -34,6 +36,9 @@ func list(ctx *gin.Context) {
 
 	tx := db.Tx
 
+	if "" != ctx.Query("categories") {
+		tx = tx.Where(strings.Split(ctx.Query("categories"), ","))
+	}
 	if query, values, paramsExists := query.Make(ctx, &models.CategoryList{}, "ID", "Icon"); paramsExists {
 		tx = tx.Where(query, values...)
 	}

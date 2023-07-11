@@ -493,6 +493,13 @@ paths:
         in: query
         name: name
         type: string
+      - collectionFormat: csv
+        description: Category ID's.
+        in: query
+        items:
+          type: integer
+        name: categories
+        type: array
       produces:
       - application/json
       responses:
@@ -674,6 +681,13 @@ paths:
         in: query
         name: description
         type: string
+      - collectionFormat: csv
+        description: Finance ID's.
+        in: query
+        items:
+          type: integer
+        name: finances
+        type: array
       produces:
       - application/json
       responses:
@@ -870,6 +884,13 @@ paths:
         in: query
         name: value
         type: number
+      - collectionFormat: csv
+        description: Transaction ID's.
+        in: query
+        items:
+          type: integer
+        name: transactions
+        type: array
       produces:
       - application/json
       responses:
@@ -1013,6 +1034,13 @@ paths:
         in: query
         name: value
         type: number
+      - collectionFormat: csv
+        description: Transaction ID's.
+        in: query
+        items:
+          type: integer
+        name: transactions
+        type: array
       produces:
       - application/json
       responses:

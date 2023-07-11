@@ -36,7 +36,6 @@ func list(ctx *gin.Context) {
 
 	tx := db.Tx
 
-	// add esse recurso nas outras rotas também?
 	if "" != ctx.Query("accounts") {
 		tx = tx.Where(strings.Split(ctx.Query("accounts"), ","))
 	}
