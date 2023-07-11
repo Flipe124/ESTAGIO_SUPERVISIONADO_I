@@ -133,8 +133,6 @@ function generateBalanceReportPDF() {
     xhr.send();
 }
 
-
-
 function generateTransferReportPDF() {
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
@@ -157,89 +155,112 @@ function generateTransferReportPDF() {
             var totalTransferencias = 0;
             var transferenciasPorConta = {};
 
-            for (var i = 0; i < resposta.length; i++) {
-                var beneficiaryName = resposta[i].beneficiary_name;
-                var emitterName = resposta[i].emitter_name;
-                var value = resposta[i].value;
+            var processTransaction = function (index) {
+                if (index < resposta.length) {
+                    var beneficiaryId = resposta[index].beneficiary_id;
+                    var emitterId = resposta[index].emitter_id;
+                    var value = resposta[index].value;
 
-                var conta = emitterName + '-' + beneficiaryName;
-                if (transferenciasPorConta.hasOwnProperty(conta)) {
-                    transferenciasPorConta[conta] += value;
-                } else {
-                    transferenciasPorConta[conta] = value;
-                }
+                    var count = 0;
+                    var emitterName = "";
+                    var beneficiaryName = "";
 
-                totalTransferencias += value;
-            }
+                    var checkCompletion = function () {
+                        count++;
+                        if (count === 2) {
+                            var conta = emitterName + '-' + beneficiaryName;
+                            if (transferenciasPorConta.hasOwnProperty(conta)) {
+                                transferenciasPorConta[conta] += value;
+                            } else {
+                                transferenciasPorConta[conta] = value;
+                            }
 
-            for (var key in transferenciasPorConta) {
-                var contaSplit = key.split('-');
-                var emitterName = contaSplit[0];
-                var beneficiaryName = contaSplit[1];
-                var value = transferenciasPorConta[key];
-
-                content.push(
-                    [
-                        { text: emitterName, style: 'tableData' },
-                        { text: beneficiaryName, style: 'tableData' },
-                        { text: formatarMoeda(value), style: 'tableData', alignment: 'right' }
-                    ]
-                );
-            }
-
-            content.sort(function (a, b) {
-                return b[2].text.replace(/[^\d.-]/g, '') - a[2].text.replace(/[^\d.-]/g, '');
-            });
-
-            var tableHeader = [
-                { text: 'Emissor', style: 'tableHeader' },
-                { text: 'Beneficiário', style: 'tableHeader' },
-                { text: 'Valor', style: 'tableHeader', alignment: 'center' }
-            ];
-
-            content.unshift(tableHeader);
-
-            content.push(
-                [
-                    { text: 'Total:', colSpan: 2, alignment: 'right', style: 'tableFooter' },
-                    {},
-                    { text: formatarMoeda(totalTransferencias), style: 'tableFooter', alignment: 'right' }
-                ]
-            );
-
-            var documentDefinition = {
-                content: [
-                    { text: 'Relatório de Transferências', style: 'header' },
-                    { text: 'Data: ' + new Date().toLocaleDateString(), style: 'date' },
-                    { text: 'Horário: ' + new Date().toLocaleTimeString(), style: 'time' },
-                    {
-                        style: 'table',
-                        table: {
-                            widths: ['*', '*', 'auto'],
-                            body: content
+                            totalTransferencias += value;
+                            processTransaction(index + 1);
                         }
-                    },
-                    { text: 'Gerado por OPENFINANCE', style: 'footer', alignment: 'center' }
-                ],
-                styles: {
-                    header: { fontSize: 18, bold: true, margin: [0, 0, 0, 10] },
-                    date: { fontSize: 12, italics: true, margin: [0, 0, 0, 5] },
-                    time: { fontSize: 12, italics: true, margin: [0, 0, 0, 10] },
-                    table: { margin: [0, 0, 0, 0] },
-                    tableHeader: { bold: true, fillColor: '#343a40', color: '#ffffff', margin: [0, 2], alignment: 'left' },
-                    tableData: { fontSize: 12, margin: [0, 2], alignment: 'left' },
-                    tableFooter: { fontSize: 12, bold: true, fillColor: '#f2f2f2', margin: [0, 2], alignment: 'right' },
-                    footer: { fontSize: 10, margin: [0, 10, 0, 0] }
+                    };
+
+                    requestNameAccount(emitterId, function (emitterAccountName) {
+                        emitterName = emitterAccountName;
+                        checkCompletion();
+                    });
+
+                    requestNameAccount(beneficiaryId, function (beneficiaryAccountName) {
+                        beneficiaryName = beneficiaryAccountName;
+                        checkCompletion();
+                    });
+                } else {
+                    var content = [];
+                    for (var key in transferenciasPorConta) {
+                        var contaSplit = key.split('-');
+                        var emitterName = contaSplit[0];
+                        var beneficiaryName = contaSplit[1];
+                        var value = transferenciasPorConta[key];
+
+                        content.push(
+                            [
+                                { text: emitterName, style: 'tableData' },
+                                { text: beneficiaryName, style: 'tableData' },
+                                { text: formatarMoeda(value), style: 'tableData', alignment: 'right' }
+                            ]
+                        );
+                    }
+
+                    content.sort(function (a, b) {
+                        return b[2].text.replace(/[^\d.-]/g, '') - a[2].text.replace(/[^\d.-]/g, '');
+                    });
+
+                    var tableHeader = [
+                        { text: 'Emissor', style: 'tableHeader' },
+                        { text: 'Beneficiário', style: 'tableHeader' },
+                        { text: 'Valor', style: 'tableHeader', alignment: 'center' }
+                    ];
+
+                    content.unshift(tableHeader);
+
+                    content.push(
+                        [
+                            { text: 'Total:', colSpan: 2, alignment: 'right', style: 'tableFooter' },
+                            {},
+                            { text: formatarMoeda(totalTransferencias), style: 'tableFooter', alignment: 'right' }
+                        ]
+                    );
+
+                    var documentDefinition = {
+                        content: [
+                            { text: 'Relatório de Transferências', style: 'header' },
+                            { text: 'Data: ' + new Date().toLocaleDateString(), style: 'date' },
+                            { text: 'Horário: ' + new Date().toLocaleTimeString(), style: 'time' },
+                            {
+                                style: 'table',
+                                table: {
+                                    widths: ['*', '*', 'auto'],
+                                    body: content
+                                }
+                            },
+                            { text: 'Gerado por OPENFINANCE', style: 'footer', alignment: 'center' }
+                        ],
+                        styles: {
+                            header: { fontSize: 18, bold: true, margin: [0, 0, 0, 10] },
+                            date: { fontSize: 12, italics: true, margin: [0, 0, 0, 5] },
+                            time: { fontSize: 12, italics: true, margin: [0, 0, 0, 10] },
+                            table: { margin: [0, 0, 0, 0] },
+                            tableHeader: { bold: true, fillColor: '#343a40', color: '#ffffff', margin: [0, 2], alignment: 'left' },
+                            tableData: { fontSize: 12, margin: [0, 2], alignment: 'left' },
+                            tableFooter: { fontSize: 12, bold: true, fillColor: '#f2f2f2', margin: [0, 2], alignment: 'right' },
+                            footer: { fontSize: 10, margin: [0, 10, 0, 0] }
+                        }
+                    };
+
+                    pdfMake.createPdf(documentDefinition).download('relatorio_transferencias.pdf');
+
+                    console.log("Relatório de transferências gerado com sucesso!");
                 }
             };
 
-            pdfMake.createPdf(documentDefinition).download('relatorio_transferencias.pdf');
-
-            console.log("Relatório de transferências gerado com sucesso!");
-
+            processTransaction(0);
         } else if (xhr.status === 204) {
             $(".text-empty-transaction").text("Sem transferências realizadas!");
-
         } else {
             connect_success = false;
 
@@ -491,7 +512,39 @@ function generateExpenseReportPDF() {
     xhr.send();
 }
 
+// REQUEST NAME
+function requestNameAccount(id, callback) {
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
 
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', `http://localhost:9999/api/v0/account/${id}`);
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200 || xhr.status === 201) {
+            var resposta = JSON.parse(xhr.responseText);
+            var name = resposta.name;
+
+            callback(name);
+
+        } else if (xhr.status === 204) {
+            console.log("vazio");
+            callback(null);
+
+        } else {
+            connect_success = false;
+            callback(connect_success);
+        }
+    };
+
+    xhr.send();
+}
 
 
 
