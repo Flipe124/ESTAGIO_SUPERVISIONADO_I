@@ -17,7 +17,17 @@ func Make(ctx *gin.Context, model any, skips ...string) (string, []any, bool) {
 	)
 	object := reflect.ValueOf(model).Elem()
 	for index := 0; index < object.NumField(); index++ {
-		field := strings.ToLower(object.Type().Field(index).Name)
+		field := strings.ToLower(
+			string(regexp.
+				MustCompile("[a-z][A-Z]").
+				ReplaceAllStringFunc(
+					object.Type().Field(index).Name,
+					func(str string) string {
+						return string(str[0]) + "_" + string(str[1])
+					},
+				),
+			),
+		)
 		if param, hasParam := ctx.GetQuery(field); hasParam && !regexp.MustCompile(field).MatchString(strings.ToLower(strings.Join(skips, " "))) {
 			query += fmt.Sprintf(" %s = ? AND", field)
 			values = append(values, param)

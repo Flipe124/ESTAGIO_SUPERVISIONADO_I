@@ -32,8 +32,11 @@ func create(ctx *gin.Context) {
 		BeneficiaryValue  float64
 	)
 
+	transactionList := &models.TransactionList{
+		Emitter:     &models.AccountList{},
+		Beneficiary: &models.AccountList{},
+	}
 	transaction := &models.Transaction{}
-	transactionList := &models.TransactionList{}
 
 	id := ctx.GetUint("id")
 	if err := ctx.ShouldBindJSON(&transactionCreate); err != nil {
@@ -57,7 +60,6 @@ func create(ctx *gin.Context) {
 		)
 		return
 	}
-	structure.Assign(transaction, transactionList, "Emitter", "Beneficiary")
 
 	db.Tx.Table("accounts").Select("balance").Where("id", &transaction.EmitterID).Scan(&EmitterValue)
 	EmitterValue -= *transaction.Value
@@ -66,6 +68,10 @@ func create(ctx *gin.Context) {
 	db.Tx.Table("accounts").Select("balance").Where("id", &transaction.BeneficiaryID).Scan(&BeneficiaryValue)
 	BeneficiaryValue += *transaction.Value
 	db.Tx.Model(&models.Account{}).Where("id", &transaction.BeneficiaryID).Update("balance", &BeneficiaryValue)
+
+	structure.Assign(transaction, transactionList, "Emitter", "Beneficiary")
+	structure.Assign(transaction.Emitter, transactionList.Emitter)
+	structure.Assign(transaction.Beneficiary, transactionList.Beneficiary)
 
 	ctx.JSON(http.StatusCreated, transactionList)
 

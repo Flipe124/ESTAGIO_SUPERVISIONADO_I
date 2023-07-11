@@ -838,6 +838,24 @@ const docTemplate = `{
                         "name": "TOKEN",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Transaction Emitter ID.",
+                        "name": "emitter_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Transaction Beneficiary ID.",
+                        "name": "beneficiary_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "number",
+                        "description": "Transaction Value.",
+                        "name": "value",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -932,6 +950,126 @@ const docTemplate = `{
                         "description": "Bearer token.",
                         "name": "TOKEN",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Transaction Emitter ID.",
+                        "name": "emitter_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Transaction Beneficiary ID.",
+                        "name": "beneficiary_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "number",
+                        "description": "Transaction Value.",
+                        "name": "value",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.TransactionList"
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    }
+                }
+            }
+        },
+        "/transaction/{transaction}": {
+            "get": {
+                "description": "Get a single transaction.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "transaction"
+                ],
+                "summary": "GET",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Transaction ID.",
+                        "name": "transaction",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.TransactionList"
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    }
+                }
+            }
+        },
+        "/transaction/{transaction}/accounts": {
+            "get": {
+                "description": "Get a single transaction with your accounts.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "transaction"
+                ],
+                "summary": "LIST",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Transaction ID.",
+                        "name": "transaction",
+                        "in": "path",
                         "required": true
                     }
                 ],

@@ -791,6 +791,18 @@ paths:
         name: TOKEN
         required: true
         type: string
+      - description: Transaction Emitter ID.
+        in: query
+        name: emitter_id
+        type: integer
+      - description: Transaction Beneficiary ID.
+        in: query
+        name: beneficiary_id
+        type: integer
+      - description: Transaction Value.
+        in: query
+        name: value
+        type: number
       produces:
       - application/json
       responses:
@@ -845,6 +857,74 @@ paths:
       summary: CREATE
       tags:
       - transaction
+  /transaction/{transaction}:
+    get:
+      description: Get a single transaction.
+      parameters:
+      - description: Bearer token.
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - description: Transaction ID.
+        in: path
+        name: transaction
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.TransactionList'
+            type: array
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.HTTP'
+      summary: GET
+      tags:
+      - transaction
+  /transaction/{transaction}/accounts:
+    get:
+      description: Get a single transaction with your accounts.
+      parameters:
+      - description: Bearer token.
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - description: Transaction ID.
+        in: path
+        name: transaction
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.TransactionList'
+            type: array
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.HTTP'
+      summary: LIST
+      tags:
+      - transaction
   /transaction/accounts:
     get:
       description: List all transactions with all related accounts.
@@ -854,6 +934,18 @@ paths:
         name: TOKEN
         required: true
         type: string
+      - description: Transaction Emitter ID.
+        in: query
+        name: emitter_id
+        type: integer
+      - description: Transaction Beneficiary ID.
+        in: query
+        name: beneficiary_id
+        type: integer
+      - description: Transaction Value.
+        in: query
+        name: value
+        type: number
       produces:
       - application/json
       responses:

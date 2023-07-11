@@ -5,6 +5,7 @@ import (
 
 	"backend/internal/infra/db"
 	"backend/internal/models"
+	"backend/pkg/helpers/query"
 	"backend/pkg/helpers/structure"
 	"backend/pkg/utils/api"
 
@@ -17,10 +18,13 @@ import (
 //	@Description	List all transactions.
 //	@Tags			transaction
 //	@Produce		json
-//	@Param			TOKEN	header		string	true	"Bearer token."
-//	@Success		200		{array}		models.TransactionList
-//	@Success		204		{string}	string	"No Content"
-//	@Failure		500		{object}	models.HTTP
+//	@Param			TOKEN			header		string	true	"Bearer token."
+//	@Param			emitter_id		query		uint	false	"Transaction Emitter ID."
+//	@Param			beneficiary_id	query		uint	false	"Transaction Beneficiary ID."
+//	@Param			value			query		float64	false	"Transaction Value."
+//	@Success		200				{array}		models.TransactionList
+//	@Success		204				{string}	string	"No Content"
+//	@Failure		500				{object}	models.HTTP
 //	@Router			/transaction [get]
 func list(ctx *gin.Context) {
 
@@ -29,7 +33,12 @@ func list(ctx *gin.Context) {
 		err          error
 	)
 
-	err = db.Tx.Where("user_id", ctx.GetUint("id")).Find(&transactions).Error
+	tx := db.Tx
+
+	if query, values, paramsExists := query.Make(ctx, &models.TransactionList{}, "ID", "Emitter", "Beneficiary"); paramsExists {
+		tx = tx.Where(query, values...)
+	}
+	err = tx.Debug().Where("user_id", ctx.GetUint("id")).Find(&transactions).Error
 	if err != nil {
 		api.LogReturn(
 			ctx,
@@ -61,10 +70,13 @@ func list(ctx *gin.Context) {
 //	@Description	List all transactions with all related accounts.
 //	@Tags			transaction
 //	@Produce		json
-//	@Param			TOKEN	header		string	true	"Bearer token."
-//	@Success		200		{array}		models.TransactionList
-//	@Success		204		{string}	string	"No Content"
-//	@Failure		500		{object}	models.HTTP
+//	@Param			TOKEN			header		string	true	"Bearer token."
+//	@Param			emitter_id		query		uint	false	"Transaction Emitter ID."
+//	@Param			beneficiary_id	query		uint	false	"Transaction Beneficiary ID."
+//	@Param			value			query		float64	false	"Transaction Value."
+//	@Success		200				{array}		models.TransactionList
+//	@Success		204				{string}	string	"No Content"
+//	@Failure		500				{object}	models.HTTP
 //	@Router			/transaction/accounts [get]
 func listAccounts(ctx *gin.Context) {
 
@@ -73,8 +85,13 @@ func listAccounts(ctx *gin.Context) {
 		err          error
 	)
 
-	// err = db.Tx.Joins("Emitter").Joins("Beneficiary").Where("transactions.user_id", ctx.GetUint("id")).Find(&transactions).Error
-	err = db.Tx.Preload("Emitter").Preload("Beneficiary").Where("user_id", ctx.GetUint("id")).Find(&transactions).Error
+	tx := db.Tx
+
+	if query, values, paramsExists := query.Make(ctx, &models.TransactionList{}, "ID", "Emitter", "Beneficiary"); paramsExists {
+		tx = tx.Where(query, values...)
+	}
+	// err = tx.Joins("Emitter").Joins("Beneficiary").Where("transactions.user_id", ctx.GetUint("id")).Find(&transactions).Error
+	err = tx.Preload("Emitter").Preload("Beneficiary").Where("user_id", ctx.GetUint("id")).Find(&transactions).Error
 	if err != nil {
 		api.LogReturn(
 			ctx,
