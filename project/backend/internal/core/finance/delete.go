@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"strings"
 
+	"backend/internal/behavior/status"
+	"backend/internal/behavior/typet"
 	"backend/internal/infra/db"
 	"backend/internal/models"
 	"backend/pkg/utils/api"
@@ -66,6 +68,12 @@ func delete(ctx *gin.Context) {
 //	@Router			/finance/{finance} [delete]
 func deleteFinance(ctx *gin.Context) {
 
+	var (
+		finance *models.Finance
+		balance float64
+	)
+
+	db.Tx.First(&finance, ctx.Param("finance"))
 	if result := db.Tx.Unscoped().Where("user_id", ctx.GetUint("id")).Delete(&models.Finance{}, ctx.Param("finance")); result.Error != nil {
 		api.LogReturn(
 			ctx,
@@ -81,6 +89,28 @@ func deleteFinance(ctx *gin.Context) {
 			"no removed",
 		)
 		return
+	}
+
+	if byte(status.Completed) == *finance.StatusCode {
+		db.Tx.Table("accounts").Select("balance").Where("id", &finance.AccountID).Scan(&balance)
+		if byte(typet.Input) == *finance.TypeCode {
+			balance -= *finance.Value
+		} else if byte(typet.Output) == *finance.TypeCode {
+			balance += *finance.Value
+		} else {
+			api.Return(
+				ctx,
+				http.StatusInternalServerError,
+				"wrong account type",
+			)
+		}
+		db.Tx.Model(&models.Account{}).Where("id", &finance.AccountID).Update("balance", &balance)
+	} else {
+		api.Return(
+			ctx,
+			http.StatusInternalServerError,
+			"wrong status type",
+		)
 	}
 
 	ctx.Status(http.StatusNoContent)
