@@ -826,7 +826,11 @@ function requestNameCategory(id, callback) {
 
     var xhr = new XMLHttpRequest();
 
-    xhr.open('GET', `http://localhost:9999/api/v0/category/${id}`);
+    if(id >= 6) {
+        xhr.open('GET', `http://localhost:9999/api/v0/category/${id}`);
+    } else {
+        xhr.open('GET', `http://localhost:9999/api/v0/category/default/${id}`);
+    }
 
     xhr.setRequestHeader('Token', `Bearer ${token}`);
 
