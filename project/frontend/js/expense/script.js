@@ -308,7 +308,7 @@ function generateTableOperation(account_id, category_id, status_id, type_id, id,
 function fillModalUpdateRevenue(id, type, value, status, date, description, category, account) {
     $("#update-id").val(id);
     $("#update-input-type-operation").val(type);
-    $("#update-input-value-operation").val(value);
+    $("#update-input-value-operation").val(formatValueMonetary(value));
     $("#update-input-date-operation").val(converterFormatoData(date));
     $("#update-input-description-operation").val(description);
     $("#update-input-category-operation").val(category);
@@ -813,7 +813,11 @@ function requestNameCategory(id, callback) {
 
     var xhr = new XMLHttpRequest();
 
-    xhr.open('GET', `http://localhost:9999/api/v0/category/${id}`);
+    if(id >= 6) {
+        xhr.open('GET', `http://localhost:9999/api/v0/category/${id}`);
+    } else {
+        xhr.open('GET', `http://localhost:9999/api/v0/category/default/${id}`);
+    }
 
     xhr.setRequestHeader('Token', `Bearer ${token}`);
 
