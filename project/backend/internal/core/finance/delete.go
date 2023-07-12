@@ -105,12 +105,6 @@ func deleteFinance(ctx *gin.Context) {
 			)
 		}
 		db.Tx.Model(&models.Account{}).Where("id", &finance.AccountID).Update("balance", &balance)
-	} else {
-		api.Return(
-			ctx,
-			http.StatusInternalServerError,
-			"wrong status type",
-		)
 	}
 
 	ctx.Status(http.StatusNoContent)
