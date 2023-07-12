@@ -30,10 +30,7 @@ import (
 //	@Router			/transaction [get]
 func list(ctx *gin.Context) {
 
-	var (
-		transactions []*models.Transaction
-		err          error
-	)
+	var transactions []*models.Transaction
 
 	tx := db.Tx
 
@@ -43,7 +40,7 @@ func list(ctx *gin.Context) {
 	if query, values, paramsExists := query.Make(ctx, &models.TransactionList{}, "ID", "Emitter", "Beneficiary"); paramsExists {
 		tx = tx.Where(query, values...)
 	}
-	if err = tx.Where("user_id", ctx.GetUint("id")).Find(&transactions).Error; err != nil {
+	if err := tx.Where("user_id", ctx.GetUint("id")).Find(&transactions).Error; err != nil {
 		api.LogReturn(
 			ctx,
 			http.StatusInternalServerError,
@@ -85,10 +82,7 @@ func list(ctx *gin.Context) {
 //	@Router			/transaction/accounts [get]
 func listAccounts(ctx *gin.Context) {
 
-	var (
-		transactions []*models.Transaction
-		err          error
-	)
+	var transactions []*models.Transaction
 
 	tx := db.Tx
 
@@ -98,8 +92,8 @@ func listAccounts(ctx *gin.Context) {
 	if query, values, paramsExists := query.Make(ctx, &models.TransactionList{}, "ID", "Emitter", "Beneficiary"); paramsExists {
 		tx = tx.Where(query, values...)
 	}
-	// err = tx.Joins("Emitter").Joins("Beneficiary").Where("transactions.user_id", ctx.GetUint("id")).Find(&transactions).Error
-	if err = tx.Preload("Emitter").Preload("Beneficiary").Where("user_id", ctx.GetUint("id")).Find(&transactions).Error; err != nil {
+	// err := tx.Joins("Emitter").Joins("Beneficiary").Where("transactions.user_id", ctx.GetUint("id")).Find(&transactions).Error
+	if err := tx.Preload("Emitter").Preload("Beneficiary").Where("user_id", ctx.GetUint("id")).Find(&transactions).Error; err != nil {
 		api.LogReturn(
 			ctx,
 			http.StatusInternalServerError,

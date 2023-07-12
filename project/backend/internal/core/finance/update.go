@@ -31,7 +31,6 @@ func update(ctx *gin.Context) {
 	var (
 		financeUpdate *models.FinanceUpdate
 		finance       *models.Finance
-		err           error
 	)
 
 	if err := ctx.ShouldBindJSON(&financeUpdate); err != nil {
@@ -44,7 +43,7 @@ func update(ctx *gin.Context) {
 		return
 	}
 
-	if err = db.Tx.Model(&models.Finance{}).Where("id = ? AND user_id = ?", ctx.Param("finance"), ctx.GetUint("id")).Updates(structure.Map(&financeUpdate)).Error; err != nil {
+	if err := db.Tx.Model(&models.Finance{}).Where("id = ? AND user_id = ?", ctx.Param("finance"), ctx.GetUint("id")).Updates(structure.Map(&financeUpdate)).Error; err != nil {
 		api.LogReturn(
 			ctx,
 			http.StatusInternalServerError,

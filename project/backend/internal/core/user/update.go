@@ -26,10 +26,7 @@ import (
 //	@Router			/user [patch]
 func update(ctx *gin.Context) {
 
-	var (
-		userUpdate *models.UserUpdate
-		err        error
-	)
+	var userUpdate *models.UserUpdate
 
 	if err := ctx.ShouldBindJSON(&userUpdate); err != nil {
 		api.LogReturn(
@@ -41,7 +38,7 @@ func update(ctx *gin.Context) {
 		return
 	}
 
-	if err = db.Tx.Model(&models.User{}).Where("id", ctx.GetUint("id")).Updates(structure.Map(&userUpdate)).Error; err != nil {
+	if err := db.Tx.Model(&models.User{}).Where("id", ctx.GetUint("id")).Updates(structure.Map(&userUpdate)).Error; err != nil {
 
 		code := http.StatusConflict
 		message := http.StatusText(http.StatusInternalServerError)

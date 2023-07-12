@@ -27,14 +27,11 @@ import (
 //	@Router			/transaction/{transaction} [get]
 func get(ctx *gin.Context) {
 
-	var (
-		transaction *models.Transaction
-		err         error
-	)
+	var transaction *models.Transaction
 
 	transactionList := &models.TransactionList{}
 
-	if err = db.Tx.Where("user_id", ctx.GetUint("id")).First(&transaction, ctx.Param("transaction")).Error; err != nil {
+	if err := db.Tx.Where("user_id", ctx.GetUint("id")).First(&transaction, ctx.Param("transaction")).Error; err != nil {
 
 		code := http.StatusInternalServerError
 		message := http.StatusText(http.StatusInternalServerError)
@@ -73,17 +70,14 @@ func get(ctx *gin.Context) {
 //	@Router			/transaction/{transaction}/accounts [get]
 func getAccounts(ctx *gin.Context) {
 
-	var (
-		transaction *models.Transaction
-		err         error
-	)
+	var transaction *models.Transaction
 
 	transactionList := &models.TransactionList{
 		Emitter:     &models.AccountList{},
 		Beneficiary: &models.AccountList{},
 	}
 
-	if err = db.Tx.Preload("Emitter").Preload("Beneficiary").Where("user_id", ctx.GetUint("id")).First(&transaction, ctx.Param("transaction")).Error; err != nil {
+	if err := db.Tx.Preload("Emitter").Preload("Beneficiary").Where("user_id", ctx.GetUint("id")).First(&transaction, ctx.Param("transaction")).Error; err != nil {
 
 		code := http.StatusInternalServerError
 		message := http.StatusText(http.StatusInternalServerError)

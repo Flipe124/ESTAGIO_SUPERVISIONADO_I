@@ -26,10 +26,7 @@ import (
 //	@Router			/account/{account} [patch]
 func update(ctx *gin.Context) {
 
-	var (
-		accountUpdate *models.AccountUpdate
-		err           error
-	)
+	var accountUpdate *models.AccountUpdate
 
 	if err := ctx.ShouldBindJSON(&accountUpdate); err != nil {
 		api.LogReturn(
@@ -41,7 +38,7 @@ func update(ctx *gin.Context) {
 		return
 	}
 
-	if err = db.Tx.Model(&models.Account{}).Where("id = ? AND user_id = ?", ctx.Param("account"), ctx.GetUint("id")).Updates(structure.Map(&accountUpdate)).Error; err != nil {
+	if err := db.Tx.Model(&models.Account{}).Where("id = ? AND user_id = ?", ctx.Param("account"), ctx.GetUint("id")).Updates(structure.Map(&accountUpdate)).Error; err != nil {
 		api.LogReturn(
 			ctx,
 			http.StatusInternalServerError,

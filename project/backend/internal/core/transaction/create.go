@@ -69,7 +69,7 @@ func create(ctx *gin.Context) {
 			http.StatusBadRequest,
 			"excedent transaction value",
 		)
-		db.Tx.Unscoped().Where("user_id", ctx.GetUint("id")).Delete(&transaction, transaction.ID)
+		db.Tx.Unscoped().Where("user_id", ctx.GetUint("id")).Delete(&transaction)
 		return
 	}
 	EmitterValue -= *transaction.Value
@@ -80,8 +80,6 @@ func create(ctx *gin.Context) {
 	db.Tx.Model(&models.Account{}).Where("id", &transaction.BeneficiaryID).Update("balance", &BeneficiaryValue)
 
 	structure.Assign(transaction, transactionList, "Emitter", "Beneficiary")
-	structure.Assign(transaction.Emitter, transactionList.Emitter, "Emitter", "Beneficiary")
-	structure.Assign(transaction.Beneficiary, transactionList.Beneficiary, "Emitter", "Beneficiary")
 
 	ctx.JSON(http.StatusCreated, transactionList)
 

@@ -718,7 +718,7 @@ paths:
       summary: UPDATE
       tags:
       - category
-  /default:
+  /category/default:
     get:
       description: List the default categories.
       parameters:
@@ -740,6 +740,40 @@ paths:
           description: No Content
           schema:
             type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.HTTP'
+      summary: DEFAULT
+      tags:
+      - category
+  /category/default/{default}:
+    get:
+      description: List a single default category from ID.
+      parameters:
+      - description: Bearer token.
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - description: Default category ID.
+        in: path
+        name: default
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.CategoryList'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.HTTP'
         "500":
           description: Internal Server Error
           schema:

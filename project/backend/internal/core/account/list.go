@@ -29,10 +29,7 @@ import (
 //	@Router			/account [get]
 func list(ctx *gin.Context) {
 
-	var (
-		accounts []*models.Account
-		err      error
-	)
+	var accounts []*models.Account
 
 	tx := db.Tx
 
@@ -42,7 +39,7 @@ func list(ctx *gin.Context) {
 	if query, values, paramsExists := query.Make(ctx, &models.AccountList{}, "ID"); paramsExists {
 		tx = tx.Where(query, values...)
 	}
-	if err = tx.Where("user_id", ctx.GetUint("id")).Find(&accounts).Error; err != nil {
+	if err := tx.Where("user_id", ctx.GetUint("id")).Find(&accounts).Error; err != nil {
 		api.LogReturn(
 			ctx,
 			http.StatusInternalServerError,

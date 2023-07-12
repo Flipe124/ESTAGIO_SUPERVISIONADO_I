@@ -26,10 +26,7 @@ import (
 //	@Router			/category/{category} [patch]
 func update(ctx *gin.Context) {
 
-	var (
-		categoryUpdate *models.CategoryUpdate
-		err            error
-	)
+	var categoryUpdate *models.CategoryUpdate
 
 	if err := ctx.ShouldBindJSON(&categoryUpdate); err != nil {
 		api.LogReturn(
@@ -41,7 +38,7 @@ func update(ctx *gin.Context) {
 		return
 	}
 
-	if err = db.Tx.Model(&models.Category{}).Where("id = ? AND user_id = ?", ctx.Param("category"), ctx.GetUint("id")).Updates(structure.Map(&categoryUpdate)).Error; err != nil {
+	if err := db.Tx.Model(&models.Category{}).Where("id = ? AND user_id = ?", ctx.Param("category"), ctx.GetUint("id")).Updates(structure.Map(&categoryUpdate)).Error; err != nil {
 		api.LogReturn(
 			ctx,
 			http.StatusInternalServerError,
