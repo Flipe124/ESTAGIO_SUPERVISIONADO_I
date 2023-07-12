@@ -7,7 +7,7 @@ $("#button-new-expense").on("click", function () {
     $(`#create-input-category-operation`).html("");
     $(`#create-input-account-operation`).html("");
 
-    requestListCategory("create");
+    requestListCategoryDefault("create");
     requestListAccount("create");
 
     var meuInput = document.getElementById('create-input-value-operation');
@@ -22,7 +22,7 @@ $(document).on('click', '.result', function () {
     $(`#update-input-category-operation`).html("");
     $(`#update-input-account-operation`).html("");
 
-    requestListCategory("update", $(this).data("category-id"));
+    requestListCategoryDefault("update", $(this).data("category-id"));
     requestListAccount("update", $(this).data("account-id"));
 
     fillModalUpdateRevenue($(this).data("id"), $(this).data("type"), $(this).data("value"), $(this).data("status"), $(this).data("date"), $(this).data("description"), $(this).data("category"), $(this).data("account"));
@@ -658,6 +658,50 @@ function requestListExpense() {
 
         } else if (xhr.status === 204) {
             console.log("Sem receitas registradas!");
+
+        } else {
+            connect_success = false;
+
+            var objMessage = JSON.parse(xhr.responseText);
+
+            var code = objMessage.code;
+            var msg = objMessage.error;
+
+            showModalMessage("bg-danger", "ERRO", msg, code);
+
+            return connect_success
+        }
+    };
+
+    xhr.send();
+};
+
+function requestListCategoryDefault(form, category) {
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', 'http://localhost:9999/api/v0/category/default/');
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var resposta = JSON.parse(xhr.responseText);
+
+            for (var i = 0; i < resposta.length; i++) {
+                fillSelectCategory(resposta[i].id, resposta[i].name, resposta[i].icon, form)
+                $("#update-input-category-operation").val(category);
+            }
+
+            requestListCategory(form, category);
+
+        } else if (xhr.status === 204) {
+            console.log("Sem categorias registradas!");
 
         } else {
             connect_success = false;
