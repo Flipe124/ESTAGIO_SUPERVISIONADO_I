@@ -11,13 +11,23 @@
                     <div class="fs-3"><b>Relatórios</b></div>
                 </div>
             </div>
-            <div class="col-md-12">
-                <button class="btn btn-primary mt-1" id="button-generate-report-balance" style="width: 315px">Gerar relatório de saldo</button>
-                <button class="btn btn-secondary mt-1" id="button-generate-report-transfer" style="width: 315px">Gerar relatório de tranferências</button>
-                <button class="btn btn-success mt-1" id="button-generate-report-revenue" style="width: 315px">Gerar relatório de receita</button>
-                <button class="btn btn-success mt-1" id="button-generate-report-revenue-for-category" style="width: 315px">Gerar relatório de receitas por categoria</button>
-                <button class="btn btn-danger mt-1" id="button-generate-report-expense" style="width: 315px">Gerar relatório de despesas</button>
-                <button class="btn btn-danger mt-1" id="button-generate-report-expense-for-category" style="width: 315px">Gerar relatório de despesa por categoria</button>
+            <div class="col-md-12 mt-3">
+                <h5><i class="fas fa-chevron-circle-up"></i> Receita</h5>
+                <button class="btn btn-success mt-1" id="button-generate-report-revenue" style="width: 200px">Receitas</button>
+                <button class="btn btn-success mt-1" id="button-generate-report-revenue-for-category" style="width: 200px">Receitas por categoria</button>
+            </div>
+            <div class="col-md-12 mt-3">
+                <h5><i class="fas fa-chevron-circle-down"></i> Despesa</h5>
+                <button class="btn btn-danger mt-1" id="button-generate-report-expense" style="width: 200px">Despesas</button>
+                <button class="btn btn-danger mt-1" id="button-generate-report-expense-for-category" style="width: 200px">Despesa por categoria</button>
+            </div>
+            <div class="col-md-12 mt-3">
+                <h5><i class="fas fa-exchange-alt"></i> Tranferências</h5>
+                <button class="btn btn-secondary mt-1" id="button-generate-report-transfer" style="width: 200px">Tranferências</button>
+            </div>
+            <div class="col-md-12 mt-3">
+                <h5><i class="fa-solid fa-building-columns"></i> Saldo</h5>
+                <button class="btn btn-primary mt-1" id="button-generate-report-balance" style="width: 200px">Saldo por contas</button>
             </div>
         </div>
     </div>
