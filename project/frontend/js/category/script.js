@@ -414,8 +414,6 @@ function requestListCategoryDefault() {
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
 
-    console.log(token)
-
     var connect_success = true;
 
     var xhr = new XMLHttpRequest();
@@ -456,8 +454,6 @@ function requestListCategory() {
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
-
-    console.log(token)
 
     var connect_success = true;
 
