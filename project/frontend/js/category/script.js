@@ -1,4 +1,4 @@
-requestListAccount();
+requestListCategoryDefault();
 
 // BUTTONS
 $('#button-new-category').on('click', function () {
@@ -176,6 +176,21 @@ function showModalMessage(backgroundTitle, title, message, code) {
 function ordenarTabela(coluna) {
     var tabela = $('#table-category').DataTable();
     tabela.order([coluna, tabela.order()[0][1]]).draw();
+}
+
+function fillTableCategoryDefault(id, name, icon) {
+    category =
+        `
+        <tr class="result-table-category text-start">
+            <td class="ps-3">${name}</td>
+            <td class="text-center">
+            <button class="btn btn-danger button-delete-category" disabled><i class="fa-solid fa-trash"></i></button>
+            <button class="btn btn-primary button-update-category" disabled><i class="fa-solid fa-pen"></i></button>
+            </td>
+        </tr>
+        `
+
+    $("#table-category tbody").append(category);
 }
 
 function fillTableCategory(id, name, icon) {
@@ -394,10 +409,55 @@ function requestDeleteCategory() {
     return connect_success
 };
 
-function requestListAccount() {
+function requestListCategoryDefault() {
     var accessToken = sessionStorage.getItem('accessToken');
     var objeto = JSON.parse(accessToken);
     token = objeto.token;
+
+    console.log(token)
+
+    var connect_success = true;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', 'http://localhost:9999/api/v0/category/default/');
+
+    xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var resposta = JSON.parse(xhr.responseText);
+
+            for (var i = 0; i < resposta.length; i++) {
+                fillTableCategoryDefault(resposta[i].id, resposta[i].name, resposta[i].icon);
+            }
+            requestListCategory();
+        } else if (xhr.status === 204) {
+            console.log("Sem categorias registradas!");
+
+        } else {
+            connect_success = false;
+
+            var objMessage = JSON.parse(xhr.responseText);
+
+            var code = objMessage.code;
+            var msg = objMessage.error;
+
+            showModalMessage("bg-danger", "ERRO", msg, code);
+
+            return connect_success
+        }
+    };
+
+    xhr.send();
+};
+
+function requestListCategory() {
+    var accessToken = sessionStorage.getItem('accessToken');
+    var objeto = JSON.parse(accessToken);
+    token = objeto.token;
+
+    console.log(token)
 
     var connect_success = true;
 
