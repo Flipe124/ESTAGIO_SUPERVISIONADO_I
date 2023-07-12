@@ -13,6 +13,10 @@ func init() {
 			list,
 		)
 		category.GET(
+			"/default/",
+			listDefault,
+		)
+		category.GET(
 			"/:category",
 			get,
 		)
@@ -25,8 +29,12 @@ func init() {
 			update,
 		)
 		category.DELETE(
-			"/:category",
+			"/",
 			delete,
+		)
+		category.DELETE(
+			"/:category",
+			deleteCategory,
 		)
 	}
 }

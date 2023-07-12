@@ -40,9 +40,8 @@ func update(ctx *gin.Context) {
 		)
 		return
 	}
-	err = db.Tx.Model(&models.User{}).Where("id", ctx.GetUint("id")).Updates(structure.Map(&userUpdate)).Error
 
-	if err != nil {
+	if err = db.Tx.Model(&models.User{}).Where("id", ctx.GetUint("id")).Updates(structure.Map(&userUpdate)).Error; err != nil {
 
 		code := http.StatusConflict
 		message := http.StatusText(http.StatusInternalServerError)

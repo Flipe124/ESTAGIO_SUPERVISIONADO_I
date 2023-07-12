@@ -41,8 +41,7 @@ func update(ctx *gin.Context) {
 		return
 	}
 
-	err = db.Tx.Model(&models.Account{}).Where("id = ? AND user_id = ?", ctx.Param("account"), ctx.GetUint("id")).Updates(structure.Map(&accountUpdate)).Error
-	if err != nil {
+	if err = db.Tx.Model(&models.Account{}).Where("id = ? AND user_id = ?", ctx.Param("account"), ctx.GetUint("id")).Updates(structure.Map(&accountUpdate)).Error; err != nil {
 		api.LogReturn(
 			ctx,
 			http.StatusInternalServerError,

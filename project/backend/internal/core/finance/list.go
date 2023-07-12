@@ -47,8 +47,7 @@ func list(ctx *gin.Context) {
 	if query, values, paramsExists := query.Make(ctx, &models.FinanceList{}, "ID"); paramsExists {
 		tx = tx.Where(query, values...)
 	}
-	err = tx.Where("user_id", ctx.GetUint("id")).Find(&finances).Error
-	if err != nil {
+	if err = tx.Where("user_id", ctx.GetUint("id")).Find(&finances).Error; err != nil {
 		api.LogReturn(
 			ctx,
 			http.StatusInternalServerError,

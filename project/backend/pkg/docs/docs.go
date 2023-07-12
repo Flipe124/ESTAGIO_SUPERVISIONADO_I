@@ -135,6 +135,52 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "description": "Delete many or all accounts.",
+                "tags": [
+                    "account"
+                ],
+                "summary": "DELETE",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Account ID's.",
+                        "name": "accounts",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    }
+                }
             }
         },
         "/account/{account}": {
@@ -207,6 +253,12 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
+                    "0": {
+                        "description": "No Removed (-1)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     "204": {
                         "description": "No Content",
                         "schema": {
@@ -480,6 +532,52 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "description": "Delete many or all categories.",
+                "tags": [
+                    "category"
+                ],
+                "summary": "DELETE",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Category ID's.",
+                        "name": "categories",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    }
+                }
             }
         },
         "/category/{category}": {
@@ -552,6 +650,12 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
+                    "0": {
+                        "description": "No Removed (-1)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     "204": {
                         "description": "No Content",
                         "schema": {
@@ -611,6 +715,50 @@ const docTemplate = `{
                         "description": "Unprocessable Entity",
                         "schema": {
                             "$ref": "#/definitions/models.HTTP"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    }
+                }
+            }
+        },
+        "/default": {
+            "get": {
+                "description": "List the default categories.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "category"
+                ],
+                "summary": "DEFAULT",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.CategoryList"
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
                         }
                     },
                     "500": {
@@ -761,6 +909,52 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "description": "Delete many or all finances.",
+                "tags": [
+                    "finance"
+                ],
+                "summary": "DELETE",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token.",
+                        "name": "TOKEN",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "Finance ID's.",
+                        "name": "finances",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    }
+                }
             }
         },
         "/finance/{finance}": {
@@ -833,6 +1027,12 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
+                    "0": {
+                        "description": "No Removed (-1)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     "204": {
                         "description": "No Content",
                         "schema": {
