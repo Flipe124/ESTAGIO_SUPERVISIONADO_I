@@ -1249,6 +1249,12 @@ const docTemplate = `{
                             "$ref": "#/definitions/models.TransactionList"
                         }
                     },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.HTTP"
+                        }
+                    },
                     "422": {
                         "description": "Unprocessable Entity",
                         "schema": {
