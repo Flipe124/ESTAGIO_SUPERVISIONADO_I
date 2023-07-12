@@ -153,10 +153,8 @@ function generateTableOperation(account_id, category_id, status_id, type_id, id,
         text_type = "text-danger";
     }
 
-    console.log("ID " + category_id)
-
     requestNameAccount(account_id, function (accountName) {
-    requestNameCategory(category_id, function (categoryName) {
+        requestNameCategory(category_id, function (categoryName) {
             result.innerHTML +=
                 `<div class="result filter-preset-1" data-id="${id}" data-type="${type}" data-value="${value}" data-status="${statusOp}" data-date="${formatData(datetime)}" data-description="${description}" data-category="${categoryName}" data-category-id=${category_id} data-account="${account}" data-account-id=${account_id} >
                 <span class="icon-category">
@@ -175,9 +173,6 @@ function generateTableOperation(account_id, category_id, status_id, type_id, id,
                     <b class="text-value">${formatValueMonetary(revenue)}</b> <span class="status mb-1 ms-1"><i class="fas fa-check-circle ${text_type}"></i></span>
                 </div>
             </div>`
-            console.log("CATEGORIA " + categoryName)
-            console.log("CONTA " + accountName)
-            console.log("ID dentro " + category_id)
         });
     });
 }
@@ -838,36 +833,40 @@ function requestListAccount(form, account) {
 };
 
 function requestNameCategory(id, callback) {
-    var accessToken = sessionStorage.getItem('accessToken');
-    var objeto = JSON.parse(accessToken);
-    token = objeto.token;
+        var accessToken = sessionStorage.getItem('accessToken');
+        var objeto = JSON.parse(accessToken);
+        token = objeto.token;
 
-    var connect_success = true;
+        var connect_success = true;
 
-    var xhr = new XMLHttpRequest();
+        var xhr = new XMLHttpRequest();
 
-    xhr.open('GET', `http://localhost:9999/api/v0/category/${id}`);
-
-    xhr.setRequestHeader('Token', `Bearer ${token}`);
-
-    xhr.onload = function () {
-        if (xhr.status === 200 || xhr.status === 201) {
-            var resposta = JSON.parse(xhr.responseText);
-            var name = resposta.name;
-
-            callback(name);
-
-        } else if (xhr.status === 204) {
-            console.log("vazio");
-            callback(null);
-
+        if(id >= 6) {
+            xhr.open('GET', `http://localhost:9999/api/v0/category/${id}`);
         } else {
-            connect_success = false;
-            callback(connect_success);
+            xhr.open('GET', `http://localhost:9999/api/v0/category/default/${id}`);
         }
-    };
 
-    xhr.send();
+        xhr.setRequestHeader('Token', `Bearer ${token}`);
+
+        xhr.onload = function () {
+            if (xhr.status === 200 || xhr.status === 201) {
+                var resposta = JSON.parse(xhr.responseText);
+                var name = resposta.name;
+
+                callback(name);
+
+            } else if (xhr.status === 204) {
+                console.log("vazio");
+                callback(null);
+
+            } else {
+                connect_success = false;
+                callback(connect_success);
+            }
+        };
+
+        xhr.send();
 }
 
 function requestNameAccount(id, callback) {
