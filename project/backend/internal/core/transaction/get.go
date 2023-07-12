@@ -34,8 +34,7 @@ func get(ctx *gin.Context) {
 
 	transactionList := &models.TransactionList{}
 
-	err = db.Tx.Where("user_id", ctx.GetUint("id")).First(&transaction, ctx.Param("transaction")).Error
-	if err != nil {
+	if err = db.Tx.Where("user_id", ctx.GetUint("id")).First(&transaction, ctx.Param("transaction")).Error; err != nil {
 
 		code := http.StatusInternalServerError
 		message := http.StatusText(http.StatusInternalServerError)
@@ -84,13 +83,7 @@ func getAccounts(ctx *gin.Context) {
 		Beneficiary: &models.AccountList{},
 	}
 
-	err = db.Tx.
-		Preload("Emitter").
-		Preload("Beneficiary").
-		Where("user_id", ctx.GetUint("id")).
-		First(&transaction, ctx.Param("transaction")).
-		Error
-	if err != nil {
+	if err = db.Tx.Preload("Emitter").Preload("Beneficiary").Where("user_id", ctx.GetUint("id")).First(&transaction, ctx.Param("transaction")).Error; err != nil {
 
 		code := http.StatusInternalServerError
 		message := http.StatusText(http.StatusInternalServerError)

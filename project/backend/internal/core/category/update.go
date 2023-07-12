@@ -40,9 +40,8 @@ func update(ctx *gin.Context) {
 		)
 		return
 	}
-	err = db.Tx.Model(&models.Category{}).Where("id = ? AND user_id = ?", ctx.Param("category"), ctx.GetUint("id")).Updates(structure.Map(&categoryUpdate)).Error
 
-	if err != nil {
+	if err = db.Tx.Model(&models.Category{}).Where("id = ? AND user_id = ?", ctx.Param("category"), ctx.GetUint("id")).Updates(structure.Map(&categoryUpdate)).Error; err != nil {
 		api.LogReturn(
 			ctx,
 			http.StatusInternalServerError,

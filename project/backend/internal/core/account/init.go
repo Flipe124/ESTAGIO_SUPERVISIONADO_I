@@ -25,8 +25,12 @@ func init() {
 			update,
 		)
 		account.DELETE(
-			"/:account",
+			"/",
 			delete,
+		)
+		account.DELETE(
+			"/:account",
+			deleteAccount,
 		)
 	}
 }

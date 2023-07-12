@@ -247,6 +247,37 @@ info:
   version: 0.0.0
 paths:
   /account:
+    delete:
+      description: Delete many or all accounts.
+      parameters:
+      - description: Bearer token.
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - collectionFormat: csv
+        description: Account ID's.
+        in: query
+        items:
+          type: integer
+        name: accounts
+        type: array
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.HTTP'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.HTTP'
+      summary: DELETE
+      tags:
+      - account
     get:
       description: List all accounts.
       parameters:
@@ -339,6 +370,10 @@ paths:
         required: true
         type: integer
       responses:
+        "0":
+          description: No Removed (-1)
+          schema:
+            type: string
         "204":
           description: No Content
           schema:
@@ -481,6 +516,37 @@ paths:
       tags:
       - auth
   /category:
+    delete:
+      description: Delete many or all categories.
+      parameters:
+      - description: Bearer token.
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - collectionFormat: csv
+        description: Category ID's.
+        in: query
+        items:
+          type: integer
+        name: categories
+        type: array
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.HTTP'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.HTTP'
+      summary: DELETE
+      tags:
+      - category
     get:
       description: List all categories.
       parameters:
@@ -569,6 +635,10 @@ paths:
         required: true
         type: integer
       responses:
+        "0":
+          description: No Removed (-1)
+          schema:
+            type: string
         "204":
           description: No Content
           schema:
@@ -648,7 +718,67 @@ paths:
       summary: UPDATE
       tags:
       - category
+  /default:
+    get:
+      description: List the default categories.
+      parameters:
+      - description: Bearer token.
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.CategoryList'
+            type: array
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.HTTP'
+      summary: DEFAULT
+      tags:
+      - category
   /finance:
+    delete:
+      description: Delete many or all finances.
+      parameters:
+      - description: Bearer token.
+        in: header
+        name: TOKEN
+        required: true
+        type: string
+      - collectionFormat: csv
+        description: Finance ID's.
+        in: query
+        items:
+          type: integer
+        name: finances
+        type: array
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.HTTP'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.HTTP'
+      summary: DELETE
+      tags:
+      - finance
     get:
       description: List all finances.
       parameters:
@@ -759,6 +889,10 @@ paths:
         required: true
         type: integer
       responses:
+        "0":
+          description: No Removed (-1)
+          schema:
+            type: string
         "204":
           description: No Content
           schema:

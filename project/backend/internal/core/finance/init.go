@@ -25,8 +25,12 @@ func init() {
 			update,
 		)
 		finance.DELETE(
-			"/:finance",
+			"/",
 			delete,
+		)
+		finance.DELETE(
+			"/:finance",
+			deleteFinance,
 		)
 	}
 }

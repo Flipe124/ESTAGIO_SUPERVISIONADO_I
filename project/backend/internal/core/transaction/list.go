@@ -43,8 +43,7 @@ func list(ctx *gin.Context) {
 	if query, values, paramsExists := query.Make(ctx, &models.TransactionList{}, "ID", "Emitter", "Beneficiary"); paramsExists {
 		tx = tx.Where(query, values...)
 	}
-	err = tx.Where("user_id", ctx.GetUint("id")).Find(&transactions).Error
-	if err != nil {
+	if err = tx.Where("user_id", ctx.GetUint("id")).Find(&transactions).Error; err != nil {
 		api.LogReturn(
 			ctx,
 			http.StatusInternalServerError,
@@ -100,8 +99,7 @@ func listAccounts(ctx *gin.Context) {
 		tx = tx.Where(query, values...)
 	}
 	// err = tx.Joins("Emitter").Joins("Beneficiary").Where("transactions.user_id", ctx.GetUint("id")).Find(&transactions).Error
-	err = tx.Preload("Emitter").Preload("Beneficiary").Where("user_id", ctx.GetUint("id")).Find(&transactions).Error
-	if err != nil {
+	if err = tx.Preload("Emitter").Preload("Beneficiary").Where("user_id", ctx.GetUint("id")).Find(&transactions).Error; err != nil {
 		api.LogReturn(
 			ctx,
 			http.StatusInternalServerError,
