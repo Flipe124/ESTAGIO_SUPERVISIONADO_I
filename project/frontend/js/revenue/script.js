@@ -236,24 +236,6 @@ function formatValueInput(input) {
     input.value = 'R$ ' + parteInteira + ',' + parteDecimal;
 }
 
-function formatValue(valor) {
-    var valor = valor.replace(/\D/g, '');
-
-    var valor = (valor / 100).toFixed(2);
-
-    var partes = valor.split('.');
-    var parteInteira = partes[0];
-    var parteDecimal = partes[1];
-
-    parteInteira = parteInteira.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-
-    if (parteDecimal === '00') {
-        parteDecimal = '00';
-    }
-
-    return 'R$ ' + parteInteira + ',' + parteDecimal;
-}
-
 function formatValueOniput(input) {
     var value = input.value.replace(/\D/g, '');
 
@@ -284,7 +266,7 @@ function blockInsertDateManual() {
 function fillModalUpdateRevenue(id, type, value, status, date, description, category, account) {
     $("#update-id").val(id);
     $("#update-input-type-operation").val(type);
-    $("#update-input-value-operation").val(value);
+    $("#update-input-value-operation").val(formatValueMonetary(value));
     $("#update-input-date-operation").val(converterFormatoData(date));
     $("#update-input-description-operation").val(description);
     $("#update-input-category-operation").val(category);
