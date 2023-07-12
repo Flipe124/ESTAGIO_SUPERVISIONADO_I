@@ -30,7 +30,8 @@ func update(ctx *gin.Context) {
 
 	var (
 		financeUpdate *models.FinanceUpdate
-		finance       *models.Finance
+		financeOld    *models.Finance
+		financeNew    *models.Finance
 	)
 
 	if err := ctx.ShouldBindJSON(&financeUpdate); err != nil {
@@ -43,6 +44,7 @@ func update(ctx *gin.Context) {
 		return
 	}
 
+	db.Tx.First(&financeOld, ctx.Param("finance"))
 	if err := db.Tx.Model(&models.Finance{}).Where("id = ? AND user_id = ?", ctx.Param("finance"), ctx.GetUint("id")).Updates(structure.Map(&financeUpdate)).Error; err != nil {
 		api.LogReturn(
 			ctx,
@@ -53,22 +55,43 @@ func update(ctx *gin.Context) {
 		return
 	}
 
-	db.Tx.First(&finance, ctx.Param("finance"))
-	if byte(status.Completed) == *finance.StatusCode {
+	// Create sessions for each update case.
+	db.Tx.First(&financeNew, ctx.Param("finance"))
+	if *financeOld.StatusCode != *financeNew.StatusCode {
 		var balance float64
-		db.Tx.Table("accounts").Select("balance").Where("id", &finance.AccountID).Scan(&balance)
-		if byte(typet.Input) == *finance.TypeCode {
-			balance += *finance.Value
-		} else if byte(typet.Output) == *finance.TypeCode {
-			balance -= *finance.Value
+		db.Tx.Table("accounts").Select("balance").Where("id", &financeNew.AccountID).Scan(&balance)
+		if byte(typet.Input) == *financeNew.TypeCode {
+			if byte(status.Completed) == *financeNew.StatusCode {
+				balance += *financeNew.Value
+			} else if byte(status.Pending) == *financeNew.StatusCode {
+				balance -= *financeNew.Value
+			} else {
+				api.Return(
+					ctx,
+					http.StatusInternalServerError,
+					"wrong status type",
+				)
+			}
+		} else if byte(typet.Output) == *financeNew.TypeCode {
+			if byte(status.Completed) == *financeNew.StatusCode {
+				balance -= *financeNew.Value
+			} else if byte(status.Pending) == *financeNew.StatusCode {
+				balance += *financeNew.Value
+			} else {
+				api.Return(
+					ctx,
+					http.StatusInternalServerError,
+					"wrong status type",
+				)
+			}
 		} else {
 			api.Return(
 				ctx,
-				http.StatusBadRequest,
+				http.StatusInternalServerError,
 				"wrong account type",
 			)
 		}
-		db.Tx.Model(&models.Account{}).Where("id", &finance.AccountID).Update("balance", &balance)
+		db.Tx.Model(&models.Account{}).Where("id", &financeNew.AccountID).Update("balance", &balance)
 	}
 
 	ctx.Status(http.StatusNoContent)
