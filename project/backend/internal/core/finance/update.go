@@ -32,6 +32,7 @@ func update(ctx *gin.Context) {
 		financeUpdate *models.FinanceUpdate
 		financeOld    *models.Finance
 		financeNew    *models.Finance
+		balance       float64
 	)
 
 	if err := ctx.ShouldBindJSON(&financeUpdate); err != nil {
@@ -54,44 +55,75 @@ func update(ctx *gin.Context) {
 		)
 		return
 	}
-
-	// Create sessions for each update case.
 	db.Tx.First(&financeNew, ctx.Param("finance"))
-	if *financeOld.StatusCode != *financeNew.StatusCode {
-		var balance float64
-		db.Tx.Table("accounts").Select("balance").Where("id", &financeNew.AccountID).Scan(&balance)
-		if byte(typet.Input) == *financeNew.TypeCode {
-			if byte(status.Completed) == *financeNew.StatusCode {
-				balance += *financeNew.Value
-			} else if byte(status.Pending) == *financeNew.StatusCode {
-				balance -= *financeNew.Value
+
+	if *financeOld.AccountID != *financeNew.AccountID {
+		if byte(status.Completed) == *financeOld.StatusCode {
+			db.Tx.Table("accounts").Select("balance").Where("id", &financeOld.AccountID).Scan(&balance)
+			if byte(typet.Input) == *financeOld.TypeCode {
+				balance -= *financeOld.Value
+			} else if byte(typet.Output) == *financeOld.TypeCode {
+				balance += *financeOld.Value
 			} else {
 				api.Return(
 					ctx,
 					http.StatusInternalServerError,
-					"wrong status type",
+					"wrong account type",
 				)
 			}
-		} else if byte(typet.Output) == *financeNew.TypeCode {
-			if byte(status.Completed) == *financeNew.StatusCode {
-				balance -= *financeNew.Value
-			} else if byte(status.Pending) == *financeNew.StatusCode {
-				balance += *financeNew.Value
-			} else {
-				api.Return(
-					ctx,
-					http.StatusInternalServerError,
-					"wrong status type",
-				)
-			}
-		} else {
-			api.Return(
-				ctx,
-				http.StatusInternalServerError,
-				"wrong account type",
-			)
+			db.Tx.Model(&models.Account{}).Where("id", &financeOld.AccountID).Update("balance", &balance)
 		}
-		db.Tx.Model(&models.Account{}).Where("id", &financeNew.AccountID).Update("balance", &balance)
+		if byte(status.Completed) == *financeNew.StatusCode {
+			db.Tx.Table("accounts").Select("balance").Where("id", &financeNew.AccountID).Scan(&balance)
+			if byte(typet.Input) == *financeNew.TypeCode {
+				balance += *financeNew.Value
+			} else if byte(typet.Output) == *financeNew.TypeCode {
+				balance -= *financeNew.Value
+			} else {
+				api.Return(
+					ctx,
+					http.StatusInternalServerError,
+					"wrong account type",
+				)
+			}
+			db.Tx.Model(&models.Account{}).Where("id", &financeNew.AccountID).Update("balance", &balance)
+		}
+	} else {
+		if *financeOld.StatusCode != *financeNew.StatusCode {
+			db.Tx.Table("accounts").Select("balance").Where("id", &financeNew.AccountID).Scan(&balance)
+			if byte(typet.Input) == *financeNew.TypeCode {
+				if byte(status.Completed) == *financeNew.StatusCode {
+					balance += *financeNew.Value
+				} else if byte(status.Pending) == *financeNew.StatusCode {
+					balance -= *financeNew.Value
+				} else {
+					api.Return(
+						ctx,
+						http.StatusInternalServerError,
+						"wrong status type",
+					)
+				}
+			} else if byte(typet.Output) == *financeNew.TypeCode {
+				if byte(status.Completed) == *financeNew.StatusCode {
+					balance -= *financeNew.Value
+				} else if byte(status.Pending) == *financeNew.StatusCode {
+					balance += *financeNew.Value
+				} else {
+					api.Return(
+						ctx,
+						http.StatusInternalServerError,
+						"wrong status type",
+					)
+				}
+			} else {
+				api.Return(
+					ctx,
+					http.StatusInternalServerError,
+					"wrong account type",
+				)
+			}
+			db.Tx.Model(&models.Account{}).Where("id", &financeNew.AccountID).Update("balance", &balance)
+		}
 	}
 
 	ctx.Status(http.StatusNoContent)
