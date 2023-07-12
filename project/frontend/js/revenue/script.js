@@ -126,7 +126,7 @@ function validationField(operationType) {
 
     return isValid
 }
-
+// ANTES
 function generateTableOperation(account_id, category_id, status_id, type_id, id, datetime, description, revenue) {
     var result = document.querySelector('.revenue-table');
 
@@ -153,8 +153,10 @@ function generateTableOperation(account_id, category_id, status_id, type_id, id,
         text_type = "text-danger";
     }
 
+    console.log("ID " + category_id)
+
+    requestNameAccount(account_id, function (accountName) {
     requestNameCategory(category_id, function (categoryName) {
-        requestNameAccount(account_id, function (accountName) {
             result.innerHTML +=
                 `<div class="result filter-preset-1" data-id="${id}" data-type="${type}" data-value="${value}" data-status="${statusOp}" data-date="${formatData(datetime)}" data-description="${description}" data-category="${categoryName}" data-category-id=${category_id} data-account="${account}" data-account-id=${account_id} >
                 <span class="icon-category">
@@ -173,6 +175,9 @@ function generateTableOperation(account_id, category_id, status_id, type_id, id,
                     <b class="text-value">${formatValueMonetary(revenue)}</b> <span class="status mb-1 ms-1"><i class="fas fa-check-circle ${text_type}"></i></span>
                 </div>
             </div>`
+            console.log("CATEGORIA " + categoryName)
+            console.log("CONTA " + accountName)
+            console.log("ID dentro " + category_id)
         });
     });
 }
