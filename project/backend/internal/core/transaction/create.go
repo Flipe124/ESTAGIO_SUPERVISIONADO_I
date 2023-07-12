@@ -21,6 +21,7 @@ import (
 //	@Param			TOKEN	header		string						true	"Bearer token."
 //	@Param			JSON	body		models.TransactionCreate	true	"Json request."
 //	@Success		201		{object}	models.TransactionList
+//	@Failure		400		{object}	models.HTTP
 //	@Failure		422		{object}	models.HTTP
 //	@Failure		500		{object}	models.HTTP
 //	@Router			/transaction [post]
@@ -62,6 +63,15 @@ func create(ctx *gin.Context) {
 	}
 
 	db.Tx.Table("accounts").Select("balance").Where("id", &transaction.EmitterID).Scan(&EmitterValue)
+	if *transaction.Value > EmitterValue {
+		api.Return(
+			ctx,
+			http.StatusBadRequest,
+			"excedent transaction value",
+		)
+		db.Tx.Unscoped().Where("user_id", ctx.GetUint("id")).Delete(&transaction, transaction.ID)
+		return
+	}
 	EmitterValue -= *transaction.Value
 	db.Tx.Model(&models.Account{}).Where("id", &transaction.EmitterID).Update("balance", &EmitterValue)
 
@@ -70,8 +80,8 @@ func create(ctx *gin.Context) {
 	db.Tx.Model(&models.Account{}).Where("id", &transaction.BeneficiaryID).Update("balance", &BeneficiaryValue)
 
 	structure.Assign(transaction, transactionList, "Emitter", "Beneficiary")
-	structure.Assign(transaction.Emitter, transactionList.Emitter)
-	structure.Assign(transaction.Beneficiary, transactionList.Beneficiary)
+	structure.Assign(transaction.Emitter, transactionList.Emitter, "Emitter", "Beneficiary")
+	structure.Assign(transaction.Beneficiary, transactionList.Beneficiary, "Emitter", "Beneficiary")
 
 	ctx.JSON(http.StatusCreated, transactionList)
 
