@@ -116,12 +116,14 @@ function validationField(operationType) {
         $(".error-msg-category-operation").text();
     }
 
-    if (account == "") {
-        $(".error-msg-account-operation").text(ERROR_EMPTY_ACCOUNT);
-        isValid = false;
-
-    } else {
-        $(".error-msg-account-operation").text();
+    if(operationType == "create"){
+        if (account == "") {
+            $(".error-msg-account-operation").text(ERROR_EMPTY_ACCOUNT);
+            isValid = false;
+    
+        } else {
+            $(".error-msg-account-operation").text();
+        }
     }
 
     return isValid
@@ -537,7 +539,7 @@ function resquestUpdateRevenue() {
 
     var id = parseInt($("#update-id").val());
     var value = formatarValor($("#update-input-value-operation").val());
-    var account_id = parseInt($("#update-input-account-operation").val());
+    // var account_id = parseInt($("#update-input-account-operation").val());
     var category_id = parseInt($("#update-input-category-operation").val());
     var date = formatarData($("#update-input-date-operation").val());
     var status_id = verificarCheckboxAtivo("update-input-status-operation");
@@ -545,16 +547,6 @@ function resquestUpdateRevenue() {
     var type_id = 0;
 
     var connect_success = true;
-
-    console.log("---------------")
-    console.log(id);
-    console.log(account_id);
-    console.log(category_id);
-    console.log(date);
-    console.log(description);
-    console.log(status_id);
-    console.log(type_id);
-    console.log(value);
 
     var xhr = new XMLHttpRequest();
 
@@ -590,7 +582,7 @@ function resquestUpdateRevenue() {
     };
 
     var data = {
-        "account_id": account_id,
+        // "account_id": account_id,
         "category_id": category_id,
         "date_time": date,
         "description": description,
