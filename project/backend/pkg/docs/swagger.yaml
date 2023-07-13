@@ -1137,9 +1137,7 @@ paths:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/models.TransactionList'
-            type: array
+            $ref: '#/definitions/models.TransactionList'
         "204":
           description: No Content
           schema:
@@ -1171,9 +1169,7 @@ paths:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/models.TransactionList'
-            type: array
+            $ref: '#/definitions/models.TransactionList'
         "204":
           description: No Content
           schema:

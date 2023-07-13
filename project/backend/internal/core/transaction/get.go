@@ -21,7 +21,7 @@ import (
 //	@Produce		json
 //	@Param			TOKEN		header		string	true	"Bearer token."
 //	@Param			transaction	path		int		true	"Transaction ID."
-//	@Success		200			{array}		models.TransactionList
+//	@Success		200			{object}	models.TransactionList
 //	@Success		204			{string}	string	"No Content"
 //	@Failure		500			{object}	models.HTTP
 //	@Router			/transaction/{transaction} [get]
@@ -64,7 +64,7 @@ func get(ctx *gin.Context) {
 //	@Produce		json
 //	@Param			TOKEN		header		string	true	"Bearer token."
 //	@Param			transaction	path		int		true	"Transaction ID."
-//	@Success		200			{array}		models.TransactionList
+//	@Success		200			{object}	models.TransactionList
 //	@Success		204			{string}	string	"No Content"
 //	@Failure		500			{object}	models.HTTP
 //	@Router			/transaction/{transaction}/accounts [get]
